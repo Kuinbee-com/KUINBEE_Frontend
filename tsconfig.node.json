@@ -21,5 +21,14 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "./vite.config.ts"]
+  // Only include Node-side config files. Do NOT include the React src tree here,
+  // or tsc will try to compile JSX without the jsx option and fail on Vercel.
+  "include": [
+    "vite.config.ts",
+    "vite.config.mts",
+    "vite.config.mjs",
+    "vitest.config.ts",
+    "postcss.config.*"
+  ],
+  "exclude": ["src"]
 }
