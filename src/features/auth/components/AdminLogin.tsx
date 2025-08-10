@@ -24,7 +24,6 @@ import type { TypedUseSelectorHook } from 'react-redux';
 import type { RootState, AppDispatch } from '../../../core/store';
 
 import { loginUser, clearError } from '../store/authSlice';
-import KuinbeeLogo from '../../../assets/logos/kuinbee-logo.svg';
 
 // Define hooks directly in this file to avoid import issues
 const useAppDispatch = (): AppDispatch => useDispatch<AppDispatch>();
@@ -204,7 +203,7 @@ const AdminLogin = () => {
         >
           <Box
             component="img"
-            src={KuinbeeLogo}
+            src="/kuinbee-logo.svg"
             alt="Kuinbee Logo"
             sx={{
               width: 64,

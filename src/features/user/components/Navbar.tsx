@@ -81,7 +81,7 @@ const Navbar: React.FC<NavbarProps> = ({
           onMouseEnter={() => setActive("")}
         >
           <LogoItem 
-            src="/src/assets/logos/Kuinbee White Logo (For dark mode) Without BG (svg).svg"
+            src="./Kuinbee White Logo (For dark mode) Without BG (svg).svg"
             alt="Kuinbee White Logo"
             href="/"
             className="w-14 h-14"
