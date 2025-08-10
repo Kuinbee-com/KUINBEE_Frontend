@@ -1,0 +1,174 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix browser autofill yellow background - Kuinbee brand colors */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px #f8fafc inset !important;
+  box-shadow: 0 0 0px 1000px #f8fafc inset !important;
+  -webkit-text-fill-color: #1a2240 !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Remove any browser default table styling that might cause yellow backgrounds */
+table, thead, tbody, tr, th, td {
+  background: #f9fafb !important; /* Kuinbee white */
+}
+
+/* Specifically override any browser autofill on table elements */
+table input:-webkit-autofill,
+table input:-webkit-autofill:hover,
+table input:-webkit-autofill:focus,
+table input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  box-shadow: 0 0 0px 1000px transparent inset !important;
+}
+
+/* Button autofill overrides - specifically for delete buttons */
+button:-webkit-autofill,
+button:-webkit-autofill:hover,
+button:-webkit-autofill:focus,
+button:-webkit-autofill:active {
+  -webkit-box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: inherit !important;
+  color: inherit !important;
+}
+
+/* Delete/Remove button specific overrides */
+button[class*="border-red"],
+button[class*="text-red"] {
+  -webkit-box-shadow: none !important;
+  background-color: transparent !important;
+  border-color: rgb(239 68 68) !important;
+  color: rgb(239 68 68) !important;
+}
+
+button[class*="border-red"]:hover,
+button[class*="text-red"]:hover {
+  background-color: rgb(254 242 242) !important;
+  border-color: rgb(220 38 38) !important;
+  color: rgb(220 38 38) !important;
+}
+
+/* Custom text selection colors matching Kuinbee brand */
+::-moz-selection {
+  background: rgba(26, 34, 64, 0.15);
+  color: #1a2240;
+}
+
+::selection {
+  background: rgba(26, 34, 64, 0.15);
+  color: #1a2240;
+}
+
+/* Table-specific selection colors */
+table ::-moz-selection {
+  background: rgba(26, 34, 64, 0.1);
+}
+
+table ::selection {
+  background: rgba(26, 34, 64, 0.1);
+}
+
+@layer base {
+  :root {
+    /* Your Kuinbee color palette as CSS variables for shadcn/ui */
+    --background: 249 250 251; /* #f9fafb */
+    --foreground: 17 24 39; /* #111827 */
+    --card: 255 255 255; /* #ffffff */
+    --card-foreground: 17 24 39; /* #111827 */
+    --popover: 255 255 255; /* #ffffff */
+    --popover-foreground: 17 24 39; /* #111827 */
+    --primary: 17 24 39; /* #111827 */
+    --primary-foreground: 255 255 255; /* #ffffff */
+    --secondary: 243 244 246; /* #f3f4f6 */
+    --secondary-foreground: 55 65 81; /* #374151 */
+    --muted: 243 244 246; /* #f3f4f6 */
+    --muted-foreground: 75 85 99; /* #4b5563 */
+    --accent: 243 244 246; /* #f3f4f6 */
+    --accent-foreground: 17 24 39; /* #111827 */
+    --destructive: 239 68 68; /* #ef4444 */
+    --destructive-foreground: 255 255 255; /* #ffffff */
+    --border: 209 213 219; /* #d1d5db */
+    --input: 209 213 219; /* #d1d5db */
+    --ring: 17 24 39; /* #111827 */
+    --radius: 0.5rem;
+    
+    /* Font settings */
+    font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 17 24 39; /* #111827 */
+    --foreground: 249 250 251; /* #f9fafb */
+    --card: 31 41 55; /* #1f2937 */
+    --card-foreground: 249 250 251; /* #f9fafb */
+    --popover: 31 41 55; /* #1f2937 */
+    --popover-foreground: 249 250 251; /* #f9fafb */
+    --primary: 249 250 251; /* #f9fafb */
+    --primary-foreground: 17 24 39; /* #111827 */
+    --secondary: 55 65 81; /* #374151 */
+    --secondary-foreground: 249 250 251; /* #f9fafb */
+    --muted: 55 65 81; /* #374151 */
+    --muted-foreground: 156 163 175; /* #9ca3af */
+    --accent: 55 65 81; /* #374151 */
+    --accent-foreground: 249 250 251; /* #f9fafb */
+    --destructive: 239 68 68; /* #ef4444 */
+    --destructive-foreground: 249 250 251; /* #f9fafb */
+    --border: 55 65 81; /* #374151 */
+    --input: 55 65 81; /* #374151 */
+    --ring: 212 212 216; /* #d4d4d8 */ --sidebar-background: 240 5.9% 10%; --sidebar-foreground: 240 4.8% 95.9%; --sidebar-primary: 224.3 76.3% 48%; --sidebar-primary-foreground: 0 0% 100%; --sidebar-accent: 240 3.7% 15.9%; --sidebar-accent-foreground: 240 4.8% 95.9%; --sidebar-border: 240 3.7% 15.9%; --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

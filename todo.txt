@@ -1,0 +1,56 @@
+TODO: Backend-driven Role Assignment for Authentication
+------------------------------------------------------
+- [ ] Update backend to include the user's role (e.g., 'Admin', 'SuperAdmin') in the login API response.
+- [ ] Update frontend AuthService to use the role provided by the backend, not by email or any frontend logic.
+- [ ] Remove all frontend logic that assigns roles based on email or other client-side checks.
+- [ ] Test login flow to ensure correct role is set and used throughout the app.
+
+Context: Currently, the frontend assigns roles based on the email address. This is insecure and should be replaced by backend-driven role assignment for proper security and maintainability.
+
+---
+
+General Project Completion Checklist
+-----------------------------------
+- [ ] Complete and document all backend API endpoints (CRUD for datasets, categories, sources, users, etc.)
+- [ ] Implement all required admin and superadmin features (management pages, creation/edit, detail views)
+- [ ] Ensure all authentication and authorization flows are secure and tested
+- [ ] Finalize and test all frontend pages and navigation (admin, superadmin, login, error handling)
+- [ ] Add and verify toast notifications and user feedback for all major actions
+- [ ] Write and run unit/integration tests for both frontend and backend
+- [ ] Review and refactor code for maintainability and readability
+- [ ] Update and complete project documentation (README, API docs, architecture, setup instructions)
+- [ ] Perform cross-browser and device testing for UI/UX
+- [ ] Prepare deployment scripts/configuration for production (Vercel, environment variables, etc.)
+- [ ] Conduct a final QA pass and fix any outstanding bugs
+- [ ] Remove any debug/test code and unused files
+- [ ] Announce/communicate project readiness to stakeholders
+
+---
+
+Temporary Development Arrangement
+--------------------------------
+- [ ] Authentication is currently bypassed for development: direct dashboard access is enabled and login checks are commented out in the code.
+- [ ] IMPORTANT: Restore proper authentication and protected routes before deploying to production!
+
+---
+
+Code changes for authentication bypass (development only):
+---------------------------------------------------------
+- src/shared/components/ProtectedRoute.tsx: All authentication logic commented out, all routes accessible.
+- src/features/auth/components/AdminLogin.tsx: Login logic commented out, direct dashboard redirect enabled.
+- src/App.tsx: Token verification and loading state commented out in AppContent.
+- src/shared/components/Sidebar.tsx: Role-based filtering commented out, all navigation items (including Admin Management) are visible for development.
+
+// IMPORTANT: Restore all commented authentication logic before production!
+
+---
+
+Progress Note (as of July 28, 2025)
+-----------------------------------
+- Temporarily bypassed all authentication and role-based UI restrictions for development:
+  - All authentication logic is commented out in ProtectedRoute, AdminLogin, App, and Sidebar.
+  - Direct dashboard access is enabled and all navigation items are visible.
+  - All changes are clearly marked in code and documented in this todo file for easy restoration before production.
+- The backend API responses are currently very slow, which is impacting development and testing speed. This should be investigated and optimized as part of backend improvements.
+
+
