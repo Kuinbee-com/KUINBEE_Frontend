@@ -100,12 +100,28 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                 fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                 letterSpacing: 0.2, 
                 textAlign: 'left', 
-                width: '22%' 
+                width: '18%' 
               }}
             >
               Source Name
             </TableCell>
-            
+            {/* Source ID Column Header */}
+            <TableCell 
+              sx={{ 
+                color: palette.muted, 
+                fontWeight: 600, 
+                fontSize: '1.08rem', 
+                background: palette.bg, 
+                borderBottom: `2px solid ${palette.border}`, 
+                padding: '18px 28px', 
+                fontFamily: 'Inter, Roboto, Arial, sans-serif', 
+                letterSpacing: 0.2, 
+                textAlign: 'left', 
+                width: '14%' 
+              }}
+            >
+              Source ID
+            </TableCell>
             {/* Description Column Header */}
             <TableCell 
               sx={{ 
@@ -118,12 +134,11 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                 fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                 letterSpacing: 0.2, 
                 textAlign: 'left', 
-                width: '38%' 
+                width: '32%' 
               }}
             >
               Description
             </TableCell>
-            
             {/* Dataset Count Column Header */}
             <TableCell 
               sx={{ 
@@ -141,7 +156,6 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
             >
               No. of Datasets
             </TableCell>
-            
             {/* Actions Column Header */}
             <TableCell 
               sx={{ 
@@ -154,14 +168,13 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                 fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                 letterSpacing: 0.2, 
                 textAlign: 'center', 
-                width: '22%' 
+                width: '18%' 
               }}
             >
               Actions
             </TableCell>
           </TableRow>
         </TableHead>
-        
         {/* Table Body - Data Rows */}
         <TableBody>
           {sources.map((source) => (
@@ -183,12 +196,25 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                   padding: '16px 28px', 
                   fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                   textAlign: 'left', 
-                  width: '22%' 
+                  width: '18%' 
                 }}
               >
                 {source.name}
               </TableCell>
-              
+              {/* Source ID Cell */}
+              <TableCell 
+                sx={{ 
+                  color: palette.muted, 
+                  fontWeight: 500, 
+                  fontSize: '1rem', 
+                  padding: '16px 28px', 
+                  fontFamily: 'Inter, Roboto, Arial, sans-serif', 
+                  textAlign: 'left', 
+                  width: '14%' 
+                }}
+              >
+                {source.id}
+              </TableCell>
               {/* Description Cell */}
               <TableCell 
                 sx={{ 
@@ -198,12 +224,11 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                   padding: '16px 28px', 
                   fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                   textAlign: 'left', 
-                  width: '38%' 
+                  width: '32%' 
                 }}
               >
                 {source.description}
               </TableCell>
-              
               {/* Dataset Count Cell */}
               <TableCell 
                 sx={{ 
@@ -218,14 +243,13 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
               >
                 {source.datasetCount}
               </TableCell>
-              
               {/* Actions Cell - Edit and Delete buttons */}
               <TableCell 
                 sx={{ 
                   padding: '16px 24px', 
                   fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                   textAlign: 'center', 
-                  width: '22%' 
+                  width: '18%' 
                 }}
               >
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
@@ -253,7 +277,6 @@ const SourcesTable: React.FC<SourcesTableProps> = ({
                       Edit
                     </Typography>
                   </Box>
-                  
                   {/* Delete Button */}
                   <Box 
                     sx={{ 

@@ -51,6 +51,8 @@ const AdminDatasets: React.FC = () => {
   const [datasets, setDatasets] = useState<Dataset[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>('');
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>([]);
+  const [categoryMap, setCategoryMap] = useState<Record<string, string>>({});
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -62,8 +64,14 @@ const AdminDatasets: React.FC = () => {
     setLoading(true);
     setError('');
     try {
-      const datasetsData = await DatasetService.getAllDatasets();
-      setDatasets(datasetsData);
+  const datasetsData = await DatasetService.getAllDatasets();
+  setDatasets(datasetsData);
+  // Fetch categories and build lookup map
+  const categoryList = await import('../../services/category/categoryService').then(m => m.CategoryService.getAllCategories());
+  setCategories(categoryList);
+  const map: Record<string, string> = {};
+  categoryList.forEach(cat => { map[cat.id] = cat.name; });
+  setCategoryMap(map);
     } catch (err) {
       console.error('Failed to load datasets:', err);
       setError(err instanceof Error ? err.message : 'Failed to load datasets');
@@ -118,9 +126,9 @@ const AdminDatasets: React.FC = () => {
     setDeleteDialogOpen(true);
   };
 
-  const handleRowClick = (_dataset: any, index: number) => {
-    // Navigate to dataset detail page using index + 1 as ID
-    navigate(`/admin/datasets/${index + 1}`);
+  const handleRowClick = (_dataset: any) => {
+    // Navigate to dataset detail page using real backend ID
+    navigate(`/admin/datasets/${_dataset.id}`);
   };
 
   const handleEditClick = (_dataset: any, index: number, event: React.MouseEvent) => {
@@ -369,9 +377,9 @@ const AdminDatasets: React.FC = () => {
             <TableBody>
               {filteredDatasets.map((ds, idx) => (
                 <TableRow
-                  key={idx}
+                  key={ds.id}
                   hover
-                  onClick={() => handleRowClick(ds, idx)}
+                  onClick={() => handleRowClick(ds)}
                   sx={{
                     background: palette.card,
                     borderRadius: 2,
@@ -388,7 +396,7 @@ const AdminDatasets: React.FC = () => {
                   }}
                 >
                   <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.title}</TableCell>
-                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.primaryCategoryId}</TableCell>
+                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{categoryMap[ds.primaryCategoryId] || ds.primaryCategoryId}</TableCell>
                   <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>${ds.price.toLocaleString()}</TableCell>
                   <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.aboutDatasetInfo?.dataFormatInfo?.rows?.toLocaleString() || 'N/A'}</TableCell>
                   <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'N/A'}</TableCell>

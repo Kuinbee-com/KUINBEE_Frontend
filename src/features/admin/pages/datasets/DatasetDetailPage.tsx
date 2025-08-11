@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { DatasetService } from '../../services/datasets/datasetService';
+import type { Dataset } from '../../types';
 // Modern font import for global use
 import '@fontsource/inter/index.css';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -27,35 +29,6 @@ import {
   Storage as StorageIcon,
 } from '@mui/icons-material';
 
-// Dataset interface matching CreateDatasetPage fields
-interface Dataset {
-  id: string;
-  title: string;
-  primaryCategory: string;
-  source: string;
-  price: number;
-  isPaid: boolean;
-  currency: string;
-  sampleUrl: string;
-  license: string;
-  superTypes: string;
-  location: string;
-  country: string;
-  state: string;
-  city: string;
-  overview: string;
-  description: string;
-  dataQuality: string;
-  featuresContent: string;
-  rows: number;
-  cols: number;
-  fileFormat: string;
-  records: number;
-  createdAt: string;
-  updatedAt: string;
-  adminId: string;
-}
-
 const palette = {
   bg: '#f9fafc',
   card: '#ffffff',
@@ -81,48 +54,9 @@ const DatasetDetailPage: React.FC = () => {
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // Mock fetch function - replace with actual API call
+  // Real API call for dataset details
   const fetchDataset = async (datasetId: string): Promise<Dataset> => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Mock data based on the datasets from AdminDatasets.tsx
-    const mockDatasets: Record<string, Dataset> = {
-      '1': {
-        id: '1',
-        title: 'Global Financial Markets - Q2 2025',
-        primaryCategory: 'Finance',
-        source: 'External',
-        price: 299.99,
-        isPaid: true,
-        currency: 'USD',
-        sampleUrl: 'https://example.com/sample-financial-data.csv',
-        license: 'Proprietary',
-        superTypes: 'Financial, Market Data',
-        location: 'USA',
-        country: 'United States',
-        state: 'New York',
-        city: 'New York',
-        overview: 'Comprehensive financial market data covering Q2 2025 trends and analysis.',
-        description: 'This dataset provides detailed financial market information including stock prices, trading volumes, market indices, and economic indicators for the second quarter of 2025. The data encompasses major global markets including NYSE, NASDAQ, LSE, and other international exchanges.',
-        dataQuality: 'High quality data sourced from verified financial institutions and exchanges. Data is cleaned, validated, and updated in real-time.',
-        featuresContent: 'Real-time market data, Historical trends, Multi-currency support, API access, Regular updates, Professional support',
-        rows: 540000,
-        cols: 25,
-        fileFormat: 'CSV, JSON',
-        records: 540000,
-        createdAt: '2025-01-15T10:30:00Z',
-        updatedAt: '2025-01-20T14:45:00Z',
-        adminId: 'admin123',
-      },
-      // Add more mock datasets as needed
-    };
-
-    const dataset = mockDatasets[datasetId];
-    if (!dataset) {
-      throw new Error('Dataset not found');
-    }
-    return dataset;
+    return await DatasetService.getDataset(datasetId);
   };
 
   const handleDelete = async () => {
@@ -291,12 +225,12 @@ const DatasetDetailPage: React.FC = () => {
                   </Typography>
                   <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
                     <Chip 
-                      label={dataset.primaryCategory} 
+                      label={`Category ID: ${dataset.primaryCategoryId}`} 
                       size="small" 
                       sx={{ background: `${palette.accent}15`, color: palette.accent, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}
                     />
                     <Chip 
-                      label={dataset.source} 
+                      label={`Source ID: ${dataset.sourceId}`} 
                       size="small" 
                       variant="outlined"
                       sx={{ borderColor: palette.border, color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}
@@ -304,7 +238,7 @@ const DatasetDetailPage: React.FC = () => {
                   </Box>
                 </Box>
                 <Chip 
-                  label={dataset.isPaid ? `$${dataset.price.toLocaleString()} ${dataset.currency}` : 'Free'} 
+                  label={dataset.isPaid ? `$${dataset.price.toLocaleString()}` : 'Free'} 
                   size="medium"
                   sx={{ 
                     background: dataset.isPaid ? `${palette.success}15` : `${palette.warning}15`, 
@@ -324,28 +258,28 @@ const DatasetDetailPage: React.FC = () => {
                 Overview
               </Typography>
               <Typography variant="body1" sx={{ color: palette.muted, mb: 3, lineHeight: 1.6, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
-                {dataset.overview}
+                {dataset.aboutDatasetInfo?.overview || 'No overview available'}
               </Typography>
 
               <Typography variant="h6" fontWeight={600} sx={{ color: palette.text, mb: 2, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
                 Description
               </Typography>
               <Typography variant="body1" sx={{ color: palette.muted, mb: 3, lineHeight: 1.6, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
-                {dataset.description}
+                {dataset.aboutDatasetInfo?.description || 'No description available'}
               </Typography>
 
               <Typography variant="h6" fontWeight={600} sx={{ color: palette.text, mb: 2, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
                 Data Quality
               </Typography>
               <Typography variant="body1" sx={{ color: palette.muted, mb: 3, lineHeight: 1.6, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
-                {dataset.dataQuality}
+                {dataset.aboutDatasetInfo?.dataQuality || 'No data quality information available'}
               </Typography>
 
               <Typography variant="h6" fontWeight={600} sx={{ color: palette.text, mb: 2, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
                 Key Features
               </Typography>
               <Typography variant="body1" sx={{ color: palette.muted, lineHeight: 1.6, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
-                {dataset.featuresContent}
+                {dataset.aboutDatasetInfo?.features?.map((f, index) => f.content).join(', ') || 'No features available'}
               </Typography>
             </Paper>
           </Box>
@@ -364,19 +298,15 @@ const DatasetDetailPage: React.FC = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Rows:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.rows.toLocaleString()}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.aboutDatasetInfo?.dataFormatInfo?.rows?.toLocaleString() || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Columns:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.cols}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.aboutDatasetInfo?.dataFormatInfo?.cols || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Format:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.fileFormat}</Typography>
-                  </Box>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Records:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.records.toLocaleString()}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'N/A'}</Typography>
                   </Box>
                 </Box>
               </CardContent>
@@ -391,28 +321,28 @@ const DatasetDetailPage: React.FC = () => {
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Location:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.location}</Typography>
+                    <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Region:</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.locationInfo?.region || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Country:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.country}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.locationInfo?.country || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>State:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.state}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.locationInfo?.state || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>City:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.city}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.locationInfo?.city || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>License:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.license}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.license || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Super Types:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.superTypes}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.superTypes || 'N/A'}</Typography>
                   </Box>
                 </Box>
               </CardContent>
@@ -426,27 +356,17 @@ const DatasetDetailPage: React.FC = () => {
                   Additional Info
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {dataset.sampleUrl && (
-                    <Box>
-                      <Typography variant="body2" sx={{ color: palette.muted, mb: 1, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Sample URL:</Typography>
-                      <Typography variant="body2" fontWeight={600} sx={{ color: palette.accent, fontFamily: 'Inter, Roboto, Arial, sans-serif', wordBreak: 'break-all' }}>
-                        <a href={dataset.sampleUrl} target="_blank" rel="noopener noreferrer" style={{ color: palette.accent, textDecoration: 'none' }}>
-                          {dataset.sampleUrl}
-                        </a>
-                      </Typography>
-                    </Box>
-                  )}
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Admin ID:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.adminId}</Typography>
+                    <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Status:</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.status || 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Created:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{formatDate(dataset.createdAt)}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.createdAt ? formatDate(dataset.createdAt) : 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Updated:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{formatDate(dataset.updatedAt)}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.updatedAt ? formatDate(dataset.updatedAt) : 'N/A'}</Typography>
                   </Box>
                 </Box>
               </CardContent>

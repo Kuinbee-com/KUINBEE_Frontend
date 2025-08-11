@@ -1,4 +1,5 @@
 import { ApiService } from '../../../../core/services/api';
+import { generateDatasetUniqueId } from '../../../../shared/utils/uuidGenerator';
 import type {
   Dataset,
   CreateDatasetRequest,
@@ -9,17 +10,21 @@ import type {
  * Dataset management service
  * Handles all dataset-related API calls
  */
+
+
 export class DatasetService {
   private static readonly BASE_URL = '/api/v1/admin/datasets/operations';
 
   /**
    * Create a new dataset
    */
+
+  
   static async createDataset(datasetData: CreateDatasetRequest): Promise<{ uploadUrl: string }> {
     // Ensure datasetUniqueId is set if not provided
     const requestData = {
       ...datasetData,
-      datasetUniqueId: datasetData.datasetUniqueId || `dataset_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      datasetUniqueId: datasetData.datasetUniqueId || generateDatasetUniqueId(),
       // Ensure aboutDatasetInfo has proper structure with required fields
       aboutDatasetInfo: {
         ...datasetData.aboutDatasetInfo,
@@ -118,8 +123,8 @@ export class DatasetService {
    * Get a dataset by ID
    */
   static async getDataset(id: string): Promise<Dataset> {
-    const response = await ApiService.get<Dataset>(`${this.BASE_URL}/getDataset/${id}`);
-    
+    const response = await ApiService.get<Dataset>(`${this.BASE_URL}/getDatasetById/${id}`);
+
     if (response.success && response.data) {
       return response.data;
     } else {
@@ -170,27 +175,16 @@ export class DatasetService {
    * Get upload URL for an existing dataset (for pending uploads)
    */
   static async getUploadUrlForDataset(datasetId: string, fileFormat: string, isPaid: boolean): Promise<string> {
-    // Backend route is GET but expects body data - using a custom approach
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}${this.BASE_URL}/getDatasetUploadURL`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        id: datasetId,
-        fileFormat,
-        isPaid
-      })
+    const response = await ApiService.post<string>(`${this.BASE_URL}/generateDatasetUploadURL`, {
+      id: datasetId,
+      fileFormat,
+      isPaid
     });
-
-    const data = await response.json();
     
-    if (data.success && data.data) {
-      return data.data;
+    if (response.success && response.data) {
+      return response.data;
     } else {
-      throw new Error(data.error || data.message || 'Failed to get upload URL');
+      throw new Error(response.error || response.message || 'Failed to get upload URL');
     }
   }
 
@@ -198,27 +192,16 @@ export class DatasetService {
    * Get download URL for an uploaded dataset
    */
   static async getDownloadUrlForDataset(datasetId: string, fileFormat: string, isPaid: boolean): Promise<string> {
-    // Backend route is GET but expects body data - using a custom approach
-    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}${this.BASE_URL}/getDatasetDownloadURL`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: JSON.stringify({
-        id: datasetId,
-        fileFormat,
-        isPaid
-      })
+    const response = await ApiService.post<{ downloadURL: string }>(`${this.BASE_URL}/getDatasetDownloadURL`, {
+      id: datasetId,
+      fileFormat,
+      isPaid
     });
-
-    const data = await response.json();
     
-    if (data.success && data.data) {
-      return data.data.downloadURL;
+    if (response.success && response.data) {
+      return response.data.downloadURL;
     } else {
-      throw new Error(data.error || data.message || 'Failed to get download URL');
+      throw new Error(response.error || response.message || 'Failed to get download URL');
     }
   }
 
@@ -230,6 +213,31 @@ export class DatasetService {
     
     if (!response.success) {
       throw new Error(response.error || 'Failed to delete dataset');
+    }
+  }
+
+  /**
+   * Bulk upload datasets (metadata only, no S3 file upload)
+   */
+  static async uploadMultipleDatasets(datasets: any[]): Promise<{ success: boolean; data?: any[]; error?: string }> {
+    try {
+      const response = await ApiService.post<any[]>(`${this.BASE_URL}/addMultipleDatasetInfo`, datasets);
+      
+      if (response.success && response.data) {
+        return {
+          success: true,
+          data: response.data,
+          error: undefined
+        };
+      } else {
+        return {
+          success: false,
+          data: undefined,
+          error: response.error || 'Upload failed'
+        };
+      }
+    } catch (error: any) {
+      return { success: false, error: error?.message || 'Bulk upload failed' };
     }
   }
 }

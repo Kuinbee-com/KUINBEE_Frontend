@@ -58,7 +58,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
                 fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                 letterSpacing: 0.2, 
                 textAlign: 'left', 
-                width: '30%' 
+                width: '20%' 
               }}
             >
               Name
@@ -74,7 +74,23 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
                 fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                 letterSpacing: 0.2, 
                 textAlign: 'center', 
-                width: '25%' 
+                width: '20%' 
+              }}
+            >
+              Category ID
+            </TableCell>
+            <TableCell 
+              sx={{ 
+                color: palette.muted, 
+                fontWeight: 600, 
+                fontSize: '1.08rem', 
+                background: palette.bg, 
+                borderBottom: `2px solid ${palette.border}`, 
+                padding: '18px 28px', 
+                fontFamily: 'Inter, Roboto, Arial, sans-serif', 
+                letterSpacing: 0.2, 
+                textAlign: 'center', 
+                width: '20%' 
               }}
             >
               No. of Datasets
@@ -116,7 +132,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
                   padding: '16px 28px', 
                   fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                   textAlign: 'left', 
-                  width: '30%' 
+                  width: '20%' 
                 }}
               >
                 {category.name}
@@ -129,7 +145,20 @@ const CategoryTable: React.FC<CategoryTableProps> = ({
                   padding: '16px 28px', 
                   fontFamily: 'Inter, Roboto, Arial, sans-serif', 
                   textAlign: 'center', 
-                  width: '25%' 
+                  width: '20%' 
+                }}
+              >
+                {category.id}
+              </TableCell>
+              <TableCell 
+                sx={{ 
+                  color: palette.text, 
+                  fontWeight: 600, 
+                  fontSize: '1.02rem', 
+                  padding: '16px 28px', 
+                  fontFamily: 'Inter, Roboto, Arial, sans-serif', 
+                  textAlign: 'center', 
+                  width: '20%' 
                 }}
               >
                 {category.datasetCount}

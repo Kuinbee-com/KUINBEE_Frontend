@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -47,17 +48,21 @@ const AddMultipleDatasets: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { 
     datasets, 
+    uploadedDatasets,
     isUploading, 
+    showUploadedView,
     addDatasets, 
     uploadAllDatasets, 
-    uploadSingleItem, 
-    removeDataset,
-    clearAll 
+    clearAll,
+    uploadFileForDataset
   } = useBulkDatasetUpload();
+  const [selectedFiles, setSelectedFiles] = useState<{ [key: string]: File }>({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUploadedFileName, setLastUploadedFileName] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+  const [fileUploadError, setFileUploadError] = useState<string | null>(null);
+  const [fileUploadSuccess, setFileUploadSuccess] = useState<string | null>(null);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,24 +104,10 @@ const AddMultipleDatasets: React.FC = () => {
     
     try {
       await uploadAllDatasets();
-      const uploadedCount = datasets.filter(d => d.status === 'uploaded').length;
-      setUploadSuccess(`Successfully uploaded ${uploadedCount} dataset(s)`);
+      setUploadSuccess(`Successfully uploaded metadata for ${datasets.length} dataset(s). Ready for file upload.`);
     } catch (error) {
       setError('Failed to upload datasets. Please try again.');
     }
-  };
-
-  const handleUploadSingle = async (index: number) => {
-    setError(null);
-    try {
-      await uploadSingleItem(index);
-    } catch (error) {
-      setError(`Failed to upload dataset at index ${index}`);
-    }
-  };
-
-  const handleRemoveDataset = (index: number) => {
-    removeDataset(index);
   };
 
   const handleClearAll = () => {
@@ -124,16 +115,59 @@ const AddMultipleDatasets: React.FC = () => {
     setError(null);
     setUploadSuccess(null);
     setLastUploadedFileName(null);
+    setSelectedFiles({});
+    setFileUploadError(null);
+    setFileUploadSuccess(null);
+  };
+
+  const handleFileSelect = (datasetId: string, file: File | null) => {
+    if (file) {
+      setSelectedFiles(prev => ({ ...prev, [datasetId]: file }));
+    } else {
+      setSelectedFiles(prev => {
+        const updated = { ...prev };
+        delete updated[datasetId];
+        return updated;
+      });
+    }
+  };
+
+  const handleFileUpload = async (dataset: any) => {
+    const file = selectedFiles[dataset.id];
+    if (!file) {
+      setFileUploadError('Please select a file to upload');
+      return;
+    }
+
+    try {
+      setFileUploadError(null);
+      setFileUploadSuccess(null);
+      
+      await uploadFileForDataset(dataset.id, file);
+      
+      setFileUploadSuccess(`File uploaded successfully for: ${dataset.title}`);
+      
+      // Clear selected file
+      setSelectedFiles(prev => {
+        const updated = { ...prev };
+        delete updated[dataset.id];
+        return updated;
+      });
+    } catch (err) {
+      setFileUploadError(`Failed to upload file for: ${dataset.title}`);
+    }
   };
 
   const getStatusChip = (status: string) => {
     switch (status) {
       case 'pending':
-        return <Chip label="Pending Upload" size="small" sx={{ backgroundColor: '#fef3c7', color: '#92400e' }} />;
+        return <Chip label="Pending Metadata Upload" size="small" sx={{ backgroundColor: '#fef3c7', color: '#92400e' }} />;
       case 'uploading':
-        return <Chip label="Uploading..." size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />;
+        return <Chip label="Uploading File..." size="small" sx={{ backgroundColor: '#dbeafe', color: '#1e40af' }} />;
+      case 'ready':
+        return <Chip label="Ready for File Upload" size="small" sx={{ backgroundColor: '#d1fae5', color: '#065f46' }} />;
       case 'uploaded':
-        return <Chip label="Uploaded" size="small" sx={{ backgroundColor: '#d1fae5', color: '#065f46' }} />;
+        return <Chip label="Complete" size="small" sx={{ backgroundColor: '#d1fae5', color: '#065f46' }} />;
       case 'error':
         return <Chip label="Error" size="small" sx={{ backgroundColor: '#fee2e2', color: '#991b1b' }} />;
       default:
@@ -142,8 +176,8 @@ const AddMultipleDatasets: React.FC = () => {
   };
 
   const pendingCount = datasets.filter(d => d.status === 'pending').length;
-  const uploadedCount = datasets.filter(d => d.status === 'uploaded').length;
   const errorCount = datasets.filter(d => d.status === 'error').length;
+  const uploadingCount = datasets.filter(d => d.status === 'uploading').length;
 
   return (
     <Box sx={{ 
@@ -190,261 +224,99 @@ const AddMultipleDatasets: React.FC = () => {
 
         <Divider sx={{ mb: 3 }} />
 
-        {/* Upload Section */}
-        <Card sx={{ mb: 3, boxShadow: 2 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ mb: 2, color: palette.accent }}>
-              Upload CSV File
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 3, color: palette.muted }}>
-              Upload a CSV file containing dataset metadata. Each row should represent one dataset.
-              <br />
-              <a 
-                href="/sample-datasets.csv" 
-                download 
-                style={{ 
-                  color: palette.accent, 
-                  textDecoration: 'underline',
-                  cursor: 'pointer'
-                }}
-              >
-                Download sample CSV template
-              </a>
-            </Typography>
-            
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-              <Button
-                variant="contained"
-                startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <CloudUploadIcon />}
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isLoading}
-                sx={{
-                  background: palette.buttonBg,
-                  color: palette.buttonText,
-                  borderRadius: 2,
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1.5,
-                  '&:hover': {
-                    background: palette.accent,
-                  },
-                  '&:disabled': {
-                    background: palette.muted,
-                    color: palette.buttonText,
-                  }
-                }}
-              >
-                {isLoading ? 'Processing...' : 'Choose CSV File'}
-              </Button>
-
-              {datasets.length > 0 && (
-                <>
-                  <Button
-                    variant="outlined"
-                    startIcon={<UploadIcon />}
-                    onClick={handleUploadAll}
-                    disabled={isUploading || pendingCount === 0}
-                    sx={{
-                      borderColor: palette.success,
-                      color: palette.success,
-                      '&:hover': {
-                        borderColor: palette.success,
-                        backgroundColor: `${palette.success}10`,
-                      }
-                    }}
-                  >
-                    Upload All ({pendingCount})
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    startIcon={<DeleteIcon />}
-                    onClick={handleClearAll}
-                    disabled={isUploading}
-                    sx={{
-                      borderColor: palette.error,
-                      color: palette.error,
-                      '&:hover': {
-                        borderColor: palette.error,
-                        backgroundColor: `${palette.error}10`,
-                      }
-                    }}
-                  >
-                    Clear All
-                  </Button>
-                </>
-              )}
-            </Box>
-
-            <input
-              type="file"
-              accept=".csv"
-              ref={fileInputRef}
-              style={{ display: 'none' }}
-              onChange={handleFileChange}
-            />
-
-            {error && (
-              <Alert severity="error" sx={{ mt: 2 }}>
-                {error}
-              </Alert>
-            )}
-
-            {uploadSuccess && (
-              <Alert severity="success" sx={{ mt: 2 }}>
-                {uploadSuccess}
-              </Alert>
-            )}
-
-            {datasets.length > 0 && (
-              <Box sx={{ mt: 2, p: 2, backgroundColor: palette.bg, borderRadius: 1 }}>
-                <Typography variant="body2" sx={{ color: palette.text }}>
-                  Status: {uploadedCount} uploaded, {pendingCount} pending, {errorCount} errors
-                </Typography>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* Datasets List */}
-        {datasets.length > 0 && (
+        {/* Show uploaded datasets view after successful bulk upload */}
+        {showUploadedView ? (
           <Card sx={{ boxShadow: 2 }}>
             <CardContent>
-              <Typography variant="h6" sx={{ mb: 2, color: palette.accent }}>
-                Parsed Datasets ({datasets.length})
-              </Typography>
-              
-              <TableContainer component={Paper} sx={{ mt: 2, maxHeight: 600 }}>
-                <Table stickyHeader>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h6" sx={{ color: palette.accent }}>
+                  Uploaded Datasets ({uploadedDatasets.length}) - Ready for File Upload
+                </Typography>
+                <Button
+                  variant="outlined"
+                  startIcon={<DeleteIcon />}
+                  onClick={handleClearAll}
+                  sx={{
+                    borderColor: palette.error,
+                    color: palette.error,
+                    '&:hover': {
+                      borderColor: palette.error,
+                      backgroundColor: `${palette.error}10`,
+                    }
+                  }}
+                >
+                  Start Over
+                </Button>
+              </Box>
+
+              {fileUploadError && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  {fileUploadError}
+                </Alert>
+              )}
+
+              {fileUploadSuccess && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  {fileUploadSuccess}
+                </Alert>
+              )}
+
+              <TableContainer component={Paper} sx={{ mt: 2 }}>
+                <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Title</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Category</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Source</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Price</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Records</TableCell>
+                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Dataset ID</TableCell>
                       <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Format</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Action</TableCell>
+                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>File</TableCell>
+                      <TableCell sx={{ fontWeight: 600, backgroundColor: palette.bg }}>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {datasets.map((dataset, index) => (
-                      <TableRow key={index} hover>
+                    {uploadedDatasets.map((dataset) => (
+                      <TableRow key={dataset.id} hover>
                         <TableCell>
-                          <Typography variant="body2" fontWeight={500}>
-                            {dataset.apiData.title || 'Untitled'}
-                          </Typography>
-                          {dataset.apiData?.aboutDatasetInfo?.description && (
-                            <Typography variant="caption" color="textSecondary">
-                              {dataset.apiData.aboutDatasetInfo.description.substring(0, 100)}
-                              {dataset.apiData.aboutDatasetInfo.description.length > 100 && '...'}
-                            </Typography>
-                          )}
+                          <Typography variant="subtitle2">{dataset.title}</Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">
-                            {dataset.apiData.superTypes || 'N/A'}
+                          <Typography variant="body2" sx={{ fontFamily: 'monospace', color: palette.muted }}>
+                            {dataset.id}
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">
-                            {dataset.apiData.sourceId || 'N/A'}
-                          </Typography>
+                          <Chip 
+                            label={dataset.dataFormat.toUpperCase()} 
+                            variant="outlined"
+                            size="small"
+                          />
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">
-                            ${dataset.apiData.price?.toLocaleString()}
-                          </Typography>
+                          <input
+                            type="file"
+                            accept={dataset.dataFormat === 'csv' ? '.csv' : '.xlsx,.xls,.json,.txt'}
+                            onChange={(e) => {
+                              const file = (e.target as HTMLInputElement).files?.[0];
+                              handleFileSelect(dataset.id, file || null);
+                            }}
+                            style={{ fontSize: '0.875rem', width: '200px' }}
+                          />
                         </TableCell>
                         <TableCell>
-                          <Typography variant="body2">
-                            {dataset.apiData.aboutDatasetInfo?.dataFormatInfo?.rows?.toLocaleString()}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography variant="body2">
-                            {dataset.apiData.aboutDatasetInfo?.dataFormatInfo?.fileFormat}
-                          </Typography>
-                        </TableCell>
-                        <TableCell>
-                          {getStatusChip(dataset.status)}
-                          {dataset.error && (
-                            <Typography variant="caption" sx={{ display: 'block', color: palette.error, mt: 0.5 }}>
-                              {dataset.error}
-                            </Typography>
-                          )}
-                        </TableCell>
-                        <TableCell>
-                          <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                            {dataset.status === 'pending' && (
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<UploadIcon />}
-                                onClick={() => handleUploadSingle(index)}
-                                disabled={isUploading}
-                                sx={{
-                                  textTransform: 'none',
-                                  border: `1px solid ${palette.buttonBg}`,
-                                  color: palette.buttonBg,
-                                  borderRadius: 1,
-                                  minWidth: 'auto',
-                                  px: 1.5,
-                                  '&:hover': {
-                                    backgroundColor: palette.buttonBg,
-                                    color: palette.buttonText,
-                                  }
-                                }}
-                              >
-                                Upload
-                              </Button>
-                            )}
-                            {dataset.status === 'uploading' && (
-                              <CircularProgress size={20} />
-                            )}
-                            {dataset.status === 'uploaded' && (
-                              <CheckCircleIcon sx={{ color: palette.success }} />
-                            )}
-                            {dataset.status === 'error' && (
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                startIcon={<UploadIcon />}
-                                onClick={() => handleUploadSingle(index)}
-                                disabled={isUploading}
-                                sx={{
-                                  textTransform: 'none',
-                                  border: `1px solid ${palette.error}`,
-                                  color: palette.error,
-                                  borderRadius: 1,
-                                  minWidth: 'auto',
-                                  px: 1.5,
-                                  '&:hover': {
-                                    backgroundColor: palette.error,
-                                    color: palette.buttonText,
-                                  }
-                                }}
-                              >
-                                Retry
-                              </Button>
-                            )}
-                            <Button
-                              variant="text"
-                              size="small"
-                              onClick={() => handleRemoveDataset(index)}
-                              disabled={isUploading}
-                              sx={{ 
-                                minWidth: 'auto', 
-                                p: 0.5, 
-                                color: palette.muted,
-                                '&:hover': { color: palette.error }
-                              }}
-                            >
-                              <DeleteIcon fontSize="small" />
-                            </Button>
-                          </Box>
+                          <Button
+                            variant="contained"
+                            startIcon={dataset.status === 'uploading' ? <CircularProgress size={16} color="inherit" /> : <CloudUploadIcon />}
+                            onClick={() => handleFileUpload(dataset)}
+                            disabled={!selectedFiles[dataset.id] || dataset.status === 'uploading' || dataset.status === 'uploaded'}
+                            size="small"
+                            sx={{
+                              backgroundColor: dataset.status === 'uploaded' ? palette.success : palette.accent,
+                              '&:hover': {
+                                backgroundColor: dataset.status === 'uploaded' ? palette.success : palette.buttonBg,
+                              }
+                            }}
+                          >
+                            {dataset.status === 'uploaded' ? 'Uploaded' : dataset.status === 'uploading' ? 'Uploading...' : 'Upload'}
+                          </Button>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -453,21 +325,157 @@ const AddMultipleDatasets: React.FC = () => {
               </TableContainer>
             </CardContent>
           </Card>
-        )}
+        ) : (
+          <>
+            {/* CSV Upload Section */}
+            <Card sx={{ mb: 3, boxShadow: 2 }}>
+              <CardContent>
+                <Typography variant="h6" sx={{ mb: 2, color: palette.accent }}>
+                  Upload CSV File
+                </Typography>
+                <Typography variant="body2" sx={{ mb: 3, color: palette.muted }}>
+                  Upload a CSV file containing dataset metadata. Each row should represent one dataset.
+                  <br />
+                  <a 
+                    href="/sample-datasets.csv" 
+                    download 
+                    style={{ 
+                      color: palette.accent, 
+                      textDecoration: 'underline',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Download sample CSV template
+                  </a>
+                </Typography>
+                
+                <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
+                  <Button
+                    variant="contained"
+                    startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <CloudUploadIcon />}
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isLoading}
+                    sx={{
+                      background: palette.buttonBg,
+                      color: palette.buttonText,
+                      borderRadius: 2,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      px: 3,
+                      py: 1.5,
+                      '&:hover': {
+                        background: palette.accent,
+                      },
+                      '&:disabled': {
+                        background: palette.muted,
+                        color: palette.buttonText,
+                      }
+                    }}
+                  >
+                    {isLoading ? 'Processing...' : 'Choose CSV File'}
+                  </Button>
 
-        {/* Empty State */}
-        {datasets.length === 0 && !isLoading && (
-          <Card sx={{ textAlign: 'center', py: 6, boxShadow: 1 }}>
-            <CardContent>
-              <CloudUploadIcon sx={{ fontSize: 60, color: palette.muted, mb: 2 }} />
-              <Typography variant="h6" sx={{ color: palette.muted, mb: 1 }}>
-                No datasets uploaded yet
-              </Typography>
-              <Typography variant="body2" sx={{ color: palette.muted }}>
-                Upload a CSV file to get started with bulk dataset creation
-              </Typography>
-            </CardContent>
-          </Card>
+                  {datasets.length > 0 && (
+                    <>
+                      <Button
+                        variant="outlined"
+                        startIcon={<UploadIcon />}
+                        onClick={handleUploadAll}
+                        disabled={isUploading || pendingCount === 0}
+                        sx={{
+                          borderColor: palette.success,
+                          color: palette.success,
+                          '&:hover': {
+                            borderColor: palette.success,
+                            backgroundColor: `${palette.success}10`,
+                          }
+                        }}
+                      >
+                        Upload All Metadata ({pendingCount})
+                      </Button>
+
+                      <Button
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        onClick={handleClearAll}
+                        disabled={isUploading}
+                        sx={{
+                          borderColor: palette.error,
+                          color: palette.error,
+                          '&:hover': {
+                            borderColor: palette.error,
+                            backgroundColor: `${palette.error}10`,
+                          }
+                        }}
+                      >
+                        Clear All
+                      </Button>
+                    </>
+                  )}
+                </Box>
+
+                <input
+                  type="file"
+                  accept=".csv"
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
+                />
+
+                {error && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    {error}
+                  </Alert>
+                )}
+
+                {uploadSuccess && (
+                  <Alert severity="success" sx={{ mt: 2 }}>
+                    {uploadSuccess}
+                  </Alert>
+                )}
+
+                {datasets.length > 0 && (
+                  <Box sx={{ mt: 2, p: 2, backgroundColor: palette.bg, borderRadius: 1 }}>
+                    <Typography variant="body2" sx={{ color: palette.text }}>
+                      Status: {pendingCount} pending metadata upload, {uploadingCount} uploading, {errorCount} errors
+                    </Typography>
+                  </Box>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Parsed Datasets Summary - Just show count and upload button */}
+            {datasets.length > 0 && (
+              <Card sx={{ boxShadow: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" sx={{ mb: 2, color: palette.accent }}>
+                    Ready to Upload: {datasets.length} datasets parsed from CSV
+                  </Typography>
+                  
+                  <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+                    <Typography variant="body2" sx={{ color: palette.muted }}>
+                      Click "Upload All Metadata" to create datasets in the database, then you can upload files individually.
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Empty State */}
+            {datasets.length === 0 && !isLoading && (
+              <Card sx={{ textAlign: 'center', py: 6, boxShadow: 1 }}>
+                <CardContent>
+                  <CloudUploadIcon sx={{ fontSize: 60, color: palette.muted, mb: 2 }} />
+                  <Typography variant="h6" sx={{ color: palette.muted, mb: 1 }}>
+                    No datasets uploaded yet
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: palette.muted }}>
+                    Upload a CSV file to get started with bulk dataset creation
+                  </Typography>
+                </CardContent>
+              </Card>
+            )}
+          </>
         )}
       </Box>
     </Box>
