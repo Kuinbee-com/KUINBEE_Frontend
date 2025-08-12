@@ -1,3 +1,5 @@
+@import './styles/cross-browser.css';
+
 /* Custom white scrollbar for cart overlay */
 .scrollbar-white {
   scrollbar-color: #fff #fff;
@@ -15,8 +17,6 @@
 .scrollbar-white::-webkit-scrollbar-track {
   background: #fff;
 }
-
-@import './styles/cross-browser.css';
 
 /* Cross-Browser CSS Reset and Normalization */
 *, *::before, *::after {

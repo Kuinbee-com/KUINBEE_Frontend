@@ -27,7 +27,7 @@ export default defineConfig({
     sourcemap: process.env.NODE_ENV !== 'production',
     // Optimize chunks
     chunkSizeWarningLimit: 1000,
-    target: ['es2015', 'chrome58', 'firefox57', 'safari11', 'edge16']
+    target: ['es2020', 'chrome80', 'firefox78', 'safari14', 'edge88']
   },
   server: {
     // Development server configuration
