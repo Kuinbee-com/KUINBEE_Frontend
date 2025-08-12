@@ -101,7 +101,7 @@ const CategoryManagementPage: React.FC = () => {
       minHeight: '100vh', 
       px: 0, 
       py: 0, 
-      fontFamily: 'Inter, Roboto, Arial, sans-serif' 
+  fontFamily: 'Inter, Roboto ,Arial, sans-serif' 
     }}>
       <Box sx={{ maxWidth: 1900, mx: 'auto', py: 0, width: '100%', px: 2 }}>
         {/* Page Header with title, back button, and Add button */}

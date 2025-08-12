@@ -115,7 +115,7 @@ const CreateCategoryPage: React.FC = () => {
         display: 'flex', 
         justifyContent: 'center', 
         alignItems: 'center',
-        fontFamily: 'Inter, Roboto, Arial, sans-serif'
+  fontFamily: 'Inter, Roboto, Arial, sans-serif'
       }}>
         <Box sx={{ textAlign: 'center' }}>
           <CircularProgress size={48} sx={{ color: palette.accent, mb: 2 }} />
@@ -128,7 +128,7 @@ const CreateCategoryPage: React.FC = () => {
   }
 
   return (
-    <Box sx={{ background: palette.bg, minHeight: '100vh', py: 4, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
+  <Box sx={{ background: palette.bg, minHeight: '100vh', py: 4, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
       <Box sx={{ maxWidth: 800, mx: 'auto', px: 2 }}>
         {/* Back Arrow */}
         <Button

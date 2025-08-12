@@ -13,6 +13,8 @@ import { theme } from './core/config/theme';
 // Update the import paths to the correct files for ProtectedRoute and AuthInitializer
 import ProtectedRoute from './features/auth/components/ProtectedRoute';
 import AuthInitializer from './features/auth/components/AuthInitializer';
+import BrowserCompatibilityChecker from './components/BrowserCompatibilityChecker';
+import ViewportNormalizer from './components/ViewportNormalizer';
 
 // Feature imports
 import { AdminLogin } from './features/auth';
@@ -28,6 +30,7 @@ import AddMultipleDatasets from './features/admin/pages/datasets/AddMultipleData
 import CreateDatasetPage from './features/admin/pages/datasets/CreateDatasetPage';
 import AdminDatasetDetailPage from './features/admin/pages/datasets/DatasetDetailPage';
 import CategoryManagementPage from './features/admin/pages/category/CategoryManagementPage';
+import Community from './features/user/pages/Community';
 import CreateCategoryPage from './features/admin/pages/category/CreateCategoryPage';
 import SourceManagementPage from './features/admin/pages/source/SourceManagementPage';
 import CreateSourcePage from './features/admin/pages/source/CreateSourcePage';
@@ -52,6 +55,11 @@ const AppContent: React.FC = () => {
       <AnimatePresence mode="wait">
         <Routes>
           {/* User Routes */}
+          <Route path="/community" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Community />
+            </motion.div>
+          } />
           <Route path="/marketplace" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <DataMarketplace />
@@ -299,8 +307,10 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <OverlayProvider>
+          <ViewportNormalizer />
           <AuthInitializer />
           <AppContent />
+          {/* <BrowserCompatibilityChecker /> */}
         </OverlayProvider>
       </ThemeProvider>
     </Provider>
