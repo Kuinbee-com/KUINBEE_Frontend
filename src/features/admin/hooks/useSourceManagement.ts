@@ -172,11 +172,11 @@ export const useSourceManagement = () => {
    * Searches in source name, description, and provider fields
    */
   const filteredSources = sources.filter((source) => {
-    const searchTerm = searchQuery.toLowerCase();
+    const searchTerm = (searchQuery || "").toLowerCase();
     return (
-      source.name.toLowerCase().includes(searchTerm) ||
-      source.description.toLowerCase().includes(searchTerm) ||
-      source.provider.toLowerCase().includes(searchTerm)
+      (source.name || "").toLowerCase().includes(searchTerm) ||
+      (source.description || "").toLowerCase().includes(searchTerm) ||
+      (source.provider || "").toLowerCase().includes(searchTerm)
     );
   });
 
