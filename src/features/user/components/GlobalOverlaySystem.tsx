@@ -44,6 +44,24 @@ export const useOverlay = () => {
 export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  // Track scroll position for overlay positioning
+  useEffect(() => {
+    const updateScrollPosition = () => {
+      setScrollPosition(window.scrollY);
+    };
+
+    // Update scroll position when overlays are opened
+    if (isProfileOpen || isCartOpen) {
+      updateScrollPosition();
+      window.addEventListener('scroll', updateScrollPosition);
+    }
+
+    return () => {
+      window.removeEventListener('scroll', updateScrollPosition);
+    };
+  }, [isProfileOpen, isCartOpen]);
 
   // Listen for Escape key to close overlays
   useEffect(() => {
@@ -60,22 +78,38 @@ export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ child
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isProfileOpen, isCartOpen]);
 
-  // Prevent body scroll when overlay is open
+  // Prevent body scroll when overlay is open and maintain scroll position
   useEffect(() => {
     if (isProfileOpen || isCartOpen) {
       document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.width = "100%";
     } else {
       document.body.style.overflow = "unset";
+      document.body.style.position = "unset";
+      document.body.style.top = "unset";
+      document.body.style.width = "unset";
+      window.scrollTo(0, scrollPosition);
     }
     
     return () => {
       document.body.style.overflow = "unset";
+      document.body.style.position = "unset";
+      document.body.style.top = "unset";
+      document.body.style.width = "unset";
     };
-  }, [isProfileOpen, isCartOpen]);
+  }, [isProfileOpen, isCartOpen, scrollPosition]);
 
   const contextValue: OverlayContextType = {
-    showProfile: () => setIsProfileOpen(true),
-    showCart: () => setIsCartOpen(true),
+    showProfile: () => {
+      setScrollPosition(window.scrollY);
+      setIsProfileOpen(true);
+    },
+    showCart: () => {
+      setScrollPosition(window.scrollY);
+      setIsCartOpen(true);
+    },
     hideProfile: () => setIsProfileOpen(false),
     hideCart: () => setIsCartOpen(false),
     isProfileOpen,
@@ -89,73 +123,93 @@ export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ child
       {/* Profile Overlay */}
       {isProfileOpen && (
         <div
-          className="fixed inset-0 z-[60] flex items-start justify-center bg-black/30 backdrop-blur-lg pt-16 pb-8 overflow-y-auto"
+          className="absolute inset-0 z-[60] bg-black/30 backdrop-blur-lg overflow-y-auto"
+          style={{ 
+            top: scrollPosition,
+            left: 0,
+            right: 0,
+            height: '100vh',
+            width: '100vw',
+            position: 'absolute'
+          }}
           onClick={() => setIsProfileOpen(false)}
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="relative w-full max-w-4xl mx-auto px-4 min-h-fit"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-          >
+          <div className="flex items-center justify-center min-h-full p-4">
             <motion.div
-              initial={{ scale: 0.96, y: 40, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.96, y: 40, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="relative w-full max-w-4xl mx-auto my-auto min-h-fit max-h-[90vh] "
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
-              <UserProfile />
-              <button
-                className="absolute -top-6 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
-                onClick={() => setIsProfileOpen(false)}
-                aria-label="Close Profile"
-                style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+              <motion.div
+                initial={{ scale: 0.96, y: 40, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.96, y: 40, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                <UserProfile />
+                <button
+                  className="absolute -top-2 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  onClick={() => setIsProfileOpen(false)}
+                  aria-label="Close Profile"
+                  style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       )}
 
       {/* Cart Overlay */}
       {isCartOpen && (
         <div
-          className="fixed inset-0 z-[60] flex flex-col items-start justify-center bg-black/30 backdrop-blur-lg pt-8 pb-8 overflow-y-hidden min-h-0 h-screen"
+          className="absolute inset-0 z-[60] bg-black/30 backdrop-blur-lg overflow-hidden"
+          style={{ 
+            top: scrollPosition,
+            left: 0,
+            right: 0,
+            height: '100vh',
+            width: '100vw',
+            position: 'absolute'
+          }}
           onClick={() => setIsCartOpen(false)}
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="relative w-full max-w-6xl mx-auto flex flex-col h-full min-h-0 px-4"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
-          >
+          <div className="flex items-center justify-center min-h-full p-4">
             <motion.div
-              initial={{ scale: 0.96, y: 40, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0.96, y: 40, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              className="flex flex-col h-full min-h-0"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="relative w-full max-w-6xl mx-auto my-auto flex flex-col h-[90vh] max-h-[90vh] min-h-[60vh]"
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
-              <CartOverlay onClose={() => setIsCartOpen(false)} />
-              <button
-                className="absolute -top-6 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
-                onClick={() => setIsCartOpen(false)}
-                aria-label="Close Cart"
-                style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+              <motion.div
+                initial={{ scale: 0.96, y: 40, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.96, y: 40, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                className="flex flex-col h-full min-h-0"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
+                <CartOverlay onClose={() => setIsCartOpen(false)} />
+                <button
+                  className="absolute -top-2 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  onClick={() => setIsCartOpen(false)}
+                  aria-label="Close Cart"
+                  style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
       )}
     </OverlayContext.Provider>

@@ -13,8 +13,8 @@ import { theme } from './core/config/theme';
 // Update the import paths to the correct files for ProtectedRoute and AuthInitializer
 import ProtectedRoute from './features/auth/components/ProtectedRoute';
 import AuthInitializer from './features/auth/components/AuthInitializer';
-import BrowserCompatibilityChecker from './components/BrowserCompatibilityChecker';
-import ViewportNormalizer from './components/ViewportNormalizer';
+import BrowserCompatibilityChecker from './shared/components/ui/BrowserCompatibilityChecker';
+import ViewportNormalizer from './shared/components/ui/ViewportNormalizer';
 
 // Feature imports
 import { AdminLogin } from './features/auth';

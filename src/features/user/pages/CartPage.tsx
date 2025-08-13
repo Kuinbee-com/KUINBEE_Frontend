@@ -74,7 +74,7 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
   const total = subtotal + tax;
 
   return (
-    <div className="relative w-full h-full max-h-[85vh] sm:max-h-[88vh] lg:max-h-[90vh] bg-gradient-to-br from-[#f8fafc]/95 via-[#f1f5f9]/98 to-[#e2e8f0]/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 max-w-sm sm:max-w-2xl lg:max-w-6xl mx-auto my-2 sm:my-4 lg:my-6 px-1 sm:px-3 lg:px-6 flex flex-col min-h-0">
+    <div className="relative w-full h-full bg-gradient-to-br from-[#f8fafc]/95 via-[#f1f5f9]/98 to-[#e2e8f0]/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 mx-auto flex flex-col min-h-0">
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden rounded-2xl sm:rounded-3xl">
         <div className="absolute top-0 -right-40 w-96 h-96 bg-gradient-to-br from-[#1a2240]/8 via-[#24305e]/4 to-[#2c3a6b]/4 rounded-full blur-3xl animate-pulse" />
@@ -82,7 +82,7 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
       </div>
 
       {/* Header */}
-      <div className="relative z-10 px-2 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-5 border-b border-white/30 bg-gradient-to-r from-white/20 to-white/10 backdrop-blur-sm flex-shrink-0">
+  <div className="relative z-10 px-4 lg:px-6 py-4 lg:py-5 border-b border-white/30 bg-transparent flex-shrink-0">
         <div className="flex flex-col items-center gap-2 sm:gap-3 lg:flex-row lg:justify-between lg:gap-0">
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 w-full justify-center lg:justify-start lg:w-auto">
             <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 rounded-2xl bg-gradient-to-br from-[#1a2240] to-[#24305e] flex items-center justify-center shadow-lg">
@@ -130,7 +130,7 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
             </motion.div>
           </div>
         ) : (
-          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6 p-2 sm:p-3 lg:p-4 h-full min-h-0">
+          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 lg:gap-6 p-4 lg:p-6 h-full min-h-0">
             {/* Cart Items - Full width on mobile, 8/12 width on desktop */}
             <div className="lg:col-span-8 flex flex-col min-h-0 order-1 h-full">
               <motion.div 
@@ -139,16 +139,16 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
                 transition={{ duration: 0.3 }}
                 className="bg-white/70 backdrop-blur-sm rounded-xl sm:rounded-2xl shadow-xl border border-white/50 flex flex-col h-full min-h-0"
               >
-                <div className="px-3 sm:px-4 lg:px-5 py-3 sm:py-4 border-b border-gray-100/60 bg-gradient-to-r from-[#050a24]/5 to-[#1a2240]/5 flex-shrink-0">
+                <div className="px-4 lg:px-5 py-4 border-b border-gray-100/60 bg-gradient-to-r from-[#050a24]/5 to-[#1a2240]/5 flex-shrink-0">
                   <h2 className="text-base sm:text-lg lg:text-xl font-bold bg-gradient-to-r from-[#050a24] to-[#1a2240] bg-clip-text text-transparent">
                     Cart Items ({cartItems.length})
                   </h2>
                 </div>
-                <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100 divide-y divide-gray-100/60 bg-white">
+                <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-white divide-y divide-gray-100/60 bg-white">
                   {cartItems.map((item) => (
-                    <div
+                    <div  
                       key={item.id}
-                      className="p-3 sm:p-4 lg:p-5 hover:bg-gradient-to-r hover:from-[#24305e]/5 hover:to-[#4e5a7e]/5 transition-all duration-300 group"
+                      className="p-4 lg:p-5 hover:bg-gradient-to-r hover:from-[#24305e]/5 hover:to-[#4e5a7e]/5 transition-all duration-300 group"
                     >
                       <div className="flex flex-col gap-3 sm:gap-4">
                         {/* Item Details */}

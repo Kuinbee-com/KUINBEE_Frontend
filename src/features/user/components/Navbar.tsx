@@ -35,12 +35,12 @@ const Navbar: React.FC<NavbarProps> = ({
             <div className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative">
               <div className="absolute inset-0 bg-blue-400/20 rounded-lg blur-lg opacity-90 group-hover:opacity-40 transition-opacity duration-200 pointer-events-none"></div>
               <MenuItem setActive={setActive} active={active} item="Products">
-                <div className="flex flex-col space-y-1.5 p-3 min-w-[240px] bg-gradient-to-br from-[#1a2240]/95 via-[#4d5473]/95 to-[#1a2240]/95 rounded-2xl shadow-[0_10px_28px_rgba(5,10,36,0.4),0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md border border-white/10">
+                <div className="flex flex-col space-y-2 p-5 min-w-[360px] bg-gradient-to-br from-[#1a2240]/95 via-[#4d5473]/95 to-[#1a2240]/95 rounded-2xl shadow-[0_10px_28px_rgba(5,10,36,0.4),0_0_0_1px_rgba(255,255,255,0.06),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md border border-white/10">
                   <ProductItem
                     title="Marketplace"
                     description="Browse and buy datasets"
                     href="/marketplace"
-                    src="/assets/logos/marketplace.svg"
+                    src="/marketplace.png"
                     className="transition-all duration-200 hover:bg-white/5 hover:scale-[1.01] rounded-xl px-2.5 py-2.5 cursor-pointer border border-transparent hover:border-white/10"
                   />
                
@@ -48,7 +48,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     title="Analytics"
                     description="Analyze your data (coming soon)"
                     href="/analytics"
-                    src="/assets/logos/analytics.svg"
+                    src="/analytics.png"
                     className="transition-all duration-200 hover:bg-white/5 hover:scale-[1.01] rounded-xl px-2.5 py-2.5 cursor-pointer border border-transparent hover:border-white/10"
                   />
                 </div>

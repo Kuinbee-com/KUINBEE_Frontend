@@ -95,10 +95,10 @@ export const ProductItem = ({
     <a href={href} className={`flex space-x-3 ${className}`}>
       <img
         src={src}
-        width={40}
-        height={40}
+        width={64}
+        height={36}
         alt={title}
-        className="shrink-0 rounded-lg shadow-lg"
+        className="shrink-0 rounded-lg shadow-lg w-16 h-16 object-cover"
       />
       <div>
         <h4 className="text-base font-semibold mb-0.5 text-white tracking-wide">

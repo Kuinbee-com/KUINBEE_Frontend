@@ -1,21 +1,27 @@
 @import './styles/cross-browser.css';
 
-/* Custom white scrollbar for cart overlay */
-.scrollbar-white {
-  scrollbar-color: #fff #fff;
+/* Custom gray scrollbar for cart overlay */
+.scrollbar-white, .scrollbar-gray {
+  scrollbar-color: #d1d5db #f9fafb;
+  scrollbar-width: thin;
 }
 
 /* For Webkit browsers */
-.scrollbar-white::-webkit-scrollbar {
+.scrollbar-white::-webkit-scrollbar, .scrollbar-gray::-webkit-scrollbar {
   width: 8px;
-  background: #fff;
+  background: #f9fafb;
 }
-.scrollbar-white::-webkit-scrollbar-thumb {
-  background: #fff;
+.scrollbar-white::-webkit-scrollbar-thumb, .scrollbar-gray::-webkit-scrollbar-thumb {
+  background: #d1d5db;
   border-radius: 8px;
+  border: 1px solid #e5e7eb;
 }
-.scrollbar-white::-webkit-scrollbar-track {
-  background: #fff;
+.scrollbar-white::-webkit-scrollbar-thumb:hover, .scrollbar-gray::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+.scrollbar-white::-webkit-scrollbar-track, .scrollbar-gray::-webkit-scrollbar-track {
+  background: #f9fafb;
+  border-radius: 8px;
 }
 
 /* Cross-Browser CSS Reset and Normalization */

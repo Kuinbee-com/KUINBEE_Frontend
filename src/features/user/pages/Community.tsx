@@ -1,13 +1,16 @@
 // import Link from "next/link"
 "use client"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, Twitter, Linkedin, Youtube, Github, DiscIcon as Discord, Rss, Instagram, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react" // Removed Sun, Moon icons
+import { ArrowLeft, Twitter, Linkedin,MessageCircle, Youtube, Github, DiscIcon as Discord, Rss, Instagram, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react" // Removed Sun, Moon icons
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
 import Navbar from "@/features/user/components/Navbar";
 import { useOverlay, OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from "react";
+import RedditIcon from '@mui/icons-material/Reddit';
 
 // Define the social media platforms and their details
+
+
 const socialPlatforms = [
   {
     title: "Twitter (X)",
@@ -20,23 +23,16 @@ const socialPlatforms = [
   {
     title: "LinkedIn",
     icon: Linkedin,
-    link: "https://www.linkedin.com/company/vercel/",
+    link: "https://www.linkedin.com/company/kuinbee",
     description:
       "Connect with our team, explore career opportunities, and get professional updates on our company culture and achievements.",
     color: "from-[#0077B5]/10 to-[#0077B5]/5", // LinkedIn blue
   },
+ 
   {
-    title: "YouTube",
-    icon: Youtube,
-    link: "https://www.youtube.com/vercel",
-    description:
-      "Watch tutorials, product demos, webinars, and deep dives into our features. Learn visually with our expert-led content.",
-    color: "from-[#FF0000]/10 to-[#FF0000]/5",
-  },
-  {
-    title: "GitHub",
-    icon: Github,
-    link: "https://github.com/vercel",
+    title: "Reddit",
+    icon: (props: any) => <RedditIcon style={{ color: "#FF4500" }} fontSize="large" {...props} />,
+    link: "https://www.reddit.com/user/Kuinbee00",
     description:
       "Explore our open-source projects, contribute to our codebase, and collaborate with developers from around the world.",
     color: "from-[#333]/10 to-[#333]/5",
@@ -44,23 +40,15 @@ const socialPlatforms = [
   {
     title: "Discord",
     icon: Discord,
-    link: "https://discord.com/invite/vercel",
+    link: "https://discord.gg/NhqGDsmzrM",
     description:
       "Join our vibrant developer community for real-time support, discussions, and direct interaction with our team and other users.",
     color: "from-[#5865F2]/10 to-[#5865F2]/5",
   },
   {
-    title: "Blog (RSS)",
-    icon: Rss,
-    link: "https://vercel.com/blog/rss.xml",
-    description:
-      "Subscribe to our blog for in-depth articles, technical guides, company news, and thought leadership pieces.",
-    color: "from-[#FFA500]/10 to-[#FFA500]/5",
-  },
-  {
     title: "Instagram",
     icon: Instagram,
-    link: "https://www.instagram.com/vercel/",
+    link: "https://www.instagram.com/the_kuinbee",
     description:
       "See behind-the-scenes, visual updates, and snippets of our work and culture. Follow us for a creative perspective.",
     color: "from-[#C13584]/10 to-[#C13584]/5",
@@ -155,7 +143,7 @@ const CommunityPage: React.FC = () => {
         </div>
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <h1
-                className="text-3xl sm:text-5xl md:text-6xl font-semibold mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-8 text-center"
+                className="text-3xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-8 text-center"
                 style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif' }}
               >Join Our Community</h1>
           <p className="text-base sm:text-lg lg:text-xl text-center text-[#24305e] mb-8 sm:mb-10 lg:mb-12 max-w-4xl mx-auto">

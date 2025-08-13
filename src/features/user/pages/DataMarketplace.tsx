@@ -273,22 +273,16 @@ const DataMarketplace: React.FC = () => {
             </div>
             <div className="w-full md:w-64 mt-4 md:mt-0 flex justify-end">
               <div className="w-full flex flex-col items-end">
-                <label htmlFor="sort-dropdown" className="mb-2 text-[#1a2240] font-semibold text-sm">Sort By</label>
                 <div className="relative w-full" ref={dropdownRef}>
                   <button
                     onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                    className="h-12 sm:h-14 w-full rounded-full bg-white text-[#1a2240] text-sm sm:text-base font-semibold shadow-md px-3 sm:px-4 pr-6 sm:pr-8 focus:shadow-lg focus:shadow-[#1a2240]/30 focus:ring-2 focus:ring-[#1a2240]/20 outline-none transition-all duration-200 hover:shadow-lg hover:shadow-[#1a2240]/20 cursor-pointer border-none text-left flex items-center justify-between"
+                    className="h-10 sm:h-11 w-full rounded-full bg-white text-[#1a2240] text-sm sm:text-base font-semibold shadow-md px-2 sm:px-3 pr-4 sm:pr-6 focus:shadow-lg focus:shadow-[#1a2240]/30 focus:ring-2 focus:ring-[#1a2240]/20 outline-none transition-all duration-200 hover:shadow-lg hover:shadow-[#1a2240]/20 cursor-pointer border-none text-left flex items-center justify-between"
                     style={{
                       boxShadow: '0 0.125rem 0.75rem 0 rgba(26,34,64,0.10), inset 0 0.0625rem 0.25rem 0 rgba(26,34,64,0.04)'
                     }}
                   >
-                    <span>
-                      {selectedSort === "featured" && "Featured"}
-                      {selectedSort === "downloads" && "Most Downloaded"}
-                      {selectedSort === "price-low" && "Price: Low to High"}
-                      {selectedSort === "price-high" && "Price: High to Low"}
-                    </span>
-                    <div className="flex items-center justify-center bg-white rounded-full shadow-sm w-5 h-5 border border-[#e3e6f3]">
+                    <span className="text-[#1a2240] font-semibold">Sort By</span>
+                    <div className="flex items-center justify-center bg-white rounded-full shadow-sm w-5 h-5 border border-[#e3e6f3] ml-2">
                       <svg className={`w-3.8 h-3.8 fill-current transition-transform duration-200 ${sortDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
                         <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                       </svg>
@@ -407,7 +401,7 @@ const DataMarketplace: React.FC = () => {
             <div className="w-full lg:w-80 lg:flex-shrink-0">
               <div className="lg:sticky lg:top-24 lg:max-h-[calc(100vh-6rem)]">
                 {/* Collapsible filter sidebar */}
-                <aside className="bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-white" style={{ boxShadow: '0 4px 24px 0 rgba(26,34,64,0.10)', background: '#fff' }}>
+                <aside className="bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto scrollbar-white" style={{ boxShadow: '0 4px 24px 0 rgba(26,34,64,0.10)', background: '#fff' }}>
                   <div className="flex items-center gap-2 mb-2 lg:mb-4">
                     <Filter className="h-6 w-6 text-[#24305e]" />
                     <h3 className="text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-[#050a24] to-[#1a2240] bg-clip-text text-transparent">Filters</h3>
