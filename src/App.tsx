@@ -21,6 +21,8 @@ import { AdminLogin } from './features/auth';
 import DataMarketplace from './features/user/pages/DataMarketplace';
 import UserDatasetDetailPage from './features/user/pages/DatasetDetailPage';
 import { OverlayProvider } from './features/user/components/GlobalOverlaySystem';
+import Careers from './features/user/pages/Careers';
+import Analytics from './features/user/pages/Analytics';
 
 // Admin feature imports
 import AdminLayout from './features/admin/components/AdminLayout';
@@ -68,6 +70,16 @@ const AppContent: React.FC = () => {
           <Route path="/user/dataset/:id" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <UserDatasetDetailPage />
+            </motion.div>
+          } />
+          <Route path="/careers" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Careers />
+            </motion.div>
+          } />
+          <Route path="/analytics" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Analytics />
             </motion.div>
           } />
           
