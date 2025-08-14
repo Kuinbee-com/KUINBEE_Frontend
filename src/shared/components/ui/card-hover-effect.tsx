@@ -26,71 +26,78 @@ export const HoverEffect = ({
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 py-10", className)}>
-      {items.map((item, idx) => (
-        <a
-          href={item?.link}
-          key={item?.link}
-          className="relative group block p-2 h-full w-full"
-          onMouseEnter={() => setHoveredIndex(idx)}
-          onMouseLeave={() => setHoveredIndex(null)}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {/* Special animated glare/glow for the first (Discord) card */}
-          {idx === 0 && (
-            <motion.div
-              className="pointer-events-none absolute inset-0 z-10 rounded-3xl"
-              initial={{ opacity: 0.5, scale: 0.98 }}
-              animate={{
-                opacity: [0.38, 0.5, 0.38],
-                scale: [0.98, 1.02, 0.98],
-                filter: [
-                  'blur(0px) brightness(1.10)',
-                  'blur(18px) brightness(1.18)',
-                  'blur(0px) brightness(1.10)'
-                ],
-              }}
-              transition={{
-                duration: 3.2,
-                repeat: Infinity,
-                repeatType: 'loop',
-                ease: 'easeInOut',
-              }}
-              style={{
-                background:
-                  'radial-gradient(circle at 50% 50%, #bfc9d1 0%, #8bb4f7 30%, #3b5fff 60%, #fff0 80%)',
-                boxShadow:
-                  '0 0 40px 12px #bfc9d1cc, 0 0 80px 24px #3b5fff88',
-                opacity: 0.5,
-              }}
-            />
-          )}
-          <AnimatePresence>
-            {hoveredIndex === idx && (
-              <motion.span
-                className={cn(
-                  "absolute inset-0 h-full w-full block rounded-3xl transition-colors duration-300",
-                  "bg-gradient-to-br from-[#1a2240]/15 to-[#24305e]/20", // Lighter hover effect
-                )}
-                layoutId="hoverBackground"
-                initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  transition: { duration: 0.15 },
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: { duration: 0.15, delay: 0.2 },
-                }}
-              />
-            )}
-          </AnimatePresence>
-          <Card icon={item.icon} iconColor={item.color}>
-            <CardTitle>{item.title}</CardTitle>
-            <CardDescription>{item.description}</CardDescription>
-          </Card>
-        </a>
-      ))}
+      {items.map((item, idx) => {
+        // Extract the main color from the color string (e.g., from-[#5865F2]/10 to-[#5865F2]/5)
+        const colorMatch = item.color.match(/#([0-9a-fA-F]{6})/);
+        const mainColor = colorMatch ? `#${colorMatch[1]}` : '#bfc9d1';
+        // Reduce glare opacity for Instagram and Reddit
+        let glareOpacity = 0.5;
+        if (item.title === 'Instagram' || item.title === 'Reddit') {
+          glareOpacity = 0.1;
+        }
+        return (
+          <a
+            href={item?.link}
+            key={item?.link}
+            className="relative group block p-2 h-full w-full"
+            onMouseEnter={() => setHoveredIndex(idx)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {/* Animated glare/glow for every card, only on hover */}
+            <AnimatePresence>
+              {hoveredIndex === idx && (
+                <motion.div
+                  className="pointer-events-none absolute inset-0 z-20 rounded-3xl"
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{
+                    opacity: 0.7,
+                    scale: 1.04,
+                    filter: 'blur(18px) brightness(1.18)',
+                  }}
+                  exit={{ opacity: 0, scale: 0.98, filter: 'blur(0px) brightness(1.10)' }}
+                  transition={{
+                    duration: 0.5,
+                    ease: 'easeInOut',
+                  }}
+                  style={{
+                    background:
+                      `radial-gradient(circle at 50% 50%, ${mainColor} 0%, #fff0 70%)`, // tighter glare
+                    boxShadow:
+                      `0 0 20px 12px ${mainColor}55, 0 0 40px 12px ${mainColor}33`,
+                    opacity: glareOpacity,
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {hoveredIndex === idx && (
+                <motion.span
+                  className={cn(
+                    "absolute inset-0 h-full w-full block rounded-3xl transition-colors duration-300",
+                    "bg-gradient-to-br from-[#1a2240]/15 to-[#24305e]/20", // Lighter hover effect
+                  )}
+                  layoutId="hoverBackground"
+                  initial={{ opacity: 0 }}
+                  animate={{
+                    opacity: 1,
+                    transition: { duration: 0.15 },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transition: { duration: 0.15, delay: 0.2 },
+                  }}
+                />
+              )}
+            </AnimatePresence>
+            <Card icon={item.icon} iconColor={item.color}>
+              <CardTitle>{item.title}</CardTitle>
+              <CardDescription>{item.description}</CardDescription>
+            </Card>
+          </a>
+        );
+      })}
     </div>
   )
 }
