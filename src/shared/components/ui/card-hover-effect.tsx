@@ -29,11 +29,15 @@ export const HoverEffect = ({
       {items.map((item, idx) => {
         // Extract the main color from the color string (e.g., from-[#5865F2]/10 to-[#5865F2]/5)
         const colorMatch = item.color.match(/#([0-9a-fA-F]{6})/);
-        const mainColor = colorMatch ? `#${colorMatch[1]}` : '#bfc9d1';
-        // Reduce glare opacity for Instagram and Reddit
+        let mainColor = colorMatch ? `#${colorMatch[1]}` : '#bfc9d1';
+        // Reduce glare opacity for Instagram and Reddit, and set Reddit glare to orange
         let glareOpacity = 0.5;
-        if (item.title === 'Instagram' || item.title === 'Reddit') {
+        if (item.title === 'Instagram') {
           glareOpacity = 0.1;
+        }
+        if (item.title === 'Reddit') {
+          glareOpacity = 0.1;
+          mainColor = '#FF4500'; // Reddit orange
         }
         return (
           <a
