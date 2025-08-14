@@ -33,6 +33,8 @@ import CreateDatasetPage from './features/admin/pages/datasets/CreateDatasetPage
 import AdminDatasetDetailPage from './features/admin/pages/datasets/DatasetDetailPage';
 import CategoryManagementPage from './features/admin/pages/category/CategoryManagementPage';
 import Community from './features/user/pages/Community';
+import About from './features/user/pages/About';
+import Pricing from './features/user/pages/Pricing';
 import CreateCategoryPage from './features/admin/pages/category/CreateCategoryPage';
 import SourceManagementPage from './features/admin/pages/source/SourceManagementPage';
 import CreateSourcePage from './features/admin/pages/source/CreateSourcePage';
@@ -75,6 +77,16 @@ const AppContent: React.FC = () => {
           <Route path="/careers" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <Careers />
+            </motion.div>
+          } />
+          <Route path="/about" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <About />
+            </motion.div>
+          } />
+          <Route path="/pricing" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Pricing />
             </motion.div>
           } />
           <Route path="/analytics" element={
