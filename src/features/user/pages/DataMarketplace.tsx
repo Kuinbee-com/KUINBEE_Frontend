@@ -224,11 +224,11 @@ const DataMarketplace: React.FC = () => {
         </div>
 
         {/* Hero Section */}
-        <div className="w-full pt-20 pb-6 px-0 relative">
+  <div className="w-full pt-10 sm:pt-20 pb-6 px-0 relative">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16 relative z-10">
               <h1
-                className="text-3xl sm:text-5xl md:text-6xl font-semibold mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-8 text-center"
+                className="text-4xl sm:text-5xl md:text-6xl font-[700] mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-4 sm:pt-8 text-center"
                 style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif' }}
               >
                 Discover Premium Datasets
