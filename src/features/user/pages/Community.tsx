@@ -1,12 +1,12 @@
 // import Link from "next/link"
 "use client"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, Twitter, Linkedin,MessageCircle, Youtube, Github, DiscIcon as Discord, Rss, Instagram, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react" // Removed Sun, Moon icons
+import { ArrowLeft, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react";
+import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub, FaRss } from "react-icons/fa";
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
 import Navbar from "@/features/user/components/Navbar";
 import { useOverlay, OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from "react";
-import RedditIcon from '@mui/icons-material/Reddit';
 
 
 // Define the social media platforms and their details
@@ -14,46 +14,49 @@ import RedditIcon from '@mui/icons-material/Reddit';
 
 const socialPlatforms = [
   {
-    title: "Twitter (X)",
-    icon: Twitter,
-    link: "https://twitter.com/vercel",
-    description:
-      "Stay up-to-date with our latest announcements, quick tips, and industry insights. Join the conversation!",
-    color: "from-[#1DA1F2]/10 to-[#1DA1F2]/5", // Twitter blue
-  },
-  {
-    title: "LinkedIn",
-    icon: Linkedin,
-    link: "https://www.linkedin.com/company/kuinbee",
-    description:
-      "Connect with our team, explore career opportunities, and get professional updates on our company culture and achievements.",
-    color: "from-[#0077B5]/10 to-[#0077B5]/5", // LinkedIn blue
-  },
- 
-  {
-    title: "Reddit",
-    icon: (props: any) => <RedditIcon style={{ color: "#FF4500" }} fontSize="large" {...props} />,
-    link: "https://www.reddit.com/user/Kuinbee00",
-    description:
-      "Explore our open-source projects, contribute to our codebase, and collaborate with developers from around the world.",
-    color: "from-[#333]/10 to-[#333]/5",
-  },
-  {
     title: "Discord",
-    icon: Discord,
+    icon: (props: any) => <FaDiscord color="#5865F2" {...props} />,
     link: "https://discord.gg/NhqGDsmzrM",
-    description:
-      "Join our vibrant developer community for real-time support, discussions, and direct interaction with our team and other users.",
+    description: "Join Kuinbee’s dynamic data community on Discord for real-time collaboration, insightful discussions, freelance gig opportunities, exciting competitions, and direct interaction with our team and fellow data professionals.",
     color: "from-[#5865F2]/10 to-[#5865F2]/5",
   },
   {
+    title: "LinkedIn",
+    icon: (props: any) => <FaLinkedin color="#004182" {...props} />, // Darker LinkedIn blue
+    link: "https://www.linkedin.com/company/kuinbee",
+    description: "At Kuinbee, we’re building more than a platform we’re shaping the future of data accessibility and integrity. Follow us on LinkedIn to connect with industry leaders, explore real-world applications of data, and gain perspectives that bridge technology, business, and innovation.",
+    color: "from-[#004182]/10 to-[#004182]/5",
+  },
+  {
     title: "Instagram",
-    icon: Instagram,
+    icon: (props: any) => <FaInstagram color="#C13584" {...props} />,
     link: "https://www.instagram.com/the_kuinbee",
-    description:
-      "See behind-the-scenes, visual updates, and snippets of our work and culture. Follow us for a creative perspective.",
+    description: "Follow Kuinbee on Instagram for curated data insights, educational content, behind-the-scenes moments, and an inside look at life in a data startup.",
     color: "from-[#C13584]/10 to-[#C13584]/5",
   },
+  {
+    title: "Twitter (X)",
+    icon: (props: any) => <FaTwitter color="#0a192f" {...props} />, // Darker Twitter blue (almost black/blue)
+    link: "https://twitter.com/Kuinbee00",
+    description: "Follow Kuinbee on X for sharp data insights, educational threads, and real-time conversations on how data is transforming industries, shaping decisions, and influencing the world around us.",
+    color: "from-[#0a192f]/10 to-[#0a192f]/5",
+  },
+  
+  {
+    title: "Reddit",
+    icon: (props: any) => <FaRedditAlien color="#FF4500" {...props} />,
+    link: "https://www.reddit.com/user/Kuinbee00",
+    description: "Join Kuinbee’s Reddit community, a space for thoughtful discussions and in-depth educational threads that explore the many dimensions of data its applications, challenges, and the ways it shapes industries, decisions, and the world around us.",
+    color: "from-[#333]/10 to-[#333]/5",
+  },
+  {
+    title: "YouTube",
+    icon: (props: any) => <FaYoutube color="#FF0000" {...props} />,
+    link: "https://www.youtube.com/@kuinbee",
+    description: "Watch our latest videos, tutorials, and product demos. Subscribe to stay updated!",
+    color: "from-[#FF0000]/10 to-[#FF0000]/5",
+  },
+ 
 ];
 
 const CommunityPage: React.FC = () => {

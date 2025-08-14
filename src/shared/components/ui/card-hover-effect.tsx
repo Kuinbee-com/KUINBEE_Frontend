@@ -36,12 +36,41 @@ export const HoverEffect = ({
           target="_blank"
           rel="noopener noreferrer"
         >
+          {/* Special animated glare/glow for the first (Discord) card */}
+          {idx === 0 && (
+            <motion.div
+              className="pointer-events-none absolute inset-0 z-10 rounded-3xl"
+              initial={{ opacity: 0.5, scale: 0.98 }}
+              animate={{
+                opacity: [0.38, 0.5, 0.38],
+                scale: [0.98, 1.02, 0.98],
+                filter: [
+                  'blur(0px) brightness(1.10)',
+                  'blur(18px) brightness(1.18)',
+                  'blur(0px) brightness(1.10)'
+                ],
+              }}
+              transition={{
+                duration: 3.2,
+                repeat: Infinity,
+                repeatType: 'loop',
+                ease: 'easeInOut',
+              }}
+              style={{
+                background:
+                  'radial-gradient(circle at 50% 50%, #bfc9d1 0%, #8bb4f7 30%, #3b5fff 60%, #fff0 80%)',
+                boxShadow:
+                  '0 0 40px 12px #bfc9d1cc, 0 0 80px 24px #3b5fff88',
+                opacity: 0.5,
+              }}
+            />
+          )}
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
                 className={cn(
                   "absolute inset-0 h-full w-full block rounded-3xl transition-colors duration-300",
-                  "bg-gradient-to-br from-[#1a2240]/5 to-[#24305e]/5", // Light mode hover effect
+                  "bg-gradient-to-br from-[#1a2240]/15 to-[#24305e]/20", // Lighter hover effect
                 )}
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
@@ -60,7 +89,7 @@ export const HoverEffect = ({
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
-  </a>
+        </a>
       ))}
     </div>
   )
