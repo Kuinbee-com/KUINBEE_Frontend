@@ -297,6 +297,13 @@ const CreateDatasetPage: React.FC = () => {
                     onChange={(e) => handleInputChange('sourceId', e.target.value)}
                     required
                     label="Source"
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300,
+                        },
+                      },
+                    }}
                   >
                     {sources.map((source) => (
                       <MenuItem key={source.id} value={source.id}>
