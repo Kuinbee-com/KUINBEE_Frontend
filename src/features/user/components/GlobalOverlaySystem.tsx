@@ -2,11 +2,57 @@ import React, { useState, useEffect, createContext, useContext } from "react";
 import { motion } from "framer-motion";
 import UserProfile from "../pages/userProfilePage";
 import CartOverlay from "../pages/CartPage";
-import { ShoppingCart, User as UserIcon } from "lucide-react";
+import { ShoppingCart, User as UserIcon, X } from "lucide-react";
+
+// Theme system for overlays (cart/profile)
+type OverlayTheme = 'default' | 'hero' | 'light' | 'dark' | 'transparent';
+interface OverlayThemeConfig {
+  background: string;
+  shadow: string;
+  border: string;
+  button: string;
+  icon: string;
+}
+const overlayThemes: Record<OverlayTheme, OverlayThemeConfig> = {
+  default: {
+    background: 'bg-gradient-to-br from-[#1a2240]/95 via-[#4d5473]/95 to-[#1a2240]/95 backdrop-blur-xl',
+    shadow: 'shadow-[0_10px_28px_rgba(26,34,64,0.18),0_0_0_1px_rgba(255,255,255,0.04)]',
+    border: 'border-white/20',
+    button: 'bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240]',
+    icon: 'text-white',
+  },
+  hero: {
+    background: 'bg-gradient-to-br from-[#1a2240]/95 via-[#4d5473]/95 to-[#1a2240]/95 backdrop-blur-xl',
+    shadow: 'shadow-[0_10px_28px_rgba(26,34,64,0.18),0_0_0_1px_rgba(255,255,255,0.04)]',
+    border: 'border-white/20',
+    button: 'bg-gradient-to-r from-[#1a2240] via-[#1a2240] to-[#1a2240]',
+    icon: 'text-white',
+  },
+  light: {
+    background: 'bg-gradient-to-br from-white/95 via-gray-50/95 to-white/95 backdrop-blur-xl',
+    shadow: 'shadow-[0_10px_28px_rgba(0,0,0,0.08),0_0_0_1px_rgba(0,0,0,0.04)]',
+    border: 'border-gray-200/50',
+    button: 'bg-gradient-to-r from-white via-gray-100 to-white',
+    icon: 'text-gray-900',
+  },
+  dark: {
+    background: 'bg-gradient-to-br from-[#0f172a]/95 via-[#1e293b]/95 to-[#0f172a]/95 backdrop-blur-xl',
+    shadow: 'shadow-[0_10px_28px_rgba(15,23,42,0.25),0_0_0_1px_rgba(255,255,255,0.08)]',
+    border: 'border-white/10',
+    button: 'bg-gradient-to-r from-[#0f172a] via-[#1e293b] to-[#0f172a]',
+    icon: 'text-white',
+  },
+  transparent: {
+    background: 'bg-transparent',
+    shadow: '',
+    border: 'border-transparent',
+    button: 'bg-transparent',
+    icon: 'text-white',
+  }
+};
 
 /**
  * Global Overlay Context for managing site-wide overlays
- * This allows any component to trigger profile or cart overlays from anywhere in the app
  */
 interface OverlayContextType {
   showProfile: () => void;
@@ -28,20 +74,30 @@ export const useOverlay = () => {
 };
 
 /**
- * Global Overlay Provider Component
- * 
- * This component provides overlay functionality throughout the entire application.
- * It manages the state for profile and cart overlays and provides methods to show/hide them.
- * 
- * Features:
- * - Global state management for overlays
- * - Escape key to close overlays
- * - Click outside to close overlays
- * - Smooth animations using Framer Motion
- * - Professional close buttons with hover effects
- * - Can be triggered from any component in the app
+ * CloseButton Component
+ * A reusable, standardized close button for overlays.
  */
-export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const CloseButton = ({ onClick, themeConfig }: { onClick: () => void; themeConfig: OverlayThemeConfig }) => (
+  <button
+    className={`absolute -top-3 -right-3 z-[70] ${themeConfig.button} backdrop-blur-xl rounded-full p-2 w-10 h-10 flex items-center justify-center shadow-xl ${themeConfig.border} hover:scale-110 hover:shadow-2xl transition-all duration-300 group`}
+    onClick={onClick}
+    aria-label="Close"
+    style={{ boxShadow: "0 8px 30px 0 rgba(0,0,0,0.15)" }}
+  >
+    <X className={`w-5 h-5 ${themeConfig.icon} transition-colors duration-300`} />
+  </button>
+);
+
+
+/**
+ * Global Overlay Provider Component
+ */
+interface OverlayProviderProps {
+  children: React.ReactNode;
+  theme?: OverlayTheme;
+}
+
+export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, theme = 'default' }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -115,6 +171,8 @@ export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ child
     isProfileOpen,
     isCartOpen,
   };
+
+  const themeConfig = overlayThemes[theme];
 
   return (
     <OverlayContext.Provider value={contextValue}>
@@ -214,36 +272,34 @@ export const OverlayProvider: React.FC<{ children: React.ReactNode }> = ({ child
       )}
     </OverlayContext.Provider>
   );
-};
+}; // FIX 3: Added the missing closing brace for the OverlayProvider component.
 
 /**
  * Global Overlay Trigger Buttons Component
- * 
- * This component provides the standard cart and profile buttons that can be used
- * in any component to trigger the global overlays.
  */
 interface OverlayTriggersProps {
   className?: string;
+  theme?: OverlayTheme;
 }
 
-export const OverlayTriggers: React.FC<OverlayTriggersProps> = ({ className = "" }) => {
+export const OverlayTriggers: React.FC<OverlayTriggersProps> = ({ className = "", theme = 'default' }) => {
   const { showProfile, showCart } = useOverlay();
-
+  const themeConfig = overlayThemes[theme];
   return (
     <div className={`flex items-center gap-4 ${className}`}>
       <button
         onClick={showCart}
-        className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
+        className={`w-12 h-12 rounded-full flex items-center justify-center ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none`}
         aria-label="Cart"
       >
-        <ShoppingCart className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#10b981]" />
+        <ShoppingCart className={`w-6 h-6 ${themeConfig.icon}`} />
       </button>
       <button
         onClick={showProfile}
-        className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
+        className={`w-12 h-12 rounded-full flex items-center justify-center ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none`}
         aria-label="Profile"
       >
-        <UserIcon className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#3b82f6]" />
+        <UserIcon className={`w-6 h-6 ${themeConfig.icon}`} />
       </button>
     </div>
   );

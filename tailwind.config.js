@@ -5,7 +5,11 @@ module.exports = {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {
+		theme: {
+			fontFamily: {
+				'anton': ['Anton', 'sans-serif'],
+				'opensans': ['Open Sans', 'sans-serif'],
+			},
   	container: {
   		center: true,
   		padding: {

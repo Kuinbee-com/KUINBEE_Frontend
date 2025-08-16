@@ -23,6 +23,7 @@ import UserDatasetDetailPage from './features/user/pages/DatasetDetailPage';
 import { OverlayProvider } from './features/user/components/GlobalOverlaySystem';
 import Careers from './features/user/pages/Careers';
 import Analytics from './features/user/pages/Analytics';
+import Landing from './features/user/pages/Landing';
 
 // Admin feature imports
 import AdminLayout from './features/admin/components/AdminLayout';
@@ -315,7 +316,11 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-        <Route path="/" element={<Navigate to="/marketplace" replace />} />
+        <Route path="/" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Landing />
+            </motion.div>
+          } />
         {/* Catch all - redirect to marketplace for development */}
         <Route path="*" element={<Navigate to="/marketplace" replace />} />
         </Routes>
