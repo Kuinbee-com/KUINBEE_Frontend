@@ -281,6 +281,13 @@ const CreateDatasetPage: React.FC = () => {
                     onChange={(e) => handleInputChange('primaryCategoryId', e.target.value)}
                     required
                     label="Primary Category"
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300,
+                        },
+                      },
+                    }}
                   >
                     {categories.map((category) => (
                       <MenuItem key={category.id} value={category.id}>
