@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -22,6 +24,8 @@ import DataMarketplace from './features/user/pages/DataMarketplace';
 import UserDatasetDetailPage from './features/user/pages/DatasetDetailPage';
 import { OverlayProvider } from './features/user/components/GlobalOverlaySystem';
 import Careers from './features/user/pages/Careers';
+import Support from './features/user/pages/Support';
+        
 import Analytics from './features/user/pages/Analytics';
 import Landing from './features/user/pages/Landing';
 
@@ -54,9 +58,18 @@ import { Toaster } from 'sonner';
  * Main App Content Component
  * Handles routing only
  */
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 const AppContent: React.FC = () => {
   return (
     <Router>
+      <ScrollToTop />
       <AnimatePresence mode="wait">
         <Routes>
           {/* User Routes */}
@@ -93,9 +106,12 @@ const AppContent: React.FC = () => {
           <Route path="/analytics" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <Analytics />
+            </motion.div>} />
+            <Route path="/support" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <Support />
             </motion.div>
           } />
-          
           
          
           {/* Admin Routes */}

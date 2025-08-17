@@ -6,6 +6,7 @@ import { Link } from "react-router-dom"
 import { ArrowLeft, MapPin, Clock, Users, Briefcase, Heart, Zap, Globe, Mail, Menu, X, ShoppingCart, User as UserIcon } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import Navbar from "@/features/user/components/Navbar";
+import Footer from "@/features/user/pages/landing/footer";
 import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
 import type { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from "react"
 
@@ -76,11 +77,11 @@ export default function CareersPage() {
   const { showCart, showProfile } = useOverlay();
 
   return (
-    <div className="min-h-screen relative bg-[#f7f8fa]">
+  <div className="min-h-screen relative bg-[#f7f8fa]">
       {/* Main gradient overlay */}
-      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
+    <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
       <div className="relative z-20">
-  <div className="w-full border-gray-200/20" style={{background: 'transparent'}}>
+        <div className="w-full border-gray-200/20" style={{background: 'transparent'}}>
           <div className="flex items-center justify-center w-full px-4 sm:px-8 py-4 min-h-[72px] relative">
             {/* Left side intentionally left blank (no Back to Marketplace button) */}
             
@@ -174,8 +175,8 @@ export default function CareersPage() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="mb-6 lg:mb-8"
             >
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight lg:leading-tight xl:leading-tight">
-                  <div className="block break-words">Join Our Team</div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight lg:leading-tight xl:leading-tight">
+                  <div className="block break-words font-opensans">Join Our Team</div>
               </h1>
             </motion.div>
             <motion.p
@@ -335,6 +336,7 @@ export default function CareersPage() {
           </motion.div>
         </main>
       </div>
+      <Footer />
     </div>
   )
 }

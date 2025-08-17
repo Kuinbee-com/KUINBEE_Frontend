@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import Navbar from "@/features/user/components/Navbar";
+import Footer from "@/features/user/pages/landing/footer";
 import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
 
 
@@ -279,6 +280,7 @@ const AnalyticsPage: React.FC = () => {
           </motion.div>
         </main>
       </div>
+      <Footer />
     </div>
   )
 }

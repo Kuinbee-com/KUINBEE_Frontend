@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/features/user/components/Navbar";
+import Footer from "@/features/user/pages/landing/footer";
 import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/shared/components/ui/button";
@@ -353,6 +354,7 @@ const PricingPage: React.FC = () => {
           </motion.div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

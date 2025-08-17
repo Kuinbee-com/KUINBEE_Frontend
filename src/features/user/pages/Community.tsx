@@ -5,6 +5,7 @@ import { ArrowLeft, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub, FaRss } from "react-icons/fa";
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
 import Navbar from "@/features/user/components/Navbar";
+import Footer from "@/features/user/pages/landing/footer";
 import { useOverlay, OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from "react";
 
@@ -165,6 +166,7 @@ const CommunityPage: React.FC = () => {
           </section>
         </main>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/features/user/components/Navbar";
+import Footer from "@/features/user/pages/landing/footer";
 import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -408,7 +409,7 @@ export default function AboutPageComponent() {
           </div>
         </section>
 
-        <section className="py-16 md:py-20 bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#4e5a7e] relative overflow-hidden">
+        <section className="min-h-[60vh] py-16 md:py-20 bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#1a2240] relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-48 h-48 md:w-64 md:h-64 bg-white/5 rounded-full blur-3xl"></div>
             <div className="absolute bottom-20 right-20 w-64 h-64 md:w-96 md:h-96 bg-white/3 rounded-full blur-3xl"></div>
@@ -511,10 +512,15 @@ export default function AboutPageComponent() {
                   </div>
                 </div>
               </motion.div>
+             
             </div>
+           
           </div>
+           
         </section>
+         <Footer />
       </div>
+      
     </div>
   )
 }
