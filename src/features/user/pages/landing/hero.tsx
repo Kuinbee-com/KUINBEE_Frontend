@@ -13,7 +13,6 @@ export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { showCart, showProfile } = useOverlay();
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -22,25 +21,6 @@ export default function LandingPage() {
     }, 2500)
     return () => clearInterval(interval)
   }, [])
-
-  useEffect(() => {
-    const observer = new window.IntersectionObserver(
-      ([entry]) => {
-        // Show indicator when at least 30% of hero is visible
-        const isVisible = entry.isIntersecting && entry.intersectionRatio > 0.3;
-        setShowScrollIndicator(isVisible);
-      },
-      { threshold: 0.3, rootMargin: '0px' }
-    );
-
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <div ref={heroRef} className="min-h-[80vh] relative  bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454]">
@@ -206,28 +186,26 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Scroll indicator - centered to page, only visible when hero is in view */}
-      {showScrollIndicator && (
+      {/* Scroll indicator - always visible at the end of the hero section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 1.2 }}
+        className="absolute left-1/2 bottom-0 transform -translate-x-1/2 z-30"
+      >
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block z-30"
+          animate={{ y: [0, 8, 0] }}
+          transition={{
+            duration: 2,
+            repeat: Number.POSITIVE_INFINITY,
+            ease: "easeInOut",
+          }}
+          className="flex flex-col items-center gap-2 text-white/60"
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "easeInOut",
-            }}
-            className="flex flex-col items-center gap-2 text-white/60"
-          >
-            <span className="text-sm font-medium">Scroll to explore</span>
-            <div className="w-px h-8 bg-gradient-to-b from-white/60 to-transparent"></div>
-          </motion.div>
+          <span className="text-sm font-medium">Scroll to explore</span>
+          <div className="w-px h-8 bg-gradient-to-b from-white/60 to-transparent"></div>
         </motion.div>
-      )}
+      </motion.div>
     </div>
   )
 }
