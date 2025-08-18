@@ -114,7 +114,7 @@ export default function LandingPage() {
         <motion.div
           animate={{ x: [0, 0, 0], y: [0, -10, 0] }}
           transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-          className="absolute top-0 left-30 w-48 h-64 bg-white/5 rounded-full blur-3xl"
+          className="absolute top-20 left-30 w-48 h-64 bg-white/5 rounded-full blur-3xl"
         />
         <motion.div
           animate={{ x: [0, -80, 0], y: [0, 60, 0] }}
