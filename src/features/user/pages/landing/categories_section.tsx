@@ -3,11 +3,21 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { DollarSign, Zap, Leaf, Globe, TrendingUp, Factory, ArrowRight } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
 export default function CategoriesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const navigate = useNavigate();
+
+  // Categories as shown in DataMarketplace
+  const marketplaceCategories = [
+    "Finance",
+    "Energy",
+    "Environment",
+    "Agri and Food",
+    "Economics"
+  ];
 
   const categories = [
     {
@@ -112,6 +122,13 @@ export default function CategoriesSection() {
               className="relative group block p-2 h-full w-full cursor-pointer"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => {
+                if (marketplaceCategories.includes(category.title)) {
+                  navigate(`/marketplace?category=${encodeURIComponent(category.title)}`);
+                } else {
+                  navigate('/marketplace');
+                }
+              }}
             >
               {/* Background hover effect */}
               <AnimatePresence>
