@@ -1,4 +1,5 @@
 "use client"
+import "./hero-lamp.css";
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/shared/components/ui/button";
@@ -23,32 +24,78 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div ref={heroRef} className="min-h-[80vh] relative  bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454]">
+    <div ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw] overflow-x-clip">
 
-
-      {/* Decorative background elements */}
-      <div className="absolute -top-4 left-0 w-full h-[600px] pointer-events-none z-10">
-        {/* Primary soft glow */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -100 }}
-          animate={{ opacity: 0.6, scale: 1, y: 0 }}
-          transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
-          className="hidden lg:block absolute top-0 left-[24%] transform -translate-x-1/2 w-[1000px] h-[700px]"
-          style={{
-            background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 80%, transparent 70%)`,
-            filter: "blur(0.5px)",
-          }}
-        />
-        {/* Secondary flowing light effect */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -70 }}
-          animate={{ opacity: 0.6, scale: 1, y: 0 }}
-          transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
-          className="hidden lg:block absolute top-0 left-[30%] transform -translate-x-1/2 w-[750px] h-[375px]"
-          style={{
-            background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.005) 90%, transparent 70%)`,
-          }}
-        />
+  {/* Decorative background elements - fixed to viewport, always centered */}
+  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10 overflow-x-clip">
+  {/* Primary soft glow */}
+  <div className="lamp-zoom-default">
+          {/* Default lamp effects */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -100 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[24%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            style={{
+              background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
+              filter: "blur(0.5px)",
+            }}
+          />
+          {/* Secondary flowing light effect */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -70 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[30%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            style={{
+              background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
+            }}
+          />
+        </div>
+        <div className="lamp-zoom-110 hidden">
+          {/* Copy the lamp effects here for 110% zoom, style in CSS and toggle with media query */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -100 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[21%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            style={{
+              background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
+              filter: "blur(0.5px)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -70 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[28%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            style={{
+              background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
+            }}
+          />
+        </div>
+        <div className="lamp-zoom-125 hidden">
+          {/* Copy the lamp effects here for 125% zoom, style in CSS and toggle with media query */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -100 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[18%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            style={{
+              background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
+              filter: "blur(0.5px)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -70 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[25%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            style={{
+              background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
+            }}
+          />
+        </div>
 
         {/* Core light beam - final cascade */}
         {/* <motion.div

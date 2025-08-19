@@ -1,0 +1,32 @@
+.lamp-zoom-default {
+  display: block;
+}
+.lamp-zoom-110 {
+  display: none;
+}
+.lamp-zoom-125 {
+  display: none;
+}
+
+/* Show 110% lamp and hide default at 110% zoom (approximate with min-resolution) */
+@media (min-resolution: 1.1dppx), (min--moz-device-pixel-ratio: 1.1) and (max-resolution: 1.24dppx) {
+  .lamp-zoom-default {
+    display: none !important;
+  }
+  .lamp-zoom-110 {
+    display: block !important;
+  }
+}
+
+/* Show 125% lamp and hide default at 125% zoom (approximate with min-resolution) */
+@media (min-resolution: 1.25dppx), (min--moz-device-pixel-ratio: 1.25) {
+  .lamp-zoom-default {
+    display: none !important;
+  }
+  .lamp-zoom-110 {
+    display: none !important;
+  }
+  .lamp-zoom-125 {
+    display: block !important;
+  }
+}
