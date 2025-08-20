@@ -82,57 +82,57 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
       </div>
 
       {/* Header */}
-  <div className="relative z-10 px-4 lg:px-6 py-4 lg:py-5 border-b border-white/30 bg-transparent flex-shrink-0">
+      <div className="relative z-10 px-2 sm:px-4 lg:px-6 py-3 sm:py-4 lg:py-5 border-b border-white/30 bg-transparent flex-shrink-0">
         <div className="flex flex-col items-center gap-2 sm:gap-3 lg:flex-row lg:justify-between lg:gap-0">
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 w-full justify-center lg:justify-start lg:w-auto">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12 rounded-2xl bg-gradient-to-br from-[#1a2240] to-[#24305e] flex items-center justify-center shadow-lg">
-              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 lg:w-6 lg:h-6 text-white" />
+            <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-2xl bg-gradient-to-br from-[#1a2240] to-[#24305e] flex items-center justify-center shadow-lg flex-shrink-0">
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white" />
             </div>
-            <div className="text-center lg:text-left">
-              <h1 className="text-lg sm:text-xl lg:text-2xl font-black text-[#1a2240]">Shopping Cart</h1>
-              <p className="text-gray-600 text-sm sm:text-base">
-                {cartItems.length > 0 ? `${cartItems.length} items ready for checkout` : 'Your cart is empty'}
+            <div className="text-center lg:text-left min-w-0 flex-1">
+              <h1 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-black text-[#1a2240] truncate">{cartItems.length > 0 ? 'Shopping Cart' : 'Cart'}</h1>
+              <p className="text-gray-600 text-xs sm:text-sm lg:text-base truncate">
+                {cartItems.length > 0 ? `${cartItems.length} item${cartItems.length !== 1 ? 's' : ''} ready` : 'Your cart is empty'}
               </p>
             </div>
           </div>
           {cartItems.length > 0 && (
-            <div className="text-center lg:text-right w-full lg:w-auto">
-              <div className="text-xl sm:text-2xl lg:text-2xl font-black bg-gradient-to-r from-[#1a2240] to-[#24305e] bg-clip-text text-transparent">
+            <div className="text-center lg:text-right w-full lg:w-auto min-w-0">
+              <div className="text-lg sm:text-xl lg:text-2xl font-black bg-gradient-to-r from-[#1a2240] to-[#24305e] bg-clip-text text-transparent truncate">
                 ${total.toFixed(2)}
               </div>
-              <div className="text-gray-600 font-medium text-sm sm:text-base lg:text-sm">Total Amount</div>
+              <div className="text-gray-600 font-medium text-xs sm:text-sm lg:text-sm">Total Amount</div>
             </div>
           )}
         </div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex-1 min-h-0">{cartItems.length === 0 ? (
+      <div className="relative z-10 flex-1 min-h-0 overflow-hidden">{cartItems.length === 0 ? (
           // Empty Cart State
-          <div className="flex flex-col items-center justify-center h-full py-8 sm:py-12 px-3 sm:px-4">
+          <div className="flex flex-col items-center justify-center h-full py-6 sm:py-8 lg:py-12 px-2 sm:px-3 lg:px-4">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="text-center max-w-xs sm:max-w-md w-full"
             >
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#1a2240]/20 to-[#24305e]/30 flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                <ShoppingCart className="w-8 h-8 sm:w-10 sm:h-10 text-[#1a2240]" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br from-[#1a2240]/20 to-[#24305e]/30 flex items-center justify-center mx-auto mb-3 sm:mb-4 lg:mb-6">
+                <ShoppingCart className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-[#1a2240]" />
               </div>
-              <h3 className="text-xl sm:text-2xl font-bold text-[#1a2240] mb-3 sm:mb-4">Your cart is empty</h3>
-              <p className="text-gray-600 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">Discover premium datasets to add to your collection</p>
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-[#1a2240] mb-2 sm:mb-3 lg:mb-4">Your cart is empty</h3>
+              <p className="text-gray-600 mb-3 sm:mb-4 lg:mb-6 leading-relaxed text-xs sm:text-sm lg:text-base">Discover premium datasets to add to your collection</p>
               <Button 
                 onClick={onClose}
-                className="bg-gradient-to-r from-[#1a2240] to-[#24305e] hover:from-[#24305e] hover:to-[#2c3a6b] text-white px-4 sm:px-6 py-2 sm:py-3 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-sm sm:text-base w-full sm:w-auto"
+                className="bg-gradient-to-r from-[#1a2240] to-[#24305e] hover:from-[#24305e] hover:to-[#2c3a6b] text-white px-3 sm:px-4 lg:px-6 py-2 sm:py-3 font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-xs sm:text-sm lg:text-base w-full sm:w-auto"
               >
                 Browse Datasets
               </Button>
             </motion.div>
           </div>
         ) : (
-          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 lg:gap-6 p-4 lg:p-6 h-full min-h-0">
+          <div className="flex flex-col lg:grid lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6 p-2 sm:p-4 lg:p-6 h-full min-h-0 overflow-hidden">
             {/* Cart Items - Full width on mobile, 8/12 width on desktop */}
-            <div className="lg:col-span-8 flex flex-col min-h-0 order-1 h-full">
+            <div className="lg:col-span-8 flex flex-col min-h-0 order-1 h-full overflow-hidden">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

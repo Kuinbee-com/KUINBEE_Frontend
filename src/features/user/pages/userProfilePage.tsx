@@ -100,50 +100,50 @@ const UserProfile: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 relative">
+    <div className="w-full max-w-screen-2xl mx-auto px-2 sm:px-4 lg:px-6 xl:px-8 py-3 sm:py-6 relative overflow-x-hidden">
       {/* Back Button */}
      
       {/* Profile Header Card */}
       <div 
-        className="bg-gradient-to-br from-[#f8fafc]/85 via-[#f1f5f9]/90 to-[#e2e8f0]/85 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-6" 
+        className="bg-gradient-to-br from-[#f8fafc]/85 via-[#f1f5f9]/90 to-[#e2e8f0]/85 backdrop-blur-2xl rounded-2xl sm:rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 sm:mb-6" 
         style={{ boxShadow: "0 20px 60px 0 rgba(26,34,64,0.15)" }}
       >
-        <div className="p-6 sm:p-8">
-          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#50587c] to-[#1a2240] shadow-xl transition-transform duration-200 hover:scale-110 hover:shadow-2xl focus:outline-none text-white text-2xl sm:text-3xl lg:text-4xl font-bold ring-4 ring-white/40">
+        <div className="p-4 sm:p-6 lg:p-8">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 sm:gap-6">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#50587c] to-[#1a2240] shadow-xl transition-transform duration-200 hover:scale-110 hover:shadow-2xl focus:outline-none text-white text-lg sm:text-2xl lg:text-3xl xl:text-4xl font-bold ring-2 sm:ring-4 ring-white/40 flex-shrink-0">
                 {/* Display user initials */}
                 {userInfo.name.split(" ").map((n) => n[0]).join("")}
               </div>
-              <div>
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1a2240] mb-1">{userInfo.name}</h2>
-                <p className="text-sm sm:text-base lg:text-lg text-gray-600 mb-0.5">{userInfo.email}</p>
+              <div className="min-w-0 flex-1">
+                <h2 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-[#1a2240] mb-1 truncate sm:break-words">{userInfo.name}</h2>
+                <p className="text-xs sm:text-sm lg:text-base xl:text-lg text-gray-600 mb-0.5 break-all sm:break-words">{userInfo.email}</p>
                 <p className="text-xs sm:text-sm lg:text-base text-gray-500">Member since {userInfo.joinDate}</p>
               </div>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-3 gap-3 sm:gap-6 w-full lg:w-auto">
-              <div className="text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
-                  <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-[#1a2240]" />
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-6 w-full lg:w-auto">
+              <div className="text-center min-w-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
+                  <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#1a2240]" />
                 </div>
-                <div className="text-base sm:text-lg lg:text-xl font-bold text-[#1a2240]">${userInfo.totalSpent}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Total Spent</div>
+                <div className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-[#1a2240] truncate">${userInfo.totalSpent}</div>
+                <div className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Total Spent</div>
               </div>
-              <div className="text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
-                  <Package className="w-5 h-5 sm:w-6 sm:h-6 text-[#1a2240]" />
+              <div className="text-center min-w-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
+                  <Package className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#1a2240]" />
                 </div>
-                <div className="text-base sm:text-lg lg:text-xl font-bold text-[#1a2240]">{userInfo.totalPurchases}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Purchases</div>
+                <div className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-[#1a2240] truncate">{userInfo.totalPurchases}</div>
+                <div className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Purchases</div>
               </div>
-              <div className="text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
-                  <Download className="w-5 h-5 sm:w-6 sm:h-6 text-[#1a2240]" />
+              <div className="text-center min-w-0">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
+                  <Download className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#1a2240]" />
                 </div>
-                <div className="text-base sm:text-lg lg:text-xl font-bold text-[#1a2240]">{userInfo.totalDownloads}</div>
-                <div className="text-xs sm:text-sm text-gray-600">Downloads</div>
+                <div className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-[#1a2240] truncate">{userInfo.totalDownloads}</div>
+                <div className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Downloads</div>
               </div>
             </div>
           </div>
@@ -151,13 +151,13 @@ const UserProfile: React.FC = () => {
       </div>
 
       {/* Tabs Section */}
-  <div className="w-full isolate">
+      <div className="w-full isolate overflow-x-hidden">
         {/* Tab Navigation with Fixed Linear Spotlight */}
-  <div className="relative bg-gradient-to-r from-[#f8fafc]/80 via-[#f1f5f9]/90 to-[#e2e8f0]/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/40 p-2 sm:p-4 mb-5">
-          <div className="relative flex">
+        <div className="relative bg-gradient-to-r from-[#f8fafc]/80 via-[#f1f5f9]/90 to-[#e2e8f0]/80 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-lg border border-white/40 p-1 sm:p-2 lg:p-4 mb-3 sm:mb-5">
+    <div className="relative flex overflow-x-auto scrollbar-hide sm:overflow-x-visible">
             {/* Moving Spotlight Background */}
             <motion.div
-              className="absolute top-0 bottom-0 bg-gradient-to-r  from-[#111831] via-[#4e5a7e] to-[#111831] rounded-xl shadow-xl py-5"
+              className="absolute top-0 bottom-0 bg-gradient-to-r from-[#111831] via-[#4e5a7e] to-[#111831] rounded-lg sm:rounded-xl shadow-xl py-2 sm:py-3 lg:py-5"
               animate={{
                 left: `${(getTabIndex(activeTab) * 100) / tabs.length}%`,
                 width: `${95/ tabs.length}%`,
@@ -179,16 +179,16 @@ const UserProfile: React.FC = () => {
               <button
                 key={tab.value}
                 onClick={() => setActiveTab(tab.value)}
-                className={`relative flex-1 rounded-xl font-semibold text-sm py-3 sm:py-4 flex items-center justify-center transition-all duration-300 ease-in-out z-10 mx-2 sm:mx-3.5 ${
+                className={`relative flex-1 min-w-0 rounded-lg sm:rounded-xl font-semibold text-xs sm:text-sm py-2 sm:py-3 lg:py-4 flex items-center justify-center transition-all duration-300 ease-in-out z-10 mx-1 sm:mx-2 lg:mx-3.5 ${
                   activeTab === tab.value
                     ? "text-white scale-105 "
                     : "text-[#1a2240] hover:text-[#1a2240]/80 hover:scale-102"
                 }`}
                 
               >
-                <div className={`flex items-center transition-all duration-300 ${activeTab === tab.value ? 'scale-110' : ''}`}>
-                  {tab.icon}
-                  {tab.label}
+                <div className={`flex items-center transition-all duration-300 truncate ${activeTab === tab.value ? 'scale-105 sm:scale-110' : ''}`}>
+                  <span className="hidden sm:inline mr-1 sm:mr-2">{tab.icon}</span>
+                  <span className="truncate text-xs sm:text-sm">{tab.label}</span>
                 </div>
               </button>
             ))}
@@ -196,6 +196,7 @@ const UserProfile: React.FC = () => {
         </div>
 
         {/* Tab Content with AnimatePresence for better transitions */}
+        <div className="overflow-x-hidden">
         <AnimatePresence mode="wait">
           {/* Account Settings Tab (now first) */}
           {activeTab === "account" && (
@@ -580,6 +581,7 @@ const UserProfile: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
     </div>
   );

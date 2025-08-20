@@ -1,3 +1,10 @@
+// Extends Dataset to include birthInfo for admin detail view
+export type DatasetWithBirthInfo = Dataset & {
+  birthInfo?: {
+    createdAt?: string;
+    lastUpdatedAt?: string;
+  };
+};
 /**
  * Admin feature type definitions
  */

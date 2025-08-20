@@ -276,24 +276,6 @@ const Navbar: React.FC<NavbarProps> = ({
         {/* Right spacer to balance the layout */}
         <div className="w-9 h-9"></div>
         
-        {/* Subtle professional hint for mobile users */}
-        <AnimatePresence>
-          {showMobileHint && (
-            <motion.div
-              initial={{ opacity: 0, y: 5 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -5 }}
-              transition={{ duration: 1.0, ease: "easeOut" }}
-              className="absolute top-full left-1/2 transform -translate-x-1/2 mt-3 z-50 pointer-events-none"
-            >
-             <div className="bg-gradient-to-r from-[#1a2240] to-[#24305e] text-white text-xs px-4 py-2 rounded-xl shadow-lg backdrop-blur-md border border-white/20">
-                <div className="text-center font-normal">
-                  Tap icon to open menu
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* Mobile Dropdown Menu */}
         <AnimatePresence>

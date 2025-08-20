@@ -109,15 +109,15 @@ const CommunityPage: React.FC = () => {
                   className="lg:hidden fixed inset-0 bg-black/20 z-40"
                   onClick={() => setMobileMenuOpen(false)}
                 />
-                
-                {/* Menu Content */}
+
+                {/* Sticky Menu Content */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.8, y: -10 }}
                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="lg:hidden absolute top-full right-4 w-20 bg-transparent z-50"
-                  style={{ position: 'fixed', top: '72px' }}
+                  className="lg:hidden sticky top-[72px] right-4 w-20 bg-transparent z-50 ml-auto"
+                  style={{ position: 'sticky' }}
                 >
                   <div className="py-2 flex flex-col items-center gap-4">
                     <button

@@ -192,13 +192,14 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
           }}
           onClick={() => setIsProfileOpen(false)}
         >
-          <div className="flex items-center justify-center min-h-full p-4">
+          {/* Mobile: full screen with top alignment, Desktop: center alignment */}
+          <div className="flex items-start sm:items-center justify-center min-h-full p-1 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="relative w-full max-w-4xl mx-auto my-auto min-h-fit max-h-[90vh] "
+              className="relative w-full max-w-4xl mx-auto my-1 sm:my-auto min-h-fit max-h-[98vh] sm:max-h-[90vh]"
               onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
               <motion.div
@@ -206,15 +207,18 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
                 animate={{ scale: 1, y: 0, opacity: 1 }}
                 exit={{ scale: 0.96, y: 40, opacity: 0 }}
                 transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                className="overflow-hidden sm:overflow-visible"
               >
-                <UserProfile />
+                <div className="overflow-y-auto overscroll-contain max-h-[98vh] sm:max-h-[90vh]">
+                  <UserProfile />
+                </div>
                 <button
-                  className="absolute -top-2 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  className="absolute top-1 right-1 sm:-top-2 sm:-right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-2 sm:p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
                   onClick={() => setIsProfileOpen(false)}
                   aria-label="Close Profile"
                   style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 sm:w-5 sm:h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
@@ -238,13 +242,14 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
           }}
           onClick={() => setIsCartOpen(false)}
         >
-          <div className="flex items-center justify-center min-h-full p-4">
+          {/* Mobile: full screen with top alignment, Desktop: center alignment */}
+          <div className="flex items-start sm:items-center justify-center min-h-full p-1 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="relative w-full max-w-6xl mx-auto my-auto flex flex-col h-[90vh] max-h-[90vh] min-h-[60vh]"
+              className="relative w-full max-w-6xl mx-auto my-1 sm:my-auto flex flex-col h-[98vh] sm:h-[90vh] max-h-[98vh] sm:max-h-[90vh] min-h-[60vh]"
               onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
             >
               <motion.div
@@ -256,12 +261,12 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
               >
                 <CartOverlay onClose={() => setIsCartOpen(false)} />
                 <button
-                  className="absolute -top-4 -right-4 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-2 w-9 h-9 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  className="absolute top-1 right-1 sm:-top-4 sm:-right-4 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-1.5 w-7 h-7 sm:p-2 sm:w-9 sm:h-9 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
                   onClick={() => setIsCartOpen(false)}
                   aria-label="Close Cart"
                   style={{ boxShadow: "0 6px 24px 0 rgba(26,34,64,0.13)" }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-3 h-3 sm:w-4 sm:h-4 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>

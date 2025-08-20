@@ -44,10 +44,14 @@ const palette = {
   warning: '#f59e0b',
 };
 
+
+
+import type { DatasetWithBirthInfo } from '../../types';
+
 const DatasetDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [dataset, setDataset] = useState<DatasetWithBirthInfo | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -139,6 +143,10 @@ const DatasetDetailPage: React.FC = () => {
       minute: '2-digit',
     });
   };
+
+  // Prefer top-level, fallback to birthInfo
+  const createdAt = dataset.createdAt || dataset.birthInfo?.createdAt;
+  const updatedAt = dataset.updatedAt || dataset.birthInfo?.lastUpdatedAt;
 
   return (
     <Box sx={{ background: palette.bg, minHeight: '100vh', py: 4, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
@@ -362,11 +370,11 @@ const DatasetDetailPage: React.FC = () => {
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Created:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.createdAt ? formatDate(dataset.createdAt) : 'N/A'}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{createdAt ? formatDate(createdAt) : 'N/A'}</Typography>
                   </Box>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography variant="body2" sx={{ color: palette.muted, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>Updated:</Typography>
-                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{dataset.updatedAt ? formatDate(dataset.updatedAt) : 'N/A'}</Typography>
+                    <Typography variant="body2" fontWeight={600} sx={{ color: palette.text, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{updatedAt ? formatDate(updatedAt) : 'N/A'}</Typography>
                   </Box>
                 </Box>
               </CardContent>
