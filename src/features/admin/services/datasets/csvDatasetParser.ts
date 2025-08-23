@@ -117,7 +117,13 @@ export function parseCsvToApiDatasets(file: File): Promise<DatasetApiBody[]> {
           reject(results.errors);
         } else {
           try {
-            const datasets = results.data.map(convertCsvRowToApiBody);
+            const datasets = results.data
+              .filter(row =>
+                Object.values(row).some(value =>
+                  value !== '' && value !== null && value !== undefined && !(typeof value === 'number' && isNaN(value))
+                )
+              )
+              .map(convertCsvRowToApiBody);
             console.log('Parsed dataset API body:', datasets);
             resolve(datasets);
           } catch (error) {
