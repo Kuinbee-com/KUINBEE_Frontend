@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import type { DatasetApiBody } from '../services/datasets/csvDatasetParser';
 import { DatasetService } from '../services/datasets/datasetService';
+import type { CategoryData, SourceData } from '../utils/validationHelpers';
 
 export interface BulkUploadItem {
-  status: 'pending' | 'uploading' | 'error';
+  status: 'pending' | 'uploading' | 'error' | 'invalid';
   apiData: DatasetApiBody;
   error?: string;
+  validationErrors?: string[];
 }
 
 export interface UploadedDataset {
@@ -22,12 +24,62 @@ export function useBulkDatasetUpload() {
   const [uploadedDatasets, setUploadedDatasets] = useState<UploadedDataset[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [showUploadedView, setShowUploadedView] = useState(false);
+  const [validCategories, setValidCategories] = useState<Set<string>>(new Set());
+  const [validSources, setValidSources] = useState<Set<string>>(new Set());
+  const [categoriesData, setCategoriesData] = useState<CategoryData[]>([]);
+  const [sourcesData, setSourcesData] = useState<SourceData[]>([]);
+  const [isLoadingValidation, setIsLoadingValidation] = useState(false);
+
+  // Fetch valid categories and sources from backend
+  const loadValidationData = async (): Promise<void> => {
+    setIsLoadingValidation(true);
+    try {
+      const [categories, sources] = await Promise.all([
+        DatasetService.getAllCategories(),
+        DatasetService.getAllSources()
+      ]);
+
+      // Store the full data for display purposes
+      setCategoriesData(categories);
+      setSourcesData(sources);
+
+      // Create Sets for fast lookup (assuming categories and sources have 'id' field)
+      const categoryIds = new Set(categories.map(cat => cat.id));
+      const sourceIds = new Set(sources.map(src => src.id));
+
+      setValidCategories(categoryIds);
+      setValidSources(sourceIds);
+    } catch (error) {
+      console.error('Failed to load validation data:', error);
+    } finally {
+      setIsLoadingValidation(false);
+    }
+  };
+
+  // Validate a single dataset
+  const validateDataset = (apiData: DatasetApiBody): string[] => {
+    const errors: string[] = [];
+
+    if (!validCategories.has(apiData.primaryCategoryId)) {
+      errors.push(`Invalid category ID: ${apiData.primaryCategoryId}`);
+    }
+
+    if (!validSources.has(apiData.sourceId)) {
+      errors.push(`Invalid source ID: ${apiData.sourceId}`);
+    }
+
+    return errors;
+  };
 
   const addDatasets = (apiDatasets: DatasetApiBody[]) => {
-    const items = apiDatasets.map(ds => ({
-      status: 'pending' as const,
-      apiData: ds,
-    }));
+    const items = apiDatasets.map(ds => {
+      const validationErrors = validateDataset(ds);
+      return {
+        status: validationErrors.length > 0 ? 'invalid' as const : 'pending' as const,
+        apiData: ds,
+        validationErrors: validationErrors.length > 0 ? validationErrors : undefined
+      };
+    });
     setDatasets(items);
     setUploadedDatasets([]);
     setShowUploadedView(false);
@@ -131,10 +183,16 @@ export function useBulkDatasetUpload() {
     datasets,
     uploadedDatasets,
     isUploading,
+    isLoadingValidation,
     showUploadedView,
+    validCategories,
+    validSources,
+    categoriesData,
+    sourcesData,
     addDatasets,
     clearAll,
     uploadAllDatasets,
     uploadFileForDataset,
+    loadValidationData,
   };
 }

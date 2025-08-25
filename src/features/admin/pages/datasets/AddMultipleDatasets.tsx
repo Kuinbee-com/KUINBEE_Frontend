@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -21,7 +21,7 @@ import {
 } from '@mui/material';
 import { 
   ArrowBack as ArrowBackIcon, 
-  Upload as UploadIcon, 
+  Upload as UploadIcon,
   CloudUpload as CloudUploadIcon,
   CheckCircle as CheckCircleIcon,
   Delete as DeleteIcon
@@ -49,12 +49,16 @@ const AddMultipleDatasets: React.FC = () => {
   const { 
     datasets, 
     uploadedDatasets,
-    isUploading, 
+    isUploading,
+    isLoadingValidation,
     showUploadedView,
+    categoriesData,
+    sourcesData,
     addDatasets, 
     uploadAllDatasets, 
     clearAll,
-    uploadFileForDataset
+    uploadFileForDataset,
+    loadValidationData
   } = useBulkDatasetUpload();
   const [selectedFiles, setSelectedFiles] = useState<{ [key: string]: File }>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +67,11 @@ const AddMultipleDatasets: React.FC = () => {
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
   const [fileUploadError, setFileUploadError] = useState<string | null>(null);
   const [fileUploadSuccess, setFileUploadSuccess] = useState<string | null>(null);
+
+  // Load validation data on component mount
+  useEffect(() => {
+    loadValidationData();
+  }, []);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -178,6 +187,7 @@ const AddMultipleDatasets: React.FC = () => {
   const pendingCount = datasets.filter(d => d.status === 'pending').length;
   const errorCount = datasets.filter(d => d.status === 'error').length;
   const uploadingCount = datasets.filter(d => d.status === 'uploading').length;
+  const invalidCount = datasets.filter(d => d.status === 'invalid').length;
 
   return (
     <Box sx={{ 
@@ -348,13 +358,30 @@ const AddMultipleDatasets: React.FC = () => {
                     Download sample CSV template
                   </a>
                 </Typography>
+
+                {/* Show valid categories and sources when available */}
+                {categoriesData.length > 0 && sourcesData.length > 0 && (
+                  <Box sx={{ mb: 3, p: 2, backgroundColor: '#f0f9ff', borderRadius: 1, border: '1px solid #e0f2fe' }}>
+                    <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: palette.accent }}>
+                      Valid IDs for your CSV:
+                    </Typography>
+                    <Typography variant="body2" sx={{ mb: 1, color: palette.text }}>
+                      <strong>Categories:</strong> {categoriesData.slice(0, 3).map(c => `${c.name} (${c.id})`).join(', ')}
+                      {categoriesData.length > 3 && ` ... and ${categoriesData.length - 3} more`}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: palette.text }}>
+                      <strong>Sources:</strong> {sourcesData.slice(0, 3).map(s => `${s.name} (${s.id})`).join(', ')}
+                      {sourcesData.length > 3 && ` ... and ${sourcesData.length - 3} more`}
+                    </Typography>
+                  </Box>
+                )}
                 
                 <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', flexWrap: 'wrap' }}>
                   <Button
                     variant="contained"
-                    startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <CloudUploadIcon />}
+                    startIcon={isLoading || isLoadingValidation ? <CircularProgress size={20} color="inherit" /> : <CloudUploadIcon />}
                     onClick={() => fileInputRef.current?.click()}
-                    disabled={isLoading}
+                    disabled={isLoading || isLoadingValidation}
                     sx={{
                       background: palette.buttonBg,
                       color: palette.buttonText,
@@ -372,7 +399,7 @@ const AddMultipleDatasets: React.FC = () => {
                       }
                     }}
                   >
-                    {isLoading ? 'Processing...' : 'Choose CSV File'}
+                    {isLoadingValidation ? 'Loading validation data...' : isLoading ? 'Processing...' : 'Choose CSV File'}
                   </Button>
 
                   {datasets.length > 0 && (
@@ -381,17 +408,17 @@ const AddMultipleDatasets: React.FC = () => {
                         variant="outlined"
                         startIcon={<UploadIcon />}
                         onClick={handleUploadAll}
-                        disabled={isUploading || pendingCount === 0}
+                        disabled={isUploading || pendingCount === 0 || invalidCount > 0}
                         sx={{
-                          borderColor: palette.success,
-                          color: palette.success,
+                          borderColor: invalidCount > 0 ? palette.error : palette.success,
+                          color: invalidCount > 0 ? palette.error : palette.success,
                           '&:hover': {
-                            borderColor: palette.success,
-                            backgroundColor: `${palette.success}10`,
+                            borderColor: invalidCount > 0 ? palette.error : palette.success,
+                            backgroundColor: invalidCount > 0 ? `${palette.error}10` : `${palette.success}10`,
                           }
                         }}
                       >
-                        Upload All Metadata ({pendingCount})
+                        {invalidCount > 0 ? `Fix ${invalidCount} invalid datasets` : `Upload ${pendingCount} Valid Datasets`}
                       </Button>
 
                       <Button
@@ -437,9 +464,40 @@ const AddMultipleDatasets: React.FC = () => {
                 {datasets.length > 0 && (
                   <Box sx={{ mt: 2, p: 2, backgroundColor: palette.bg, borderRadius: 1 }}>
                     <Typography variant="body2" sx={{ color: palette.text }}>
-                      Status: {pendingCount} pending metadata upload, {uploadingCount} uploading, {errorCount} errors
+                      Status: {pendingCount} pending metadata upload, {uploadingCount} uploading, {errorCount} errors, {invalidCount} invalid (need fixing)
                     </Typography>
                   </Box>
+                )}
+
+                {/* Show validation errors */}
+                {invalidCount > 0 && (
+                  <Alert severity="error" sx={{ mt: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1, fontWeight: 600 }}>
+                      Found {invalidCount} datasets with validation errors:
+                    </Typography>
+                    {datasets
+                      .filter(d => d.status === 'invalid')
+                      .map((dataset, index) => (
+                        <Box key={index} sx={{ mb: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                            "{dataset.apiData.title}":
+                          </Typography>
+                          <ul style={{ marginTop: 4, marginBottom: 0, paddingLeft: 20 }}>
+                            {dataset.validationErrors?.map((error, errorIndex) => (
+                              <li key={errorIndex}>
+                                <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                                  {error}
+                                </Typography>
+                              </li>
+                            ))}
+                          </ul>
+                        </Box>
+                      ))
+                    }
+                    <Typography variant="body2" sx={{ mt: 2, fontWeight: 500 }}>
+                      Please correct the category and source IDs in your CSV and re-upload.
+                    </Typography>
+                  </Alert>
                 )}
               </CardContent>
             </Card>
