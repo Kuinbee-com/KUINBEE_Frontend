@@ -8,6 +8,7 @@ export interface BulkUploadItem {
   apiData: DatasetApiBody;
   error?: string;
   validationErrors?: string[];
+  warnings?: string[]; // Added to track supertype warnings
 }
 
 export interface UploadedDataset {
@@ -74,10 +75,13 @@ export function useBulkDatasetUpload() {
   const addDatasets = (apiDatasets: DatasetApiBody[]) => {
     const items = apiDatasets.map(ds => {
       const validationErrors = validateDataset(ds);
+      const warnings = ds.warnings || []; // Extract warnings from parsed data
+      
       return {
         status: validationErrors.length > 0 ? 'invalid' as const : 'pending' as const,
         apiData: ds,
-        validationErrors: validationErrors.length > 0 ? validationErrors : undefined
+        validationErrors: validationErrors.length > 0 ? validationErrors : undefined,
+        warnings: warnings.length > 0 ? warnings : undefined
       };
     });
     setDatasets(items);
@@ -104,7 +108,11 @@ export function useBulkDatasetUpload() {
       ));
 
       // Use DatasetService for bulk upload - this sends metadata only
-      const apiDatasets = pendingDatasets.map(item => item.apiData);
+      const apiDatasets = pendingDatasets.map(item => {
+        // Remove warnings field before sending to API
+        const { warnings, ...cleanApiData } = item.apiData;
+        return cleanApiData;
+      });
       const result = await DatasetService.uploadMultipleDatasets(apiDatasets);
 
       if (result.success && result.data) {

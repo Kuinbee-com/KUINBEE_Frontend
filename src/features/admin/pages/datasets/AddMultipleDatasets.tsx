@@ -188,6 +188,7 @@ const AddMultipleDatasets: React.FC = () => {
   const errorCount = datasets.filter(d => d.status === 'error').length;
   const uploadingCount = datasets.filter(d => d.status === 'uploading').length;
   const invalidCount = datasets.filter(d => d.status === 'invalid').length;
+  const warningsCount = datasets.filter(d => d.warnings && d.warnings.length > 0).length;
 
   return (
     <Box sx={{ 
@@ -363,15 +364,55 @@ const AddMultipleDatasets: React.FC = () => {
                 {categoriesData.length > 0 && sourcesData.length > 0 && (
                   <Box sx={{ mb: 3, p: 2, backgroundColor: '#f0f9ff', borderRadius: 1, border: '1px solid #e0f2fe' }}>
                     <Typography variant="body2" sx={{ mb: 1, fontWeight: 600, color: palette.accent }}>
-                      Valid IDs for your CSV:
+                      Valid Category and Source IDs for your CSV:
                     </Typography>
-                    <Typography variant="body2" sx={{ mb: 1, color: palette.text }}>
-                      <strong>Categories:</strong> {categoriesData.slice(0, 3).map(c => `${c.name} (${c.id})`).join(', ')}
-                      {categoriesData.length > 3 && ` ... and ${categoriesData.length - 3} more`}
-                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', mb: 2 }}>
+                      {/* Categories Table */}
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>Categories</Typography>
+                        <table style={{ borderCollapse: 'collapse', minWidth: 220, fontSize: '0.95rem' }}>
+                          <thead>
+                            <tr style={{ background: '#e0f2fe' }}>
+                              <th style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>Name</th>
+                              <th style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>ID</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {categoriesData.map((cat) => (
+                              <tr key={cat.id}>
+                                <td style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>{cat.name}</td>
+                                <td style={{ border: '1px solid #b6e0fe', padding: '4px 8px', fontFamily: 'monospace' }}>{cat.id}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </Box>
+                      {/* Sources Table */}
+                      <Box>
+                        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>Sources</Typography>
+                        <table style={{ borderCollapse: 'collapse', minWidth: 220, fontSize: '0.95rem' }}>
+                          <thead>
+                            <tr style={{ background: '#e0f2fe' }}>
+                              <th style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>Name</th>
+                              <th style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>ID</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {sourcesData.map((src) => (
+                              <tr key={src.id}>
+                                <td style={{ border: '1px solid #b6e0fe', padding: '4px 8px' }}>{src.name}</td>
+                                <td style={{ border: '1px solid #b6e0fe', padding: '4px 8px', fontFamily: 'monospace' }}>{src.id}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </Box>
+                    </Box>
                     <Typography variant="body2" sx={{ color: palette.text }}>
-                      <strong>Sources:</strong> {sourcesData.slice(0, 3).map(s => `${s.name} (${s.id})`).join(', ')}
-                      {sourcesData.length > 3 && ` ... and ${sourcesData.length - 3} more`}
+                      <strong>SuperTypes:</strong> Cross-sectional, Time-series, Panel, Experimental, Observational, Big data, etc.
+                      <Typography component="span" sx={{ fontSize: '0.75rem', fontStyle: 'italic', ml: 1 }}>
+                        (Invalid SuperTypes will be auto-corrected or removed)
+                      </Typography>
                     </Typography>
                   </Box>
                 )}
@@ -499,6 +540,37 @@ const AddMultipleDatasets: React.FC = () => {
                     </Typography>
                   </Alert>
                 )}
+
+                {/* Show supertype warnings */}
+                {warningsCount > 0 && (
+                  <Alert severity="warning" sx={{ mt: 2 }}>
+                    <Typography variant="body2" sx={{ mb: 1, fontWeight: 600 }}>
+                      Found {warningsCount} datasets with SuperType corrections:
+                    </Typography>
+                    {datasets
+                      .filter(d => d.warnings && d.warnings.length > 0)
+                      .map((dataset, index) => (
+                        <Box key={index} sx={{ mb: 1 }}>
+                          <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                            "{dataset.apiData.title}":
+                          </Typography>
+                          <ul style={{ marginTop: 4, marginBottom: 0, paddingLeft: 20 }}>
+                            {dataset.warnings?.map((warning, warningIndex) => (
+                              <li key={warningIndex}>
+                                <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                                  {warning}
+                                </Typography>
+                              </li>
+                            ))}
+                          </ul>
+                        </Box>
+                      ))
+                    }
+                    <Typography variant="body2" sx={{ mt: 2, fontWeight: 500 }}>
+                      SuperTypes have been automatically corrected. Review and proceed with upload.
+                    </Typography>
+                  </Alert>
+                )}
               </CardContent>
             </Card>
 
@@ -508,6 +580,11 @@ const AddMultipleDatasets: React.FC = () => {
                 <CardContent>
                   <Typography variant="h6" sx={{ mb: 2, color: palette.accent }}>
                     Ready to Upload: {datasets.length} datasets parsed from CSV
+                    {warningsCount > 0 && (
+                      <Typography component="span" variant="body2" sx={{ ml: 1, color: palette.warning }}>
+                        ({warningsCount} with SuperType corrections)
+                      </Typography>
+                    )}
                   </Typography>
                   
                   <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
