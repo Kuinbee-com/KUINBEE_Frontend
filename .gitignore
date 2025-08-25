@@ -31,3 +31,6 @@ dist-ssr
 .env.development
 .env.production
 .env.test
+
+# Ignore all CSV files (datasets, exports, etc.)
+*.csv

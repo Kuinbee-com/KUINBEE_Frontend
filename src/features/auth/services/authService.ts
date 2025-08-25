@@ -1,16 +1,17 @@
 import axios from 'axios';
-import type { LoginCredentials, LoginResponse, User } from '../types';
+import type { LoginCredentials, LoginResponse, User, UserRegistrationData, RegisterResponse } from '../types';
 
 /**
  * Authentication service for handling auth-related API calls
  */
 
-// Create axios instance with base URL from environment
+// Create axios instance with base URL from environment or production
 const authApi = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
+  timeout: 15000, // 15 second timeout for deployed backend
 });
 
 // Add request interceptor to include auth token
@@ -111,5 +112,15 @@ export class AuthService {
     } catch (error) {
       throw new Error('Failed to decode token - please login again');
     }
+  }
+
+  /**
+   * Register new user
+   */
+  static async registerUser(userData: UserRegistrationData): Promise<RegisterResponse> {
+    const response = await authApi.post('/api/v1/user/userRegistration', userData);
+    
+    // Backend returns success response with user data
+    return response.data;
   }
 }

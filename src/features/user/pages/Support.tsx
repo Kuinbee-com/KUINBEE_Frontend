@@ -6,11 +6,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/sha
 import TextField from '@mui/material/TextField';
 import Navbar from "@/features/user/components/Navbar";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
+import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from 'react';
-import { Menu, X, ShoppingCart, User as UserIcon } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Mail, Phone, Clock, ArrowRight } from "lucide-react"
 import { AnimatePresence } from 'framer-motion';
+import ResponsiveHeader from "../components/ResponsiveHeader";
 /*
 If you see "Cannot find module '@/shared/components/ui/label'" or similar errors for other UI components,
 it means those components are either missing, not exported, or the path is incorrect.
@@ -26,90 +27,12 @@ If these are your own components, make sure they are implemented and exported co
 export default function SupportPage() {
   // Mobile menu state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  // Overlay context for cart/profile
-  const { showCart, showProfile } = useOverlay();
   return (
     <div className="min-h-screen relative bg-[#f7f8fa]">
       {/* Main gradient overlay */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
       <div className="relative z-20">
-        <div className="sticky top-0 z-50 w-full  border-gray-200/20" style={{background: 'transparent'}}>
-          <div className="flex items-center justify-center w-full px-4 sm:px-8 py-4 min-h-[72px] relative">
-            {/* Center - Navbar */}
-            <div className="flex-grow w-full max-w-4xl">
-              <Navbar />
-            </div>
-            
-            {/* Right side - Icons and Hamburger - Positioned absolutely */}
-            <div className="absolute right-4 sm:right-8 flex items-center gap-4">
-              {/* Desktop Icons */}
-              <div className="hidden lg:flex">
-                <OverlayTriggers />
-              </div>
-              
-              {/* Mobile Hamburger Menu */}
-              <button 
-                className="lg:hidden p-2 rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6 text-[#1a2240]" />
-                ) : (
-                  <Menu className="w-6 h-6 text-[#1a2240]" />
-                )}
-              </button>
-            </div>
-          </div>
-          
-          {/* Mobile Menu Overlay - Only for cart and profile icons with animation */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <>
-                {/* Backdrop to close menu on click */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="lg:hidden fixed inset-0 bg-black/20 z-40"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-
-                {/* Sticky Menu Content */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="lg:hidden sticky top-[72px] right-4 w-20 bg-transparent z-50 ml-auto"
-                  style={{ position: 'sticky' }}
-                >
-                  <div className="py-2 flex flex-col items-center gap-4">
-                    <button
-                      onClick={() => {
-                        showCart();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Cart"
-                    >
-                      <ShoppingCart className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#10b981]" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        showProfile();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Profile"
-                    >
-                      <UserIcon className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#3b82f6]" />
-                    </button>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+        <ResponsiveHeader theme="default" />
 
         
       {/* Hero Section */}
@@ -195,14 +118,14 @@ export default function SupportPage() {
                 </CardHeader>
                 <CardContent className="text-center pt-0">
                   <div className="flex items-center justify-center text-xs text-gray-600 mb-4 bg-slate-50 rounded-full py-1.5 px-3 mx-auto w-fit">
-                    <Clock className="w-3 h-3 mr-1.5 text-green-600" />
-                    Mon-Fri 9AM-6PM EST
+                    <Phone className="w-3 h-3 mr-1.5 text-blue-600" />
+                    +44 7825600683 • +91 7796137098
                   </div>
                   <Button
                     variant="outline"
                     className="w-full border-2 border-[#1a2240] text-[#1a2240] hover:bg-[#1a2240] hover:text-white bg-transparent transition-all duration-300 py-4 text-base font-semibold hover:shadow-lg hover:shadow-blue-900/30"
                   >
-                    Call Now
+                    Schedule a call
                   </Button>
                 </CardContent>
               </Card>

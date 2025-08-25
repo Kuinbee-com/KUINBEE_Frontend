@@ -19,6 +19,7 @@ import {
 import { ArrowBack as ArrowBackIcon, Upload as UploadIcon } from '@mui/icons-material';
 import { DatasetService } from '../../services/datasets/datasetService';
 import type { CreateDatasetRequest } from '../../types';
+import { datasetSuperTypeOptions } from '../../types';
 
 interface Category {
   id: string;
@@ -55,7 +56,7 @@ const CreateDatasetPage: React.FC = () => {
       dataFormatInfo: {
         rows: 1,
         cols: 1,
-        fileFormat: 'CSV',
+        fileFormat: 'csv',
       },
       features: [] as Array<{ content: string; }>,
     },
@@ -96,15 +97,38 @@ const CreateDatasetPage: React.FC = () => {
   }, []);
 
   const handleInputChange = (field: string, value: any) => {
+    // Always store file format in lowercase
+    if (field === 'aboutDatasetInfo.dataFormatInfo.fileFormat' && typeof value === 'string') {
+      value = value.toLowerCase();
+    }
+    
     if (field.includes('.')) {
-      const [section, subField] = field.split('.');
-      setFormData(prev => ({
-        ...prev,
-        [section]: {
-          ...(prev as any)[section],
-          [subField]: value,
-        },
-      }));
+      const fieldParts = field.split('.');
+      
+      if (fieldParts.length === 2) {
+        // Handle two-level nesting like "section.subField"
+        const [section, subField] = fieldParts;
+        setFormData(prev => ({
+          ...prev,
+          [section]: {
+            ...(prev as any)[section],
+            [subField]: value,
+          },
+        }));
+      } else if (fieldParts.length === 3) {
+        // Handle three-level nesting like "aboutDatasetInfo.dataFormatInfo.fileFormat"
+        const [section, subSection, subField] = fieldParts;
+        setFormData(prev => ({
+          ...prev,
+          [section]: {
+            ...(prev as any)[section],
+            [subSection]: {
+              ...(prev as any)[section][subSection],
+              [subField]: value,
+            },
+          },
+        }));
+      }
     } else {
       setFormData(prev => ({
         ...prev,
@@ -117,9 +141,18 @@ const CreateDatasetPage: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       setSelectedFile(file);
-      // Auto-detect file format
-      const extension = file.name.split('.').pop()?.toUpperCase();
-      handleInputChange('aboutDatasetInfo.dataFormatInfo.fileFormat', extension || '');
+      // Auto-detect file format and ensure it's lowercase
+      const extension = file.name.split('.').pop()?.toLowerCase();
+      const allowedFormats = ['csv', 'xls', 'xlsx', 'xml'];
+      
+      if (extension && allowedFormats.includes(extension)) {
+        handleInputChange('aboutDatasetInfo.dataFormatInfo.fileFormat', extension);
+      } else {
+        // Default to csv if format is not recognized or not allowed
+        handleInputChange('aboutDatasetInfo.dataFormatInfo.fileFormat', 'csv');
+        // Show a warning to the user
+        setError(`File format "${extension}" is not supported. Defaulting to CSV format. Please select a file with one of these formats: ${allowedFormats.join(', ')}`);
+      }
     }
   };
 
@@ -133,7 +166,7 @@ const CreateDatasetPage: React.FC = () => {
     
     setFormData(prev => ({
       ...prev,
-      aboutDataset: {
+      aboutDatasetInfo: {
         ...prev.aboutDatasetInfo,
         features: featuresArray,
       },
@@ -161,6 +194,13 @@ const CreateDatasetPage: React.FC = () => {
     
     if (!formData.license.trim()) {
       setError('License is required');
+      return;
+    }
+
+    // Validate file format is one of the allowed formats
+    const allowedFormats = ['csv', 'xls', 'xlsx', 'xml'];
+    if (!allowedFormats.includes(formData.aboutDatasetInfo.dataFormatInfo.fileFormat)) {
+      setError('Please select a valid file format (csv, xls, xlsx, or xml)');
       return;
     }
 
@@ -348,14 +388,28 @@ const CreateDatasetPage: React.FC = () => {
                   sx={{ mb: 3 }}
                 />
 
-                <TextField
-                  label="Super Types"
-                  value={formData.superTypes}
-                  onChange={(e) => handleInputChange('superTypes', e.target.value)}
-                  fullWidth
-                  sx={{ mb: 3 }}
-                  helperText="Comma-separated categories"
-                />
+                <FormControl fullWidth sx={{ mb: 3 }}>
+                  <InputLabel>Supertype</InputLabel>
+                  <Select
+                    value={formData.superTypes}
+                    onChange={(e) => handleInputChange('superTypes', e.target.value)}
+                    label="Supertype"
+                    MenuProps={{
+                      PaperProps: {
+                        style: {
+                          maxHeight: 300,
+                          overflowY: 'auto',
+                        },
+                      },
+                    }}
+                  >
+                    {datasetSuperTypeOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </CardContent>
             </Card>
           </Box>
@@ -453,42 +507,80 @@ const CreateDatasetPage: React.FC = () => {
           </Box>
 
           {/* Data Format and File Upload */}
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 4, mt: 4 }}>
+          <Box sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, 
+            gap: 4, 
+            mt: 4,
+            position: 'relative',
+            zIndex: 1 
+          }}>
             {/* Data Format */}
             <Box>
-              <Card>
+              <Card sx={{ position: 'relative', overflow: 'visible' }}>
                 <CardHeader title="Data Format" />
                 <CardContent>
-                <TextField
-                  label="Number of Rows"
-                  type="number"
-                  value={formData.aboutDatasetInfo.dataFormatInfo.rows}
-                  onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.rows', Math.max(1, parseInt(e.target.value) || 1))}
-                  inputProps={{ min: 1 }}
-                  fullWidth
-                  sx={{ mb: 3 }}
-                />
+                  <TextField
+                    label="Number of Rows"
+                    type="number"
+                    value={formData.aboutDatasetInfo.dataFormatInfo.rows}
+                    onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.rows', Math.max(1, parseInt(e.target.value) || 1))}
+                    inputProps={{ min: 1 }}
+                    fullWidth
+                    sx={{ mb: 3 }}
+                  />
 
-                <TextField
-                  label="Number of Columns"
-                  type="number"
-                  value={formData.aboutDatasetInfo.dataFormatInfo.cols}
-                  onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.cols', Math.max(1, parseInt(e.target.value) || 1))}
-                  inputProps={{ min: 1 }}
-                  fullWidth
-                  sx={{ mb: 3 }}
-                />
+                  <TextField
+                    label="Number of Columns"
+                    type="number"
+                    value={formData.aboutDatasetInfo.dataFormatInfo.cols}
+                    onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.cols', Math.max(1, parseInt(e.target.value) || 1))}
+                    inputProps={{ min: 1 }}
+                    fullWidth
+                    sx={{ mb: 3 }}
+                  />
 
-                <TextField
-                  label="File Format"
-                  value={formData.aboutDatasetInfo.dataFormatInfo.fileFormat}
-                  onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.fileFormat', e.target.value)}
-                  fullWidth
-                  sx={{ mb: 3 }}
-                />
-              </CardContent>
-            </Card>
-          </Box>
+                  <Box sx={{ mb: 3 }}>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      File Format *
+                    </Typography>
+                    <select
+                      value={formData.aboutDatasetInfo.dataFormatInfo.fileFormat || 'csv'}
+                      onChange={(e) => {
+                        const selectedFormat = e.target.value.toLowerCase();
+                        handleInputChange('aboutDatasetInfo.dataFormatInfo.fileFormat', selectedFormat);
+                      }}
+                      required
+                      data-testid="file-format-dropdown"
+                      style={{
+                        width: '100%',
+                        padding: '12px 14px',
+                        border: '1px solid #c4c4c4',
+                        borderRadius: '4px',
+                        fontSize: '16px',
+                        backgroundColor: 'white',
+                        outline: 'none',
+                        cursor: 'pointer',
+                        fontFamily: 'inherit',
+                      }}
+                      onFocus={(e) => {
+                        e.target.style.borderColor = '#1976d2';
+                        e.target.style.boxShadow = '0 0 0 2px rgba(25, 118, 210, 0.2)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.borderColor = '#c4c4c4';
+                        e.target.style.boxShadow = 'none';
+                      }}
+                    >
+                      <option value="csv">csv</option>
+                      <option value="xls">xls</option>
+                      <option value="xlsx">xlsx</option>
+                      <option value="xml">xml</option>
+                    </select>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Box>
 
           {/* File Upload */}
           <Box>
@@ -498,7 +590,7 @@ const CreateDatasetPage: React.FC = () => {
                 <input
                   type="file"
                   id="file-upload"
-                  accept=".csv,.xlsx,.json,.txt"
+                  accept=".csv,.xls,.xlsx,.xml"
                   onChange={handleFileSelect}
                   style={{ display: 'none' }}
                 />

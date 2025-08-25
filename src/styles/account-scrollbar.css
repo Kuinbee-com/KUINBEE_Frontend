@@ -1,0 +1,37 @@
+.account-container {
+  scrollbar-width: thin;
+  /* Use a solid color for Firefox, as gradients are not supported */
+  scrollbar-color: #4e5a7e #f1f5f9;
+}
+
+.account-container::-webkit-scrollbar {
+  width: 8px;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+.account-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4e5a7e 0%, #ffffff 100%);
+  border-radius: 8px;
+  border: 2px solid #f1f5f9;
+  min-height: 40px;
+  transition: background 0.2s;
+}
+
+
+.account-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #4e5a7e 0%, #ffffff 100%);
+}
+
+
+.account-container::-webkit-scrollbar-track {
+  background: #f1f5f9 !important;
+  border-radius: 8px;
+  box-shadow: 0 0 0 2px #f1f5f9 inset, 0 0 4px 0 #f1f5f9;
+  opacity: 1 !important;
+}
+
+.account-container::-webkit-scrollbar-track:hover,
+.account-container::-webkit-scrollbar-track:active {
+  background: #f1f5f9 !important;
+}

@@ -1,16 +1,15 @@
 "use client"
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "@/features/user/components/Navbar";
+// import Navbar from "../../shared/components/Navbar";
+import ResponsiveHeader from "../components/ResponsiveHeader";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
+import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/shared/components/ui/button";
 import {
   Menu,
   X,
-  ShoppingCart,
-  User as UserIcon,
   DollarSign,
   Mail,
   Phone,
@@ -32,7 +31,6 @@ const PricingPage: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const { showCart, showProfile } = useOverlay();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -110,83 +108,9 @@ const PricingPage: React.FC = () => {
             delay: 15,
           }}
         />
-        <div className="sticky top-0 z-50 w-full  border-gray-200/20" style={{background: 'transparent'}}>
-          <div className="flex items-center justify-center w-full px-4 sm:px-8 py-4 min-h-[72px] relative">
-            {/* Center - Navbar */}
-            <div className="flex-grow w-full max-w-4xl">
-              <Navbar />
-            </div>
-            
-            {/* Right side - Icons and Hamburger - Positioned absolutely */}
-            <div className="absolute right-4 sm:right-8 flex items-center gap-4">
-              {/* Desktop Icons */}
-              <div className="hidden lg:flex">
-                <OverlayTriggers />
-              </div>
-              
-              {/* Mobile Hamburger Menu */}
-              <button 
-                className="lg:hidden p-2 rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6 text-[#1a2240]" />
-                ) : (
-                  <Menu className="w-6 h-6 text-[#1a2240]" />
-                )}
-              </button>
-            </div>
-          </div>
-          
-          {/* Mobile Menu Overlay - Only for cart and profile icons with animation */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <>
-                {/* Backdrop to close menu on click */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="lg:hidden fixed inset-0 bg-black/20 z-40"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
-                
-                {/* Menu Content */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="lg:hidden absolute top-full right-4 w-20 bg-transparent z-50"
-                  style={{ position: 'fixed', top: '72px' }}
-                >
-                  <div className="py-2 flex flex-col items-center gap-4">
-                    <button
-                      onClick={() => {
-                        showCart();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Cart"
-                    >
-                      <ShoppingCart className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#10b981]" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        showProfile();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Profile"
-                    >
-                      <UserIcon className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#3b82f6]" />
-                    </button>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+
+
+          <ResponsiveHeader theme="default" />
         <div className="w-full max-w-4xl mx-auto px-8 py-16">
           {/* Hero Section */}
           <motion.div

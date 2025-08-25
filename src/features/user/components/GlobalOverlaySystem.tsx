@@ -1,8 +1,13 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import { motion } from "framer-motion";
-import UserProfile from "../pages/userProfilePage";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState, AppDispatch } from "../../../core/store";
+import { logoutUser } from "../../auth/store/authSlice";
+import UserProfilePage from "../pages/userProfilePage";
 import CartOverlay from "../pages/CartPage";
-import { ShoppingCart, User as UserIcon, X } from "lucide-react";
+import UserLogin from "../pages/UserLogin";
+import UserRegister from "../pages/UserRegister";
+import { ShoppingCart, User as UserIcon, X, LogIn, UserPlus, LogOut } from "lucide-react";
 
 // Theme system for overlays (cart/profile)
 type OverlayTheme = 'default' | 'hero' | 'light' | 'dark' | 'transparent';
@@ -18,7 +23,7 @@ const overlayThemes: Record<OverlayTheme, OverlayThemeConfig> = {
     background: 'bg-gradient-to-br from-[#1a2240]/95 via-[#4d5473]/95 to-[#1a2240]/95 backdrop-blur-xl',
     shadow: 'shadow-[0_10px_28px_rgba(26,34,64,0.18),0_0_0_1px_rgba(255,255,255,0.04)]',
     border: 'border-white/20',
-    button: 'bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240]',
+    button: 'bg-gradient-to-r from-[#1a2240] via-[#1a2240] to-[#1a2240]',
     icon: 'text-white',
   },
   hero: {
@@ -57,10 +62,16 @@ const overlayThemes: Record<OverlayTheme, OverlayThemeConfig> = {
 interface OverlayContextType {
   showProfile: () => void;
   showCart: () => void;
+  showLogin: () => void;
+  showRegister: () => void;
   hideProfile: () => void;
   hideCart: () => void;
+  hideLogin: () => void;
+  hideRegister: () => void;
   isProfileOpen: boolean;
   isCartOpen: boolean;
+  isLoginOpen: boolean;
+  isRegisterOpen: boolean;
 }
 
 const OverlayContext = createContext<OverlayContextType | undefined>(undefined);
@@ -100,6 +111,8 @@ interface OverlayProviderProps {
 export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, theme = 'default' }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
   // Track scroll position for overlay positioning
@@ -109,7 +122,7 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
     };
 
     // Update scroll position when overlays are opened
-    if (isProfileOpen || isCartOpen) {
+    if (isProfileOpen || isCartOpen || isLoginOpen || isRegisterOpen) {
       updateScrollPosition();
       window.addEventListener('scroll', updateScrollPosition);
     }
@@ -117,26 +130,28 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
     return () => {
       window.removeEventListener('scroll', updateScrollPosition);
     };
-  }, [isProfileOpen, isCartOpen]);
+  }, [isProfileOpen, isCartOpen, isLoginOpen, isRegisterOpen]);
 
   // Listen for Escape key to close overlays
   useEffect(() => {
-    if (!isProfileOpen && !isCartOpen) return;
+    if (!isProfileOpen && !isCartOpen && !isLoginOpen && !isRegisterOpen) return;
     
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setIsProfileOpen(false);
         setIsCartOpen(false);
+        setIsLoginOpen(false);
+        setIsRegisterOpen(false);
       }
     };
     
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isProfileOpen, isCartOpen]);
+  }, [isProfileOpen, isCartOpen, isLoginOpen, isRegisterOpen]);
 
   // Prevent body scroll when overlay is open and maintain scroll position
   useEffect(() => {
-    if (isProfileOpen || isCartOpen) {
+    if (isProfileOpen || isCartOpen || isLoginOpen || isRegisterOpen) {
       document.body.style.overflow = "hidden";
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollPosition}px`;
@@ -155,7 +170,7 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
       document.body.style.top = "unset";
       document.body.style.width = "unset";
     };
-  }, [isProfileOpen, isCartOpen, scrollPosition]);
+  }, [isProfileOpen, isCartOpen, isLoginOpen, isRegisterOpen, scrollPosition]);
 
   const contextValue: OverlayContextType = {
     showProfile: () => {
@@ -166,10 +181,22 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
       setScrollPosition(window.scrollY);
       setIsCartOpen(true);
     },
+    showLogin: () => {
+      setScrollPosition(window.scrollY);
+      setIsLoginOpen(true);
+    },
+    showRegister: () => {
+      setScrollPosition(window.scrollY);
+      setIsRegisterOpen(true);
+    },
     hideProfile: () => setIsProfileOpen(false),
     hideCart: () => setIsCartOpen(false),
+    hideLogin: () => setIsLoginOpen(false),
+    hideRegister: () => setIsRegisterOpen(false),
     isProfileOpen,
     isCartOpen,
+    isLoginOpen,
+    isRegisterOpen,
   };
 
   const themeConfig = overlayThemes[theme];
@@ -210,7 +237,7 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
                 className="overflow-hidden sm:overflow-visible"
               >
                 <div className="overflow-y-auto overscroll-contain max-h-[98vh] sm:max-h-[90vh]">
-                  <UserProfile />
+                  <UserProfilePage />
                 </div>
                 <button
                   className="absolute top-1 right-1 sm:-top-2 sm:-right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-2 sm:p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
@@ -275,6 +302,100 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
           </div>
         </div>
       )}
+
+      {/* Login Overlay */}
+      {isLoginOpen && (
+        <div
+          className="absolute inset-0 z-[60] bg-black/30 backdrop-blur-lg overflow-y-auto"
+          style={{ 
+            top: scrollPosition,
+            left: 0,
+            right: 0,
+            height: '100vh',
+            width: '100vw',
+            position: 'absolute'
+          }}
+          onClick={() => setIsLoginOpen(false)}
+        >
+          <div className="flex items-center justify-center min-h-full p-1 sm:p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="relative w-full max-w-md mx-auto my-auto"
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+            >
+              <motion.div
+                initial={{ scale: 0.96, y: 40, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.96, y: 40, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <UserLogin onClose={() => setIsLoginOpen(false)} onSwitchToRegister={() => {
+                  setIsLoginOpen(false);
+                  setIsRegisterOpen(true);
+                }} />
+                <button
+                  className="absolute -top-2 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  onClick={() => setIsLoginOpen(false)}
+                  aria-label="Close Login"
+                  style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+                >
+                  <X className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" />
+                </button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      )}
+
+      {/* Register Overlay */}
+      {isRegisterOpen && (
+        <div
+          className="absolute inset-0 z-[60] bg-black/30 backdrop-blur-lg overflow-y-auto"
+          style={{ 
+            top: scrollPosition,
+            left: 0,
+            right: 0,
+            height: '100vh',
+            width: '100vw',
+            position: 'absolute'
+          }}
+          onClick={() => setIsRegisterOpen(false)}
+        >
+          <div className="flex items-center justify-center min-h-full p-1 sm:p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="relative w-full max-w-md mx-auto my-auto"
+              onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+            >
+              <motion.div
+                initial={{ scale: 0.96, y: 40, opacity: 0 }}
+                animate={{ scale: 1, y: 0, opacity: 1 }}
+                exit={{ scale: 0.96, y: 40, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <UserRegister onClose={() => setIsRegisterOpen(false)} onSwitchToLogin={() => {
+                  setIsRegisterOpen(false);
+                  setIsLoginOpen(true);
+                }} />
+                <button
+                  className="absolute -top-2 -right-2 z-[70] bg-gradient-to-br from-[#f8fafc]/90 via-[#e2e8f0]/95 to-[#f1f5f9]/90 backdrop-blur-xl rounded-full p-3 shadow-xl border border-white/40 hover:scale-110 hover:shadow-2xl transition-all duration-300 group"
+                  onClick={() => setIsRegisterOpen(false)}
+                  aria-label="Close Register"
+                  style={{ boxShadow: "0 10px 40px 0 rgba(26,34,64,0.15)" }}
+                >
+                  <X className="w-5 h-5 text-[#1a2240] group-hover:text-[#050a24] transition-colors duration-300" />
+                </button>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      )}
     </OverlayContext.Provider>
   );
 }; // FIX 3: Added the missing closing brace for the OverlayProvider component.
@@ -285,27 +406,88 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
 interface OverlayTriggersProps {
   className?: string;
   theme?: OverlayTheme;
+  onAction?: () => void; // Callback for when any action is triggered (useful for mobile menu closing)
 }
 
-export const OverlayTriggers: React.FC<OverlayTriggersProps> = ({ className = "", theme = 'default' }) => {
-  const { showProfile, showCart } = useOverlay();
+export const OverlayTriggers: React.FC<OverlayTriggersProps> = ({ className = "", theme = 'default', onAction }) => {
+  const { showProfile, showCart, showLogin, showRegister } = useOverlay();
+  const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch<AppDispatch>();
   const themeConfig = overlayThemes[theme];
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  // Show login/register buttons when not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className={`flex items-center gap-3 ${className}`}>
+        <button
+          onClick={() => {
+            showLogin();
+            onAction?.();
+          }}
+          className={`px-4 py-2 rounded-full flex items-center gap-2 ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-105 hover:shadow-xl focus:outline-none`}
+          aria-label="Sign In"
+        >
+          <LogIn className={`w-4 h-4 ${themeConfig.icon}`} />
+          <span className={`text-sm font-medium ${themeConfig.icon} hidden sm:block`}>Sign In</span>
+        </button>
+        <button
+          onClick={() => {
+            showRegister();
+            onAction?.();
+          }}
+          className={`px-4 py-2 rounded-full flex items-center gap-2 ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-105 hover:shadow-xl focus:outline-none`}
+          aria-label="Sign Up"
+        >
+          <UserPlus className={`w-4 h-4 ${themeConfig.icon}`} />
+          <span className={`text-sm font-medium ${themeConfig.icon} hidden sm:block`}>Sign Up</span>
+        </button>
+      </div>
+    );
+  }
+
+  // Show authenticated user buttons (cart, profile, logout)
   return (
-    <div className={`flex items-center gap-4 ${className}`}>
+    <div className={`flex items-center gap-3 ${className}`}>
       <button
-        onClick={showCart}
+        onClick={() => {
+          showCart();
+          onAction?.();
+        }}
         className={`w-12 h-12 rounded-full flex items-center justify-center ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none`}
         aria-label="Cart"
       >
         <ShoppingCart className={`w-6 h-6 ${themeConfig.icon}`} />
       </button>
       <button
-        onClick={showProfile}
+        onClick={() => {
+          showProfile();
+          onAction?.();
+        }}
         className={`w-12 h-12 rounded-full flex items-center justify-center ${themeConfig.button} shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none`}
         aria-label="Profile"
       >
         <UserIcon className={`w-6 h-6 ${themeConfig.icon}`} />
       </button>
+      <div
+        onClick={() => {
+          handleLogout();
+          onAction?.();
+        }}
+        className="w-12 h-12 flex items-center justify-center cursor-pointer group"
+        title="Sign Out"
+      >
+        <LogOut
+          className="w-6 h-6 text-gray-400 group-hover:text-red-600 transition-colors duration-200"
+        />
+      </div>
     </div>
   );
 };

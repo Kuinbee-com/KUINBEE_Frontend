@@ -171,8 +171,14 @@ export default function CategoriesSection() {
                       <category.icon className={`w-7 h-7 text-white`} />
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold text-white transition-colors">{category.count}</div>
-                      <div className="text-sm text-white/80 font-medium">datasets</div>
+                      {category.title === "Manufacturing" ? (
+                        <span className="inline-block bg-white text-[#1a2240] text-xs font-semibold px-3 py-1 rounded-full shadow border border-gray-200">Coming Soon</span>
+                      ) : (
+                        <>
+                          <div className="text-2xl font-bold text-white transition-colors">{category.count}</div>
+                          <div className="text-sm text-white/80 font-medium">datasets</div>
+                        </>
+                      )}
                     </div>
                   </div>
 

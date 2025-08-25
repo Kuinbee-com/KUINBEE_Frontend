@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Linkedin, Twitter, Instagram, Github } from "lucide-react"
+import { Linkedin, Twitter, Instagram, Github, MapPin } from "lucide-react"
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub } from "react-icons/fa"
 import { Link } from "react-router-dom"
 import { Button } from "@/shared/components/ui/button"
@@ -126,6 +126,43 @@ export default function Footer() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.15 }}
+          viewport={{ once: true }}
+          className="border-t border-white/10 mt-8 pt-8"
+        >
+          {/* Office Addresses */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-blue-300 mt-1 flex-shrink-0" />
+                <div>
+                  <h5 className="text-sm font-semibold text-blue-300 mb-2">Registered Office - India</h5>
+                  <p className="text-blue-100 text-sm leading-relaxed">
+                    S NO 71/8/2/1 Vasudha Itasha Apt Wing B FN 804,<br />
+                    Kothrud, Pune 411038, Maharashtra, India
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 text-blue-300 mt-1 flex-shrink-0" />
+                <div>
+                  <h5 className="text-sm font-semibold text-blue-300 mb-2">International Office - UK</h5>
+                  <p className="text-blue-100 text-sm leading-relaxed">
+                    6 Brook Street,<br />
+                    Oxford, England, OX1 4JT, United Kingdom
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
           viewport={{ once: true }}
           className="border-t border-white/10 mt-12 pt-8"
@@ -181,7 +218,7 @@ export default function Footer() {
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-blue-200 text-sm">
-              © 2025 Kuinbee. All rights reserved. Built with security, clarity, and community at the core.
+              © 2025 Kuinbee information services pvt ltd. All rights reserved. Built with security, clarity, and community at the core.
             </p>
             <div className="flex gap-6 text-sm">
               <Link to="/terms" className="text-blue-200 hover:text-white transition-colors duration-200">

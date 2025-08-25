@@ -1,18 +1,5 @@
 // API Response types
-export interface ApiResponse<T = any> {
-  success: boolean;
-  message?: string;
-  data?: T;
-  error?: string;
-}
 
-export interface PaginatedResponse<T> {
-  items: T[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
 
 // Common form types
 export interface FormField {
@@ -50,11 +37,3 @@ export interface Theme {
 }
 
 // Navigation types
-export interface NavigationItem {
-  id: string;
-  label: string;
-  path: string;
-  icon?: string;
-  children?: NavigationItem[];
-  requiredRole?: 'SuperAdmin' | 'Admin' | 'User';
-}

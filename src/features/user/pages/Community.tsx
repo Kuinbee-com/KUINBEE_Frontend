@@ -1,13 +1,14 @@
 // import Link from "next/link"
 "use client"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, ShoppingCart, User as UserIcon, Menu, X } from "lucide-react";
+import { ArrowLeft, Menu, X } from "lucide-react";
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub, FaRss } from "react-icons/fa";
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
 import Navbar from "@/features/user/components/Navbar";
 import Footer from "@/features/user/pages/landing/footer";
-import { useOverlay, OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
+import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from "react";
+import ResponsiveHeader from "../components/ResponsiveHeader";
 
 
 // Define the social media platforms and their details
@@ -62,90 +63,16 @@ const socialPlatforms = [
 
 const CommunityPage: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { showCart, showProfile } = useOverlay();
 
   return (
     <div className="min-h-screen relative bg-[#f7f8fa]">
       {/* Main gradient overlay */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
       <div className="relative z-20">
-        <div className="sticky top-0 z-50 w-full  border-gray-200/20" style={{background: 'transparent'}}>
-          <div className="flex items-center justify-center w-full px-4 sm:px-8 py-4 min-h-[72px] relative">
-            {/* Center - Navbar */}
-            <div className="flex-grow w-full max-w-4xl">
-              <Navbar />
-            </div>
-            
-            {/* Right side - Icons and Hamburger - Positioned absolutely */}
-            <div className="absolute right-4 sm:right-8 flex items-center gap-4">
-              {/* Desktop Icons */}
-              <div className="hidden lg:flex">
-                <OverlayTriggers />
-              </div>
-              
-              {/* Mobile Hamburger Menu */}
-              <button 
-                className="lg:hidden p-2 rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6 text-[#1a2240]" />
-                ) : (
-                  <Menu className="w-6 h-6 text-[#1a2240]" />
-                )}
-              </button>
-            </div>
-          </div>
-          
-          {/* Mobile Menu Overlay - Only for cart and profile icons with animation */}
-          <AnimatePresence>
-            {mobileMenuOpen && (
-              <>
-                {/* Backdrop to close menu on click */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="lg:hidden fixed inset-0 bg-black/20 z-40"
-                  onClick={() => setMobileMenuOpen(false)}
-                />
+        <ResponsiveHeader theme="default" />
 
-                {/* Sticky Menu Content */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                  className="lg:hidden sticky top-[72px] right-4 w-20 bg-transparent z-50 ml-auto"
-                  style={{ position: 'sticky' }}
-                >
-                  <div className="py-2 flex flex-col items-center gap-4">
-                    <button
-                      onClick={() => {
-                        showCart();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Cart"
-                    >
-                      <ShoppingCart className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#10b981]" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        showProfile();
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-r from-[#1a2240] via-[#4d5473] to-[#1a2240] shadow-lg transition-transform duration-200 hover:scale-110 hover:shadow-xl focus:outline-none"
-                      aria-label="Profile"
-                    >
-                      <UserIcon className="w-6 h-6 text-white transition-colors duration-200 hover:text-[#3b82f6]" />
-                    </button>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-        </div>
+
+        
         <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
           <h1
                 className="text-3xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-8 text-center"

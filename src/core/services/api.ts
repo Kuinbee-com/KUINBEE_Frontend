@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ApiResponse } from '../../shared/types/common';
+import type { ApiResponse } from '../../features/user/types';
 
 // Create axios instance with base configuration
 const api = axios.create({

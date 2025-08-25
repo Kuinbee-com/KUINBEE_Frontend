@@ -30,3 +30,19 @@ export interface LoginResponse {
   token: string;
   identityCode: string;
 }
+
+export interface UserRegistrationData {
+  name: string;
+  emailId: string;
+  password: string;
+  phNo: string; // Required by backend (phone number)
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  data?: {
+    userId: string;
+    email: string;
+  };
+}

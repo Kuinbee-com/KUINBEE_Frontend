@@ -1,3 +1,18 @@
+// Dataset supertype options for dropdowns and validation
+export const datasetSuperTypeOptions = [
+  'Cross-sectional',
+  'Time-series',
+  'Panel',
+  'Pooled cross-sectional',
+  'Repeated cross-sections',
+  'Spatial',
+  'Spatio-temporal',
+  'Experimental',
+  'Observational',
+  'Big data',
+  'Event history / survival',
+  'Hierarchical / multilevel',
+] as const;
 // Extends Dataset to include birthInfo for admin detail view
 export type DatasetWithBirthInfo = Dataset & {
   birthInfo?: {

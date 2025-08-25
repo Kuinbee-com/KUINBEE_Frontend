@@ -16,11 +16,11 @@ export class SuperAdminService {
    * Get all admins
    */
   static async getAllAdmins(): Promise<Admin[]> {
-    const response = await ApiService.get<{allAdmins: any[]}>(`${this.BASE_URL}/getAllAdmins`);
+    const response = await ApiService.get<{allAdmins: Admin[]}>(`${this.BASE_URL}/getAllAdmins`);
     
     if (response.success && response.data) {
       // Convert BigInt phone numbers to strings for frontend
-      const admins = response.data.allAdmins.map(admin => ({
+      const admins = response.data.allAdmins.map((admin: Admin) => ({
         ...admin,
         phNo: admin.phNo ? admin.phNo.toString() : '',
         alternativePhNo: admin.alternativePhNo ? admin.alternativePhNo.toString() : undefined,

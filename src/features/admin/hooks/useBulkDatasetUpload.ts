@@ -75,8 +75,11 @@ export function useBulkDatasetUpload() {
   const addDatasets = (apiDatasets: DatasetApiBody[]) => {
     const items = apiDatasets.map(ds => {
       const validationErrors = validateDataset(ds);
-      const warnings = ds.warnings || []; // Extract warnings from parsed data
-      
+      const warnings = ds.warnings || [];
+      // If superTypes is empty after normalization, mark as invalid
+      if (!ds.superTypes || ds.superTypes.trim() === '') {
+        validationErrors.push('Invalid or missing SuperType: must be one of the allowed types.');
+      }
       return {
         status: validationErrors.length > 0 ? 'invalid' as const : 'pending' as const,
         apiData: ds,

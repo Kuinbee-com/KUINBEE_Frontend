@@ -1,61 +1,320 @@
 "use client"
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Database, Users, Shield, CheckCircle, FileText, MapPin, Download, ShoppingCart } from "lucide-react";
+import { ArrowLeft, Database, Users, Shield, CheckCircle, FileText, MapPin, Download, ShoppingCart, AlertCircle } from "lucide-react";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
-
-// Sample dataset for demonstration
-const sampleDataset = {
-  title: "Global Climate Data Archive",
-  primaryCategoryId: "Environment",
-  sourceId: "NASA",
-  superTypes: "Time Series",
-  status: "Active",
-  license: "Open Data Commons",
-  isPaid: false,
-  price: 0,
-  aboutDatasetInfo: {
-    overview: "Historical and real-time climate data from weather stations worldwide, including temperature, precipitation, and atmospheric pressure.",
-    dataQuality: "Verified by NASA and cross-checked with global weather stations.",
-    features: [
-      { content: "Temperature, precipitation, pressure, humidity, wind" },
-      { content: "Global coverage, 50+ years" },
-      { content: "NASA verified" },
-      { content: "Optimized for research" }
-    ],
-    dataFormatInfo: {
-      rows: 1000000,
-      cols: 12,
-      fileFormat: "CSV"
-    }
-  },
-  locationInfo: {
-    region: "Global",
-    country: "Worldwide"
-  },
-  createdAt: "2022-01-01T00:00:00Z",
-  updatedAt: "2025-08-01T00:00:00Z",
-  categories: [{ id: "Climate" }, { id: "Environment" }]
-};
+import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
+import { UserApiService } from "../services/userApiService";
+import type { Dataset, DownloadOptions } from "../types";
+import { useAppSelector } from "@/shared/hooks/hooks";
+import { toast } from "sonner";
 
 const DatasetDetailPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showLicenseModal, setShowLicenseModal] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
+  
+  const { user } = useAppSelector((state) => state.auth);
+  const overlay = useOverlay();
 
-  const handleAddToCart = () => {
+  // Utility function to handle file downloads with multiple fallback methods
+  // 1. First tries fetch + blob for better CORS handling and progress
+  // 2. Falls back to direct link download
+  // 3. Finally opens in new tab as last resort
+  const downloadFile = async (url: string, filename: string) => {
+    try {
+      // Try fetch approach first for better compatibility
+      toast.loading('Preparing download...');
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      toast.dismiss(); // Remove loading toast
+      toast.loading('Downloading file...');
+      
+      const blob = await response.blob();
+      const downloadUrl = window.URL.createObjectURL(blob);
+      
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Clean up the blob URL
+      window.URL.revokeObjectURL(downloadUrl);
+      
+      toast.dismiss(); // Remove downloading toast
+      return true;
+    } catch (fetchError) {
+      toast.dismiss(); // Remove any loading toasts
+      console.warn('Fetch download failed, trying direct link method:', fetchError);
+      
+      // Fallback to direct link method
+      try {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        return true;
+      } catch (linkError) {
+        console.warn('Direct link download failed, opening in new tab:', linkError);
+        window.open(url, '_blank');
+        return false;
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      loadDataset(id);
+    }
+  }, [id]);
+
+  const loadDataset = async (datasetId: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const data = await UserApiService.getDatasetByIdPublic(datasetId);
+      setDataset(data);
+      
+      // Check if user has already downloaded this dataset
+      if (user) {
+        try {
+          const downloadHistory = await UserApiService.getDownloadedDatasets();
+          const hasDownloadedDataset = downloadHistory.some(
+            (download: any) => download.datasetId === datasetId || download.dataset?.id === datasetId
+          );
+          setHasDownloaded(hasDownloadedDataset);
+        } catch (downloadError) {
+          console.warn('Could not check download history:', downloadError);
+          // Don't show error to user, just couldn't check download status
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load dataset:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load dataset';
+      setError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!dataset) {
+      toast.error('Dataset not loaded');
+      return;
+    }
+    
+    // Check if user is authenticated - if not, trigger login modal
+    if (!user) {
+      toast.error('Please log in to add items to cart');
+      // Trigger the login modal from OverlayTriggers
+      const loginButton = document.querySelector('[data-login-trigger]');
+      if (loginButton) {
+        (loginButton as HTMLElement).click();
+      } else {
+        // Fallback: try to find and click any login-related button
+        const authButton = document.querySelector('.auth-trigger, [aria-label*="login"], [aria-label*="Login"]');
+        if (authButton) {
+          (authButton as HTMLElement).click();
+        }
+      }
+      return;
+    }
+    
     setIsAddingToCart(true);
-    setTimeout(() => setIsAddingToCart(false), 1500);
+    try {
+      // This would use CartService when implemented
+      console.log('Adding to cart:', dataset.id);
+      // await CartService.addToCart(dataset.id);
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast.success('Dataset added to cart!');
+      setIsAddingToCart(false);
+    } catch (error) {
+      console.error('Failed to add to cart:', error);
+      toast.error('Failed to add to cart');
+      setIsAddingToCart(false);
+    }
   };
 
-  const handleDirectDownload = () => {
+  const handleDirectDownload = async () => {
+    if (!dataset) {
+      toast.error('Dataset not loaded');
+      return;
+    }
+
+    // Check if user is authenticated - if not, trigger login modal
+    if (!user) {
+      toast.error('Please log in to download datasets.');
+      overlay.showLogin();
+      return;
+    }
+    
+    if (!agreedToTerms) {
+      toast.error('Please agree to the terms and conditions before downloading.');
+      setError('Please agree to the terms and conditions before downloading.');
+      return;
+    }
+    
+    if (dataset.isPaid) {
+      // For paid datasets, show license modal first
+      setShowLicenseModal(true);
+      return;
+    }
+    
+    // For free datasets, proceed with download
+    await initiateDownload();
+  };
+
+  const initiateDownload = async () => {
+    if (!dataset || !user) return;
+    
     setIsDownloading(true);
-    setTimeout(() => setIsDownloading(false), 1500);
+    setError(null);
+    try {
+      // Ensure we have a valid userId
+      const userId = user.userId || user.id || '';
+      
+      if (!userId) {
+        throw new Error('User ID not found. Please log in again.');
+      }
+
+      const downloadOptions: DownloadOptions = {
+        fileFormat: (dataset.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'CSV').toLowerCase(),
+        isPaid: dataset.isPaid || false,
+        userId: userId,
+        isAgreedToLicense: agreedToTerms
+      };
+      
+      console.log('Download request:', { 
+        datasetId: dataset.id, 
+        downloadOptions,
+        userInfo: {
+          userId: user.userId,
+          id: user.id,
+          email: user.email
+        }
+      });
+      
+      const { downloadURL } = await UserApiService.generateDatasetDownloadURL(dataset.id, downloadOptions);
+      
+      // Generate filename based on dataset info
+      const fileExtension = dataset.aboutDatasetInfo?.dataFormatInfo.fileFormat?.toLowerCase() || 'zip';
+      const sanitizedTitle = dataset.title.replace(/[^a-zA-Z0-9]/g, '_');
+      const filename = `${sanitizedTitle}_dataset.${fileExtension}`;
+      
+      // Attempt to download the file
+      const downloadSuccess = await downloadFile(downloadURL, filename);
+      
+      if (downloadSuccess) {
+        toast.success('Download started successfully!');
+        setHasDownloaded(true); // Mark as downloaded on success
+      } else {
+        toast.success('Download link opened in new tab');
+        setHasDownloaded(true); // Still mark as downloaded since URL was generated
+      }
+      
+      setTimeout(() => setIsDownloading(false), 1500);
+    } catch (error: any) {
+      console.error('Download failed:', error);
+      
+      let errorMessage = 'Download failed';
+      
+      // Handle specific error cases
+      if (error?.response?.status === 409) {
+        const responseData = error.response?.data;
+        console.log('409 Error full response:', error.response);
+        
+        if (responseData?.message?.includes('Duplicate value for userId') || responseData?.field === 'userId') {
+          errorMessage = 'You have already downloaded this dataset. Multiple downloads are not allowed for this dataset.';
+          setHasDownloaded(true); // Mark as already downloaded
+        } else if (responseData?.error) {
+          errorMessage = responseData.error;
+        } else if (responseData?.message) {
+          errorMessage = responseData.message;
+        } else {
+          errorMessage = 'Conflict: This dataset may have already been downloaded or there\'s a permission issue. Please try again later.';
+        }
+      } else if (error?.response?.status === 401) {
+        errorMessage = 'Authentication required. Please log in again.';
+      } else if (error?.response?.status === 403) {
+        errorMessage = 'Access forbidden. You may not have permission to download this dataset.';
+      } else if (error?.response?.status === 404) {
+        errorMessage = 'Dataset not found or no longer available for download.';
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      
+      setError(errorMessage);
+      toast.error(errorMessage);
+      setIsDownloading(false);
+    }
   };
 
-  const dataset = sampleDataset; // Use your actual dataset logic here
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1a2240] mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading dataset...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Error Loading Dataset</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <Button onClick={() => id && loadDataset(id)} variant="outline">
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // No dataset found
+  if (!dataset) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-4">
+          <Database className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Dataset Not Found</h2>
+          <p className="text-gray-600 mb-4">The requested dataset could not be found.</p>
+          <Link to="/user/marketplace">
+            <Button variant="outline">Back to Marketplace</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="relative z-10 max-w-screen-2xl mx-auto">
@@ -104,7 +363,7 @@ const DatasetDetailPage = () => {
                   <div className="flex items-center gap-2">
                     <span className="text-xs sm:text-sm font-semibold text-gray-600">Category:</span>
                     <Badge className="bg-gradient-to-r from-[#1a2240]/10 to-[#24305e]/10 text-[#1a2240] border border-[#1a2240]/20 px-2 sm:px-4 py-1 sm:py-2 font-semibold text-xs sm:text-sm">
-                      {dataset.primaryCategoryId}
+                      {dataset.primaryCategoryName}
                     </Badge>
                   </div>
                   <div className="flex items-center gap-2">
@@ -113,18 +372,20 @@ const DatasetDetailPage = () => {
                       variant="outline"
                       className="bg-white/80 text-gray-700 border-gray-200 px-2 sm:px-4 py-1 sm:py-2 font-medium text-xs sm:text-sm"
                     >
-                      {dataset.sourceId}
+                      {dataset.sourceName}
                     </Badge>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-gray-600">Types:</span>
-                    <Badge
-                      variant="outline"
-                      className="bg-blue-50 text-blue-700 border-blue-200 px-4 py-2 font-medium"
-                    >
-                      {dataset.superTypes}
-                    </Badge>
-                  </div>
+                  {dataset.superTypes && typeof dataset.superTypes === 'string' && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs sm:text-sm font-semibold text-gray-600">Type:</span>
+                      <Badge
+                        variant="outline"
+                        className="bg-blue-50 text-blue-700 border-blue-200 px-2 sm:px-4 py-1 sm:py-2 font-medium text-xs sm:text-sm"
+                      >
+                        {dataset.superTypes}
+                      </Badge>
+                    </div>
+                  )}
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed mb-6 max-w-4xl">
                   {dataset.aboutDatasetInfo?.overview}
@@ -133,16 +394,18 @@ const DatasetDetailPage = () => {
                 <div className="flex flex-wrap gap-3 mb-6">
                   <Badge
                     variant="outline"
-                    className="bg-white/80 text-gray-700 border-gray-200 px-4 py-2 font-medium"
+                    className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200 px-4 py-2 font-medium"
                   >
-                    {dataset.status}
-                  </Badge>
-                  <Badge
-                    variant="outline"
-                    className="bg-purple-50 text-purple-700 border-purple-200 px-4 py-2 font-medium"
-                  >
-                    {dataset.license}
-                  </Badge>
+                      Active
+                    </Badge>
+                    {dataset.license && (
+                      <Badge
+                      variant="outline"
+                      className="bg-purple-50 text-purple-700 border-purple-200 px-4 py-2 font-medium"
+                    >
+                      {dataset.license}
+                    </Badge>
+                  )}
                 </div>
                 {/* Stats */}
                 <div className="flex items-center gap-6">
@@ -174,23 +437,25 @@ const DatasetDetailPage = () => {
               </div>
               <div className="p-4 sm:p-8">
                 <div className="space-y-8">
-                  {/* Main Description - Consistent font size */}
+                  {/* Main Description - Dynamic from API */}
                   <div className="space-y-4">
-                    <p className="text-lg text-[#1a2240] leading-relaxed">
-                      This extensive climate dataset provides detailed environmental information collected from thousands of weather stations worldwide and satellite observations spanning the last 50 years.
-                    </p>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      The dataset includes temperature readings, precipitation data, atmospheric pressure measurements, humidity levels, and wind patterns. Perfect for climate researchers, environmental scientists, and data analysts studying global warming trends, weather pattern analysis, or building climate prediction models.
-                    </p>
-                    <p className="text-lg text-gray-700 leading-relaxed">
-                      The data is continuously updated and maintained by NASA's Earth Science Division, ensuring high accuracy and reliability for scientific research and educational purposes.
-                    </p>
+                    {dataset.aboutDatasetInfo?.overview && (
+                      <p className="text-lg text-[#1a2240] leading-relaxed">
+                        {dataset.aboutDatasetInfo.overview}
+                      </p>
+                    )}
+                    {/* Show description if present */}
+                    {dataset.aboutDatasetInfo?.overview && (
+                      <p className="text-lg text-gray-700 leading-relaxed">
+                        {dataset.aboutDatasetInfo.overview}
+                      </p>
+                    )}
                   </div>
                   {/* Key Features Grid */}
                   <div className="bg-white/90 rounded-2xl p-4 sm:p-6 border border-gray-100">
                     <h3 className="text-lg font-bold text-[#1a2240] mb-6">Key Features</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                      {dataset.aboutDatasetInfo.features.map((feature, idx) => (
+                      {dataset.aboutDatasetInfo?.features?.map((feature, idx) => (
                         <div key={idx} className="flex items-start gap-4">
                           <div className="w-3 h-3 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
                           <div>
@@ -198,7 +463,11 @@ const DatasetDetailPage = () => {
                             <p className="text-gray-700 text-sm">Feature details</p>
                           </div>
                         </div>
-                      ))}
+                      )) || (
+                        <div className="col-span-2 text-center text-gray-500">
+                          No features available
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -278,7 +547,12 @@ const DatasetDetailPage = () => {
                     disabled={isAddingToCart}
                     className="w-full bg-gradient-to-r from-[#1a2240] to-[#24305e] hover:from-[#24305e] hover:to-[#2c3a6b] text-white px-6 py-4 rounded-xl font-bold shadow-lg shadow-[#1a2240]/25 hover:shadow-xl hover:shadow-[#1a2240]/40 transition-all duration-300 hover:scale-105 text-lg"
                   >
-                    {isAddingToCart ? (
+                    {!user ? (
+                      <>
+                        <ShoppingCart className="w-5 h-5 mr-2" />
+                        Add to Cart (Login Required)
+                      </>
+                    ) : isAddingToCart ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
                         Adding to Cart...
@@ -292,23 +566,75 @@ const DatasetDetailPage = () => {
                   </Button>
                 </div>
               ) : (
-                <Button
-                  onClick={handleDirectDownload}
-                  disabled={isDownloading}
-                  className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white px-6 py-4 rounded-xl font-bold shadow-lg shadow-emerald-600/25 hover:shadow-xl hover:shadow-emerald-600/40 transition-all duration-300 hover:scale-105 text-lg"
-                >
-                  {isDownloading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                      Downloading...
-                    </>
-                  ) : (
-                    <>
-                      <Download className="w-5 h-5 mr-2" />
-                      Download Dataset
-                    </>
+                <div className="space-y-4">
+                  {/* Terms and Conditions Checkbox - Only show when user is logged in */}
+                  {user && (
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        id="terms-checkbox"
+                        checked={agreedToTerms}
+                        onChange={(e) => setAgreedToTerms(e.target.checked)}
+                        className="mt-1 h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                      />
+                      <label htmlFor="terms-checkbox" className="text-sm text-gray-600 leading-relaxed">
+                        I agree to the{' '}
+                        <a href="/terms" target="_blank" className="text-emerald-600 hover:text-emerald-700 underline">
+                          terms and conditions
+                        </a>{' '}
+                        and understand the data usage policies.
+                      </label>
+                    </div>
                   )}
-                </Button>
+                  <Button
+                    onClick={handleDirectDownload}
+                    disabled={isDownloading || (!!user && (!agreedToTerms || hasDownloaded))}
+                    className={`w-full px-6 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                      hasDownloaded && user
+                        ? 'bg-gray-500 text-white' 
+                        : 'bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 text-white shadow-emerald-600/25 hover:shadow-emerald-600/40'
+                    }`}
+                  >
+                    {!user ? (
+                      <>
+                        <Download className="w-5 h-5 mr-2" />
+                        Download Dataset 
+                      </>
+                    ) : hasDownloaded ? (
+                      <>
+                        <CheckCircle className="w-5 h-5 mr-2" />
+                        Already Downloaded
+                      </>
+                    ) : isDownloading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+                        Downloading...
+                      </>
+                    ) : (
+                      <>
+                        <Download className="w-5 h-5 mr-2" />
+                        Download Dataset
+                      </>
+                    )}
+                  </Button>
+                  
+                  {hasDownloaded && (
+                    <div className="text-sm text-gray-600 text-center mt-2 p-2 bg-blue-50 border border-blue-200 rounded">
+                      ℹ️ You have already downloaded this dataset. Check your downloads folder.
+                    </div>
+                  )}
+                  
+                  {/* Debug info - Remove this in production */}
+                  <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
+                    <p><strong>Debug Info:</strong></p>
+                    <p>User ID: {user?.userId || user?.id || 'Not found'}</p>
+                    <p>Dataset ID: {dataset?.id}</p>
+                    <p>Is Paid: {dataset?.isPaid ? 'Yes' : 'No'}</p>
+                    <p>Terms Agreed: {agreedToTerms ? 'Yes' : 'No'}</p>
+                    <p>File Format: {dataset?.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'Not specified'}</p>
+                    <p>Already Downloaded: {hasDownloaded ? 'Yes' : 'No'}</p>
+                  </div>
+                </div>
               )}
               {dataset.isPaid && <p className="text-xs text-gray-500 text-center mt-3">Secure payment processing</p>}
             </motion.div>
@@ -340,15 +666,17 @@ const DatasetDetailPage = () => {
                     {dataset.aboutDatasetInfo?.dataFormatInfo.cols}
                   </span>
                 </div>
-                <div>
-                  <span className="text-gray-600 font-medium text-sm block mb-1">Format:</span>
-                  <Badge
-                    variant="outline"
-                    className="bg-white/70 text-[#1a2240] border-[#1a2240]/20 font-semibold text-xs"
-                  >
-                    {dataset.aboutDatasetInfo?.dataFormatInfo.fileFormat}
-                  </Badge>
-                </div>
+                {dataset.aboutDatasetInfo?.dataFormatInfo.fileFormat && (
+                  <div>
+                    <span className="text-gray-600 font-medium text-sm block mb-1">Format:</span>
+                    <Badge
+                      variant="outline"
+                      className="bg-white/70 text-[#1a2240] border-[#1a2240]/20 font-semibold text-xs"
+                    >
+                      {dataset.aboutDatasetInfo.dataFormatInfo.fileFormat}
+                    </Badge>
+                  </div>
+                )}
               </div>
             </motion.div>
 
@@ -395,22 +723,18 @@ const DatasetDetailPage = () => {
               </div>
               <div className="p-4 sm:p-6 space-y-4">
                 <div className="flex justify-between">
-                  <span className="text-gray-600 font-medium text-sm">Created:</span>
-                  <span className="font-medium text-[#1a2240] text-sm">
-                    {new Date(dataset.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
                   <span className="text-gray-600 font-medium text-sm">Updated:</span>
                   <span className="font-medium text-[#1a2240] text-sm">
-                    {new Date(dataset.updatedAt).toLocaleDateString()}
+                    {dataset.birthInfo?.lastUpdatedAt
+                      ? new Date(dataset.birthInfo.lastUpdatedAt).toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' })
+                      : 'N/A'}
                   </span>
                 </div>
               </div>
             </motion.div>
 
             {/* Categories */}
-            {dataset.categories && dataset.categories.length > 0 && (
+            {dataset.categories && dataset.categories.length > 0 && dataset.categories.some(cat => cat.id) && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -425,7 +749,7 @@ const DatasetDetailPage = () => {
                 </div>
                 <div className="p-4 sm:p-6">
                   <div className="flex flex-wrap gap-2">
-                    {dataset.categories.map((cat, idx) => (
+                    {dataset.categories.filter(cat => cat.id).map((cat, idx) => (
                       <Badge
                         key={idx}
                         variant="outline"

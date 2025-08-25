@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { AuthState, LoginCredentials, User } from '../types';
+import type { AuthState, LoginCredentials, User, UserRegistrationData, RegisterResponse } from '../types';
 import { AuthService } from '../services/authService';
 
 /**
@@ -36,6 +36,20 @@ export const loginUser = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error.response?.data?.error || error.message || 'Login failed'
+      );
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk(
+  'auth/register',
+  async (userData: UserRegistrationData, { rejectWithValue }) => {
+    try {
+      const result = await AuthService.registerUser(userData);
+      return result;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.error || error.message || 'Registration failed'
       );
     }
   }
@@ -120,6 +134,22 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
         state.isAuthenticated = false;
+      })
+      
+    // Register
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action: PayloadAction<RegisterResponse>) => {
+        state.isLoading = false;
+        state.error = null;
+        // Don't auto-login after registration - user needs to sign in
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       })
       
     // Logout
