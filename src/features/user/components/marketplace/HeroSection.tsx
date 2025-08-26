@@ -9,7 +9,7 @@ const HeroSection: React.FC = () => {
             className="text-4xl sm:text-5xl md:text-6xl font-[700] mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-none pt-4 sm:pt-8 text-center"
             style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif' }}
           >
-            Discover Premium Datasets
+            Discover Curated Datasets
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 px-4 text-center">
             Access high-quality, curated datasets for your machine learning, analytics, and research projects
@@ -24,7 +24,7 @@ const HeroSection: React.FC = () => {
               <div className="text-sm sm:text-base text-gray-600 font-medium">Active Users</div>
             </div>
             <div className="bg-white rounded-2xl p-4 sm:p-6 shadow-lg border border-gray-200 sm:col-span-2 lg:col-span-1">
-              <div className="text-2xl sm:text-3xl font-bold text-[#1a2240] mb-2">120,000+</div>
+              <div className="text-2xl sm:text-3xl font-bold text-[#1a2240] mb-2">1,000+</div>
               <div className="text-sm sm:text-base text-gray-600 font-medium">Total Downloads</div>
             </div>
           </div>

@@ -25,51 +25,31 @@ import {
  * - onClose?: () => void - Callback when user wants to close the overlay
  */
 
-const mockCartItems = [
-  {
-    id: 1,
-    title: "E-commerce Sales Data 2024",
-    description: "Comprehensive sales data from major e-commerce platforms including transaction details, customer demographics, and product categories.",
-    category: "Sales",
-    price: 299,
-    tags: ["ecommerce", "sales", "analytics"],
-    size: "2.5 GB",
-    addedDate: "2024-07-15",
-  },
-  {
-    id: 3,
-    title: "Social Media Sentiment Analysis",
-    description: "Curated social media posts with sentiment labels for machine learning and natural language processing applications.",
-    category: "Social Media",
-    price: 149,
-    tags: ["sentiment", "nlp", "social-media"],
-    size: "890 MB",
-    addedDate: "2024-07-28",
-  },
-  {
-    id: 5,
-    title: "Financial Transactions Dataset",
-    description: "Detailed financial transactions from multiple institutions for fraud detection and financial modeling.",
-    category: "Finance",
-    price: 249,
-    tags: ["finance", "transactions", "fraud"],
-    size: "2.1 GB",
-    addedDate: "2024-07-18",
-  },
-];
+// Cart item shape — replace with real data source (redux / API) when available
+interface CartItem {
+  id: number;
+  title: string;
+  description?: string;
+  category?: string;
+  price: number;
+  tags?: string[];
+  size?: string;
+  addedDate?: string;
+}
 
 interface CartOverlayProps {
   onClose?: () => void;
 }
 
 export default function CartOverlay({ onClose }: CartOverlayProps) {
-  const [cartItems, setCartItems] = useState(mockCartItems);
+  // Start with an empty cart; wire up to real cart state or API later
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   const removeItem = (id: number) => {
     setCartItems(items => items.filter(item => item.id !== id));
   };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cartItems.reduce((sum, item) => sum + (item.price ?? 0), 0);
   const tax = subtotal * 0.08;
   const total = subtotal + tax;
 
@@ -160,7 +140,7 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
                             {item.description}
                           </p>
                           <div className="flex flex-wrap gap-1 sm:gap-2 mb-2 sm:mb-3">
-                            {item.tags.slice(0, 3).map((tag) => (
+                            {(item.tags ?? []).slice(0, 3).map((tag) => (
                               <Badge
                                 key={tag}
                                 variant="outline"
@@ -184,7 +164,7 @@ export default function CartOverlay({ onClose }: CartOverlayProps) {
                         <div className="flex items-center justify-between gap-3 pt-2 sm:pt-3 border-t border-gray-100/60 lg:border-t-0 lg:pt-0">
                           <div className="text-left">
                             <div className="font-black text-xl sm:text-2xl lg:text-xl bg-gradient-to-r from-[#1a2240] to-[#24305e] bg-clip-text text-transparent">
-                              ${item.price.toFixed(2)}
+                              ${Number(item.price ?? 0).toFixed(2)}
                             </div>
                             <div className="text-xs sm:text-sm text-gray-500 font-medium">One-time purchase</div>
                           </div>

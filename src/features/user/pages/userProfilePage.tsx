@@ -4,7 +4,6 @@ import {
   User,  
   Package, 
   Download, 
-  DollarSign, 
   Edit3, 
   Save, 
   Calendar,
@@ -211,9 +210,9 @@ const UserProfilePage: React.FC = () => {
             <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-6 w-full lg:w-auto">
               <div className="text-center min-w-0">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full bg-gradient-to-r from-[#1a2240]/20 to-[#1a2240]/30 flex items-center justify-center mx-auto mb-1">
-                  <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#1a2240]" />
+                  <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-[#1a2240] text-sm sm:text-base lg:text-lg">₹</span>
                 </div>
-                <div className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-[#1a2240] truncate">$0</div>
+                <div className="text-sm sm:text-base lg:text-lg xl:text-xl font-bold text-[#1a2240] truncate">₹0</div>
                 <div className="text-[10px] sm:text-xs lg:text-sm text-gray-600">Total Spent</div>
               </div>
               <div className="text-center min-w-0">
