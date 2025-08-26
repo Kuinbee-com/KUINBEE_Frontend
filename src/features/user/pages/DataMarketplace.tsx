@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { AlertCircle } from "lucide-react";
-import Navbar from "../components/Navbar";
-import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
+import ResponsiveHeader from "../components/ResponsiveHeader";
 import HeroSection from "../components/marketplace/HeroSection";
 import SearchAndSortBar from "../components/marketplace/SearchAndSortBar";
 import CategoryPills from "../components/marketplace/CategoryPills";
 import FilterSidebar from "../components/marketplace/FilterSidebar";
 import DataTable from "../components/marketplace/DataTable";
-import MobileMenu from "../components/marketplace/MobileMenu";
 import { useMarketplaceData } from "../hooks/useMarketplaceData";
 
 const DataMarketplace: React.FC = () => {
-  const { showProfile, showCart } = useOverlay();
+  
   const {
     datasets,
     categories,
@@ -38,7 +36,6 @@ const DataMarketplace: React.FC = () => {
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
   const [selectedSort, setSelectedSort] = useState("featured");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -134,30 +131,7 @@ const DataMarketplace: React.FC = () => {
       {/* Main gradient overlay */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
       <div className="relative z-20">
-        <div className="sticky top-0 z-50 w-full  border-gray-200/20" style={{background: 'transparent'}}>
-          <div className="flex items-center justify-center w-full px-4 sm:px-8 py-4 min-h-[72px] relative">
-            {/* Center - Navbar */}
-            <div className="flex-grow w-full max-w-4xl">
-              <Navbar />
-            </div>
-            
-            {/* Right side - Icons and Hamburger - Positioned absolutely */}
-            <div className="absolute right-4 sm:right-8 flex items-center gap-4">
-              {/* Desktop Icons */}
-              <div className="hidden lg:flex">
-                <OverlayTriggers />
-              </div>
-              
-              {/* Mobile Menu */}
-              <MobileMenu
-                mobileMenuOpen={mobileMenuOpen}
-                setMobileMenuOpen={setMobileMenuOpen}
-                showCart={showCart}
-                showProfile={showProfile}
-              />
-            </div>
-          </div>
-        </div>
+  <ResponsiveHeader theme="default" />
 
         {/* Hero Section */}
         <HeroSection />
