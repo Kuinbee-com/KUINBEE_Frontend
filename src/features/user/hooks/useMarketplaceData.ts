@@ -38,7 +38,30 @@ export const useMarketplaceData = () => {
       })));
       setCategories(categoriesData);
       setSources(sourcesData);
-      setTotalItems(datasetsData.length); // Set total items for initial load
+      
+      // For initial load, we need to estimate total items
+      // If we got less than requested, that's the total
+      if (datasetsData.length < 20) {
+        setTotalItems(datasetsData.length);
+      } else {
+        // If we got exactly 20, there might be more - check next page
+        try {
+          const nextPageData = isAuthenticated 
+            ? await UserApiService.getAllUploadedDatasets(1, 20)
+            : await UserApiService.getAllUploadedDatasetsPublic(1, 20);
+          
+          if (nextPageData && nextPageData.length > 0) {
+            // Conservative estimate - there are more than 20 items
+            setTotalItems(25); // Estimate at least 25
+          } else {
+            // Exactly 20 items
+            setTotalItems(20);
+          }
+        } catch (error) {
+          // If check fails, conservative estimate
+          setTotalItems(25);
+        }
+      }
     } catch (error) {
       console.error('Failed to load data:', error);
       setError(error instanceof Error ? error.message : 'Failed to load data');
@@ -69,6 +92,16 @@ export const useMarketplaceData = () => {
     try {
       setError(null);
       
+      console.log('loadFilteredDatasets called:', { 
+        currentPage, 
+        itemsPerPage, 
+        searchQuery, 
+        selectedCategories, 
+        selectedSourceId, 
+        paid, 
+        superType 
+      });
+      
       // Check if any filters are actually applied
       const hasFilters = !!(
         (searchQuery && searchQuery.trim()) ||
@@ -77,6 +110,8 @@ export const useMarketplaceData = () => {
         selectedSourceId ||
         superType
       );
+
+      console.log('hasFilters:', hasFilters);
 
       // If no filters are applied, use the appropriate endpoint based on auth
       if (!hasFilters) {
@@ -93,7 +128,39 @@ export const useMarketplaceData = () => {
           ...d,
           tags: d.tags || [],
         })));
-        setTotalItems(allData.length); // Set total items for unfiltered data
+        
+        // For unfiltered data, estimate total items properly
+        console.log('Unfiltered data received:', allData.length, 'items');
+        if (allData.length < itemsPerPage) {
+          // If we got less than requested, that's the total for this page
+          const totalCount = (currentPage - 1) * itemsPerPage + allData.length;
+          console.log('Setting totalItems to:', totalCount, '(partial page)');
+          setTotalItems(totalCount);
+        } else {
+          // If we got exactly itemsPerPage, check if there are more
+          try {
+            const nextPageData = token
+              ? await UserApiService.getAllUploadedDatasets(1, currentPage * itemsPerPage)
+              : await UserApiService.getAllUploadedDatasetsPublic(1, currentPage * itemsPerPage);
+            
+            if (nextPageData && nextPageData.length > 0) {
+              // There are more items
+              const estimatedTotal = currentPage * itemsPerPage + Math.min(5, nextPageData.length);
+              console.log('Setting totalItems to:', estimatedTotal, '(estimated - more items exist)');
+              setTotalItems(estimatedTotal);
+            } else {
+              // No more items, exact total
+              const exactTotal = currentPage * itemsPerPage;
+              console.log('Setting totalItems to:', exactTotal, '(exact - no more items)');
+              setTotalItems(exactTotal);
+            }
+          } catch (error) {
+            // Conservative estimate
+            const conservativeTotal = currentPage * itemsPerPage + 1;
+            console.log('Setting totalItems to:', conservativeTotal, '(conservative estimate)');
+            setTotalItems(conservativeTotal);
+          }
+        }
         return;
       }
 
@@ -111,18 +178,47 @@ export const useMarketplaceData = () => {
       console.log('Filtering with params:', params); // Debug log
 
       const filteredData = await UserApiService.getFilteredDatasetsPublic(params);
+      console.log('Filtered data received:', filteredData.length, 'items');
+      
       setDatasets(filteredData.map((d: any) => ({
         ...d,
         tags: d.tags || [],
       })));
       
-      // Estimate total items - if we got less than itemsPerPage, we're on the last page
-      // Otherwise, estimate based on current data
+      // Better estimation logic for pagination without backend changes
       if (filteredData.length < itemsPerPage) {
-        setTotalItems((currentPage - 1) * itemsPerPage + filteredData.length);
+        // If we got less than requested, we're on the last page
+        const totalCount = (currentPage - 1) * itemsPerPage + filteredData.length;
+        console.log('Setting totalItems to:', totalCount, '(filtered - partial page)');
+        setTotalItems(totalCount);
       } else {
-        // Estimate higher for pagination (this is a rough estimate)
-        setTotalItems(currentPage * itemsPerPage + 1);
+        // If we got exactly itemsPerPage, there might be more pages
+        // Make another request to check if there are more items
+        try {
+          const nextPageParams = {
+            ...params,
+            limit: 1, // Just check if there's one more item
+            offset: currentPage * itemsPerPage
+          };
+          const nextPageData = await UserApiService.getFilteredDatasetsPublic(nextPageParams);
+          
+          if (nextPageData && nextPageData.length > 0) {
+            // There are more items, estimate conservatively
+            const estimatedTotal = currentPage * itemsPerPage + Math.min(5, nextPageData.length);
+            console.log('Setting totalItems to:', estimatedTotal, '(filtered - more items exist)');
+            setTotalItems(estimatedTotal);
+          } else {
+            // No more items, set exact total
+            const exactTotal = (currentPage - 1) * itemsPerPage + filteredData.length;
+            console.log('Setting totalItems to:', exactTotal, '(filtered - exact total)');
+            setTotalItems(exactTotal);
+          }
+        } catch (error) {
+          // If check fails, use conservative estimate
+          const conservativeTotal = currentPage * itemsPerPage + 1;
+          console.log('Setting totalItems to:', conservativeTotal, '(filtered - conservative estimate)');
+          setTotalItems(conservativeTotal);
+        }
       }
       
     } catch (error) {

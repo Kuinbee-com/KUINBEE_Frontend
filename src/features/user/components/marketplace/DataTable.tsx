@@ -13,6 +13,20 @@ import {
 } from '@/shared/components/ui/table';
 import type { MarketplaceDataset, Category } from '../../types';
 import { CATEGORY_HASHTAGS } from '../../utils/categoryHashtags';
+
+// Helper to normalize category names for hashtag lookup
+function normalizeCategoryKey(category: string): string {
+  return category
+    .replace(/&/g, 'and')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+// Build a normalized hashtag map for robust lookup
+const NORMALIZED_CATEGORY_HASHTAGS: Record<string, string[]> = Object.fromEntries(
+  Object.entries(CATEGORY_HASHTAGS).map(([key, value]) => [normalizeCategoryKey(key), value])
+);
 import { getPaginationInfo, getPageNumbers } from '../../utils/marketplaceHelpers';
 
 interface DataTableProps {
@@ -83,33 +97,31 @@ const DataTable: React.FC<DataTableProps> = ({
                       size="sm"
                       onClick={handlePreviousPage}
                       disabled={currentPage === 1}
-                      className="h-8 w-8 p-0"
+                      className="h-8 w-8 p-0 rounded-full border border-[#e3e6f3] bg-white text-[#1a2240] font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 hover:bg-[#e3e6f3] active:bg-[#bfc6e0] shadow-none"
                     >
                       ←
                     </Button>
-                    
                     {getPageNumbers(currentPage, totalPages).map((page) => (
                       <Button
                         key={page}
                         variant={currentPage === page ? "default" : "outline"}
                         size="sm"
                         onClick={() => handlePageChange(page)}
-                        className={`h-8 w-8 p-0 ${
-                          currentPage === page 
-                            ? "bg-[#1a2240] text-white" 
-                            : "text-gray-600 hover:bg-gray-100"
-                        }`}
+                        className={`h-8 w-8 p-0 rounded-full border font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 shadow-none
+                          ${currentPage === page
+                            ? "bg-[#1a2240] text-white border-[#1a2240] hover:bg-[#24305e] hover:text-white active:bg-[#050a24]"
+                            : "border-[#e3e6f3] bg-white text-[#1a2240] hover:bg-[#e3e6f3] hover:text-[#1a2240] active:bg-[#bfc6e0]"}
+                        `}
                       >
                         {page}
                       </Button>
                     ))}
-                    
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleNextPage}
                       disabled={currentPage === totalPages}
-                      className="h-8 w-8 p-0"
+                      className="h-8 w-8 p-0 rounded-full border border-[#e3e6f3] bg-white text-[#1a2240] font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 hover:bg-[#e3e6f3] active:bg-[#bfc6e0] shadow-none"
                     >
                       →
                     </Button>
@@ -166,8 +178,8 @@ const DataTable: React.FC<DataTableProps> = ({
                       </p>
                       <div className="flex items-center justify-between">
                         <div className="flex flex-wrap gap-1.5">
-                          {/* Category descriptive hashtags */}
-                          {(CATEGORY_HASHTAGS[dataset.category] || []).map((hashtag) => (
+                          {/* Category descriptive hashtags (robust lookup) */}
+                          {(NORMALIZED_CATEGORY_HASHTAGS[normalizeCategoryKey(dataset.category)] || []).map((hashtag) => (
                             <Badge
                               key={hashtag}
                               variant="secondary"

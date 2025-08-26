@@ -54,7 +54,7 @@ const DataMarketplace: React.FC = () => {
       if (categories.length > 0) { // Only filter after categories are loaded
         setCurrentPage(1); // Reset to first page when filters change
         loadFilteredDatasets(
-          currentPage,
+          1, // Use page 1 directly since setCurrentPage hasn't updated yet
           itemsPerPage,
           searchQuery,
           selectedCategories,

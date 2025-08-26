@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Database, Users, Shield, CheckCircle, FileText, MapPin, Download, ShoppingCart, AlertCircle } from "lucide-react";
+import { datasetSuperTypeOptions } from "@/features/admin/types";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
@@ -26,59 +27,24 @@ const DatasetDetailPage = () => {
   const { user } = useAppSelector((state) => state.auth);
   const overlay = useOverlay();
 
-  // Utility function to handle file downloads with multiple fallback methods
-  // 1. First tries fetch + blob for better CORS handling and progress
-  // 2. Falls back to direct link download
-  // 3. Finally opens in new tab as last resort
+  // Utility function to handle file downloads using a direct link for best performance
   const downloadFile = async (url: string, filename: string) => {
     try {
-      // Try fetch approach first for better compatibility
-      toast.loading('Preparing download...');
-      
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      toast.dismiss(); // Remove loading toast
-      toast.loading('Downloading file...');
-      
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      
+      // Create a temporary link to trigger download
       const link = document.createElement('a');
-      link.href = downloadUrl;
+      link.href = url;
       link.download = filename;
       link.style.display = 'none';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
-      // Clean up the blob URL
-      window.URL.revokeObjectURL(downloadUrl);
-      
-      toast.dismiss(); // Remove downloading toast
+      toast.success('Download started!');
       return true;
-    } catch (fetchError) {
-      toast.dismiss(); // Remove any loading toasts
-      console.warn('Fetch download failed, trying direct link method:', fetchError);
-      
-      // Fallback to direct link method
-      try {
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        return true;
-      } catch (linkError) {
-        console.warn('Direct link download failed, opening in new tab:', linkError);
-        window.open(url, '_blank');
-        return false;
-      }
+    } catch (error) {
+      console.error('Direct link download failed:', error);
+      toast.error('Failed to start download.');
+      window.open(url, '_blank');
+      return false;
     }
   };
 
@@ -376,17 +342,38 @@ const DatasetDetailPage = () => {
                       {dataset.sourceName}
                     </Badge>
                   </div>
-                  {dataset.superTypes && typeof dataset.superTypes === 'string' && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs sm:text-sm font-semibold text-gray-600">Type:</span>
-                      <Badge
-                        variant="outline"
-                        className="bg-blue-50 text-blue-700 border-blue-200 px-2 sm:px-4 py-1 sm:py-2 font-medium text-xs sm:text-sm"
-                      >
-                        {dataset.superTypes}
-                      </Badge>
-                    </div>
-                  )}
+                  {/* Show superType(s) if present, supporting both string and array, and both singular/plural keys */}
+                  {(() => {
+                    // Prefer singular superType from API, fallback to superTypes from type/interface
+                    const typeVal = (dataset as any).superType || (dataset as any).superTypes;
+                    if (!typeVal) return null;
+                    return (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs sm:text-sm font-semibold text-gray-600">Type:</span>
+                        {Array.isArray(typeVal)
+                          ? typeVal.map((type: string, idx: number) =>
+                              datasetSuperTypeOptions.includes(type as any) ? (
+                                <Badge
+                                  key={type + idx}
+                                  variant="outline"
+                                  className="bg-blue-50 text-blue-700 border-blue-200 px-2 sm:px-4 py-1 sm:py-2 font-medium text-xs sm:text-sm"
+                                >
+                                  {type}
+                                </Badge>
+                              ) : null
+                            )
+                          : datasetSuperTypeOptions.includes(typeVal as any) ? (
+                              <Badge
+                                variant="outline"
+                                className="bg-blue-50 text-blue-700 border-blue-200 px-2 sm:px-4 py-1 sm:py-2 font-medium text-xs sm:text-sm"
+                              >
+                                {typeVal}
+                              </Badge>
+                            ) : null
+                        }
+                      </div>
+                    );
+                  })()}
                 </div>
                 <p className="text-lg text-gray-600 leading-relaxed mb-6 max-w-4xl">
                   {dataset.aboutDatasetInfo?.overview}
