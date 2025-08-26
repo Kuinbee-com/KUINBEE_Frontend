@@ -93,6 +93,7 @@ const Navbar: React.FC<NavbarProps> = ({
   const [active, setActive] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMobileHint, setShowMobileHint] = useState(false);
+  const [isInHero, setIsInHero] = useState<boolean>(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -128,6 +129,23 @@ const Navbar: React.FC<NavbarProps> = ({
       
       return () => clearTimeout(timer);
     }
+  }, []);
+
+  // Observe hero section visibility to switch icon colors on mobile
+  useEffect(() => {
+    const hero = document.getElementById('hero-section');
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsInHero(entry.isIntersecting && entry.intersectionRatio > 0.2);
+      },
+      { root: null, threshold: [0, 0.2, 0.5, 0.75, 1] }
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
   }, []);
 
   // Get current theme configuration
@@ -241,21 +259,14 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Navbar - Only visible on small screens */}
       <div className={`md:hidden flex items-center pt-2 px-4 w-full ${className}`}>
         {/* Mobile Menu Icon Button (extreme left) */}
-        <button
+          <button
           ref={menuButtonRef}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="flex items-center justify-center w-9 h-9 focus:outline-none z-20"
           aria-label="Open navigation menu"
           style={{ background: 'none', border: 'none', boxShadow: 'none' }}
         >
-          <MoreVertical
-            className={`w-6 h-6 ${
-              theme === 'hero'
-                
-                ? 'text-white'
-                : 'text-white'
-            }`}
-          />
+          <MoreVertical className={`w-6 h-6 ${isInHero ? 'text-white' : 'text-[#1a2240]'}`} />
         </button>
         
         {/* Centered Mobile Logo Button */}

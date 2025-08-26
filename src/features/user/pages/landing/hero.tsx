@@ -24,7 +24,7 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw] overflow-x-clip">
+    <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw] overflow-x-clip">
 
   {/* Decorative background elements - fixed to viewport, always centered */}
   <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10 overflow-x-clip">

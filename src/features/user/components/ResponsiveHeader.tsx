@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { OverlayTriggers } from "./GlobalOverlaySystem";
 import { Menu, X } from "lucide-react";
@@ -16,6 +16,24 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({
   className = "",
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isInHero, setIsInHero] = useState<boolean>(false);
+
+  useEffect(() => {
+    const hero = document.getElementById('hero-section');
+    if (!hero) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        // when hero is intersecting with viewport (mostly visible) we consider we're in hero
+        setIsInHero(entry.isIntersecting && entry.intersectionRatio > 0.2);
+      },
+      { root: null, threshold: [0, 0.2, 0.5, 0.75, 1] }
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div
@@ -40,11 +58,12 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({
           <button
             className="lg:hidden p-2 rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Open mobile menu"
           >
             {mobileMenuOpen ? (
-              <X className="w-6 h-6 text-[#1a2240]" />
+              <X className={`w-6 h-6 ${isInHero ? 'text-white' : 'text-[#1a2240]'}`} />
             ) : (
-              <Menu className="w-6 h-6 text-[#1a2240]" />
+              <Menu className={`w-6 h-6 ${isInHero ? 'text-white' : 'text-[#1a2240]'}`} />
             )}
           </button>
         </div>
