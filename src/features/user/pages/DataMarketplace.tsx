@@ -210,7 +210,7 @@ const DataMarketplace: React.FC = () => {
             <div className="flex-1 min-h-[600px]">
               {loading ? (
                 // Enhanced skeleton loading for DataTable
-                <div className="bg-white rounded-2xl shadow-sm border min-h-[600px]">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 min-h-[600px] focus:outline-none" style={{ outline: 'none' }}>
                   <div className="p-6">
                     {/* Table header skeleton */}
                     <div className="flex justify-between items-center mb-6 pb-4 border-b">
@@ -260,7 +260,7 @@ const DataMarketplace: React.FC = () => {
                 />
               ) : (
                 // Improved empty state with better design
-                <div className="bg-white rounded-2xl shadow-sm border min-h-[600px] flex items-center justify-center">
+                <div className="bg-white rounded-2xl shadow-sm border border-gray-200 min-h-[600px] flex items-center justify-center focus:outline-none" style={{ outline: 'none' }}>
                   <div className="text-center max-w-md px-8">
                     <div className="w-24 h-24 bg-gradient-to-br from-[#1a2240]/10 to-[#1a2240]/20 rounded-full flex items-center justify-center mx-auto mb-6">
                       <svg className="w-12 h-12 text-[#1a2240]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
