@@ -68,9 +68,9 @@ export default function ProblemsSection() {
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 Problems We Solve
               </div>
-              <h2 className="text-4xl md:text-5xl font-light text-[#1a2240] mb-6">
+              <h2 className="text-4xl md:text-5xl font-light text-[#1a2240] mb-6 leading-tight" style={{lineHeight: '1.15'}}>
                 <span className="block mb-2">Transforming Data</span>
-                <span className="block font-semibold bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] bg-clip-text text-transparent">
+                <span className="block font-semibold bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] bg-clip-text text-transparent" style={{display: 'inline-block', lineHeight: '1.15', paddingBottom: '0.1em'}}>
                   Challenges
                 </span>
               </h2>
@@ -150,7 +150,7 @@ export default function ProblemsSection() {
                             <AlertTriangle className="w-3 h-3 text-red-500" />
                           </div>
                         </div>
-                        <p className="text-slate-700 font-medium leading-snug text-xs">{item.problem}</p>
+                        <p className="text-slate-700 font-medium leading-snug text-[0.81rem]">{item.problem}</p>
                       </div>
 
                       {/* Arrow Connector */}
@@ -168,7 +168,7 @@ export default function ProblemsSection() {
                           </div>
                         </div>
                         <h4 className="text-sm font-semibold text-[#1a2240] mb-1">{item.solution}</h4>
-                        <p className="text-slate-600 leading-snug text-xs">{item.description}</p>
+                        <p className="text-slate-600 leading-snug text-[0.85rem]">{item.description}</p>
                       </div>
                     </div>
                   </motion.div>

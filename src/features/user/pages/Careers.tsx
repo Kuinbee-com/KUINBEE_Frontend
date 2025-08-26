@@ -52,9 +52,9 @@ const jobOpenings: any[] = [
 
 const benefits = [
   {
-    icon: Heart,
-    title: "Health & Wellness",
-    description: "Comprehensive health insurance, mental health support, and wellness programs",
+    icon: Briefcase,
+    title: "Impact & Ownership",
+    description: "Take real ownership of projects that shape the future of data.",
   },
   {
     icon: Zap,

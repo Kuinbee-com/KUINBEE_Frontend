@@ -3,11 +3,12 @@
 import { motion } from "framer-motion"
 import { Linkedin, Twitter, Instagram, Github, MapPin } from "lucide-react"
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 
 export default function Footer() {
+  const navigate = useNavigate();
   return (
     <footer className="bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] text-white min-h-[60vh]">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
@@ -49,6 +50,8 @@ export default function Footer() {
                     const secSection = document.getElementById('security');
                     if (secSection) {
                       secSection.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                      navigate('/', { state: { scrollTo: 'security' } });
                     }
                   }}
                 >

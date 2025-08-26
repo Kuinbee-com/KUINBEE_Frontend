@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, AnimatePresence } from "framer-motion"
-import { DollarSign, Zap, Leaf, Globe, TrendingUp, Factory, ArrowRight } from "lucide-react"
+import { DollarSign, Zap, Leaf, Globe, TrendingUp, Factory, ArrowRight, Database } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
@@ -71,10 +71,10 @@ export default function CategoriesSection() {
       glareColor: "#60a5fa",
     },
     {
-      title: "Manufacturing",
-      description: "Production data, supply chain metrics, quality control, and industrial IoT",
-      icon: Factory,
-      count: "900+",
+      title: "AI & Machine Learning",
+      description: "Machine learning datasets, AI models, training data, benchmarks, and synthetic data for advanced analytics and automation.",
+  icon: Database, // Changed to Database for AI & ML
+      count: "1,100+",
       color: "#a78bfa",
       bgColor: "#1a2240",
       hoverBg: "hover:bg-purple-100",
@@ -171,7 +171,7 @@ export default function CategoriesSection() {
                       <category.icon className={`w-7 h-7 text-white`} />
                     </div>
                     <div className="text-right">
-                      {category.title === "Manufacturing" ? (
+                      {category.title === "AI & Machine Learning" ? (
                         <span className="inline-block bg-white text-[#1a2240] text-xs font-semibold px-3 py-1 rounded-full shadow border border-gray-200">Coming Soon</span>
                       ) : (
                         <>

@@ -50,10 +50,13 @@ const faqData = [
   },
 ]
 
+import { useNavigate } from "react-router-dom"
+
 export default function FAQSection() {
   const [searchTerm, setSearchTerm] = useState("")
   const [openItems, setOpenItems] = useState<number[]>([])
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const navigate = useNavigate();
 
   const categories = ["All", "About", "Services", "Users", "Community"]
 
@@ -297,7 +300,10 @@ export default function FAQSection() {
           <p className="text-blue-100 mb-6 max-w-md mx-auto">
             Our team is here to help. Get in touch and we'll respond as soon as possible.
           </p>
-          <button className="bg-white text-[#1a2240] px-6 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg">
+          <button
+            className="bg-white text-[#1a2240] px-6 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg"
+            onClick={() => navigate('/support')}
+          >
             Contact Support
           </button>
         </motion.div>

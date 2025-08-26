@@ -45,8 +45,7 @@ export default function SupportPage() {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-gray-700 mb-6 max-w-2xl mx-auto leading-relaxed font-medium drop-shadow-sm">
-              Whether you need help, have questions, or want to get in touch, we're here for you. Our team is ready to
-              assist with both general inquiries and technical support.
+              <b>Are you a data supplier?</b> Reach out to partner or list your datasets. For all other support or questions, we're here to help too.
             </p>
           </motion.div>
         </div>
@@ -148,8 +147,7 @@ export default function SupportPage() {
           >
             <h2 className="text-2xl md:text-3xl font-bold text-[#1a2240] mb-4 drop-shadow-sm">Get In Touch</h2>
             <p className="text-base text-gray-700 leading-relaxed max-w-2xl mx-auto">
-              Send us a message for general inquiries, support requests, or any questions. We'll get back to you as soon
-              as possible.
+              Reach out for support, questions, or to partner as a data supplier let’s connect!
             </p>
           </motion.div>
 
