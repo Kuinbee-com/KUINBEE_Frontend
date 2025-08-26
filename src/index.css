@@ -394,3 +394,8 @@ table ::selection {
   }
 }
 
+/* Ensure sticky positioning works properly */
+.marketplace-layout {
+  position: relative;
+}
+

@@ -123,16 +123,19 @@ const DataMarketplace: React.FC = () => {
 
   // Add extra vertical height to ensure filter section is visible
   return (
-    <div className="min-h-screen relative bg-[#f7f8fa] pb-32">
+    <div className="min-h-screen bg-[#f7f8fa] pb-32">
       {/* Main gradient overlay */}
       <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-[#1a2240] via-[#ffffff] to-[#1a2240] opacity-20 pointer-events-none z-0" />
-      <div className="relative z-20">
-        <ResponsiveHeader />
+      
+      <ResponsiveHeader />
 
-        {/* Hero Section */}
+      {/* Hero Section */}
+      <div className="relative z-10">
         <HeroSection />
+      </div>
 
-        {/* Search and Sort Bar */}
+      {/* Search and Sort Bar */}
+      <div className="relative z-10">
         <SearchAndSortBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -141,70 +144,69 @@ const DataMarketplace: React.FC = () => {
           sortDropdownOpen={sortDropdownOpen}
           setSortDropdownOpen={setSortDropdownOpen}
         />
+      </div>
 
-        {/* Category Pills Section with fixed height to prevent CLS */}
-        <div className="max-w-[1600px] mx-auto px-4 pb-32">
-          <div className="min-h-[60px] mb-8">
-            {categories.length > 0 ? (
-              <CategoryPills
-                categories={categories}
-                selectedCategories={selectedCategories}
-                setSelectedCategories={setSelectedCategories}
-                paid={paid}
-                setPaid={setPaid}
-              />
-            ) : (
-              // Enhanced skeleton for category pills
-              <div className="space-y-4">
-                <div className="h-5 bg-gray-200 rounded animate-pulse w-32 mb-4"></div>
-                <div className="flex flex-wrap gap-3 animate-pulse">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="h-10 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full flex items-center px-4"
-                      style={{ width: `${100 + Math.random() * 80}px` }}
-                    >
-                      <div className="h-4 bg-white/60 rounded w-full"></div>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-center gap-3 mt-4">
-                  <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
-                  <div className="h-6 w-12 bg-gray-200 rounded-full animate-pulse"></div>
-                </div>
+      {/* Category Pills Section with fixed height to prevent CLS */}
+      <div className="max-w-[1600px] mx-auto px-4 pb-32 relative z-10">
+        <div className="min-h-[60px] mb-8">
+          {categories.length > 0 ? (
+            <CategoryPills
+              categories={categories}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              paid={paid}
+              setPaid={setPaid}
+            />
+          ) : (
+            // Enhanced skeleton for category pills
+            <div className="space-y-4">
+              <div className="h-5 bg-gray-200 rounded animate-pulse w-32 mb-4"></div>
+              <div className="flex flex-wrap gap-3 animate-pulse">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="h-10 bg-gradient-to-r from-gray-200 to-gray-300 rounded-full flex items-center px-4"
+                    style={{ width: `${100 + Math.random() * 80}px` }}
+                  >
+                    <div className="h-4 bg-white/60 rounded w-full"></div>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
-
-          {/* Main Content Area with Sidebar and Table */}
-          <div className="flex flex-col lg:flex-row gap-6 lg:gap-12">
-            {/* Left Sidebar with fixed width to prevent CLS */}
-            <div className="w-full lg:w-80 flex-shrink-0">
-              <FilterSidebar
-                categories={categories}
-                sources={sources}
-                selectedCategories={selectedCategories}
-                setSelectedCategories={setSelectedCategories}
-                paid={paid}
-                setPaid={setPaid}
-                price={price}
-                setPrice={setPrice}
-                sourceSearchQuery={sourceSearchQuery}
-                setSourceSearchQuery={setSourceSearchQuery}
-                selectedSource={selectedSource}
-                setSelectedSource={setSelectedSource}
-                selectedSourceId={selectedSourceId}
-                setSelectedSourceId={setSelectedSourceId}
-                sourceDropdownOpen={sourceDropdownOpen}
-                setSourceDropdownOpen={setSourceDropdownOpen}
-                superType={superType}
-                setSuperType={setSuperType}
-                filtersOpen={filtersOpen}
-                setFiltersOpen={setFiltersOpen}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-              />
+              <div className="flex items-center gap-3 mt-4">
+                <div className="h-5 bg-gray-200 rounded animate-pulse w-20"></div>
+                <div className="h-6 w-12 bg-gray-200 rounded-full animate-pulse"></div>
+              </div>
             </div>
+          )}
+        </div>
+
+        {/* Main Content Area with Sidebar and Table - NO relative wrapper here! */}
+        <div className="marketplace-layout flex flex-col lg:flex-row gap-6 lg:gap-12 lg:items-start">
+            {/* Left Sidebar - FilterSidebar now handles its own sticky positioning */}
+            <FilterSidebar
+              categories={categories}
+              sources={sources}
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+              paid={paid}
+              setPaid={setPaid}
+              price={price}
+              setPrice={setPrice}
+              sourceSearchQuery={sourceSearchQuery}
+              setSourceSearchQuery={setSourceSearchQuery}
+              selectedSource={selectedSource}
+              setSelectedSource={setSelectedSource}
+              selectedSourceId={selectedSourceId}
+              setSelectedSourceId={setSelectedSourceId}
+              sourceDropdownOpen={sourceDropdownOpen}
+              setSourceDropdownOpen={setSourceDropdownOpen}
+              superType={superType}
+              setSuperType={setSuperType}
+              filtersOpen={filtersOpen}
+              setFiltersOpen={setFiltersOpen}
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+            />
 
             {/* Right Side - Enhanced Data Table with Progressive Loading */}
             <div className="flex-1 min-h-[600px]">
@@ -297,7 +299,6 @@ const DataMarketplace: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 };

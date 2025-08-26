@@ -91,14 +91,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   };
 
   return (
-    <div className="w-full lg:w-80 lg:flex-shrink-0">
-      <div className={`lg:sticky lg:top-24 lg:bottom-8 transition-all duration-300 ${
-        sourceDropdownOpen ? 'lg:max-h-[calc(100vh-1rem)]' : 'lg:max-h-[calc(100vh-2rem)]'
-      }`}>
-        <aside 
-          className="bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 lg:overflow-y-auto scrollbar-white h-full"
-          style={{ boxShadow: '0 4px 24px 0 rgba(26,34,64,0.10)', background: '#fff' }}
-        >
+    <aside 
+      className="w-full lg:w-80 lg:flex-shrink-0 bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-y-auto scrollbar-white lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)]"
+      style={{ boxShadow: '0 4px 24px 0 rgba(26,34,64,0.10)', background: '#fff' }}
+    >
           <div className="flex items-center gap-2 mb-2 lg:mb-4">
             <Filter className="h-6 w-6 text-[#24305e]" />
             <h3 className="text-xl lg:text-2xl font-extrabold bg-gradient-to-r from-[#050a24] to-[#1a2240] bg-clip-text text-transparent">Filters</h3>
@@ -312,9 +308,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               Clear All Filters
             </Button>
           </div>
-        </aside>
-      </div>
-    </div>
+    </aside>
   );
 };
 
