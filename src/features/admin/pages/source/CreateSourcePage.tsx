@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SourceService } from '../../services/sources/sourceService';
+import * as React from 'react'; 
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   Box,
@@ -106,7 +106,7 @@ const CreateSourcePage: React.FC = () => {
       }
       if (!found) {
         // Fallback to API
-        const apiSources = await SourceService.getAllSources();
+        const apiSources = await import('../../services/sources/sourceService').then(m => m.SourceService.getAllSources());
         found = apiSources.find((s: any) => s.id === sourceId);
         // Update cache if found
         if (apiSources && apiSources.length) {

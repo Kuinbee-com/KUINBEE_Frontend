@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Box, Typography, Button, Alert } from '@mui/material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';

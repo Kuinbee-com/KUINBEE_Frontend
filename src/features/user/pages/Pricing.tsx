@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from "react";
+import * as React from 'react';
+import{ useState } from "react";
 import { Link } from "react-router-dom";
 // import Navbar from "../../shared/components/Navbar";
 import ResponsiveHeader from "../components/ResponsiveHeader";

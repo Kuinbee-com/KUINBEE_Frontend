@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 // Modern font import for global use
 import '@fontsource/inter/index.css';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -16,8 +17,6 @@ import { ArrowBack as ArrowBackIcon, Save as SaveIcon } from '@mui/icons-materia
 import { useCategoryManagement } from '../../hooks/useCategoryManagement';
 
 // Category interface matching the Prisma schema
-
-import { CategoryService } from '../../services/category/categoryService';
 
 const palette = {
   bg: '#f9fafc',
@@ -81,7 +80,7 @@ const CreateCategoryPage: React.FC = () => {
       if (isEditMode) {
         // Update existing category
         console.log('Updating category:', { id, ...categoryData });
-        await CategoryService.updateCategory(id!, categoryData);
+        await import('../../services/category/categoryService').then(m => m.CategoryService.updateCategory(id!, categoryData));
         
         // Navigate back to categories list
         navigate('/admin/categories', {
@@ -92,7 +91,7 @@ const CreateCategoryPage: React.FC = () => {
         console.log('Creating category:', categoryData);
         console.log('CategoryData type:', typeof categoryData);
         console.log('CategoryData JSON:', JSON.stringify(categoryData));
-        await CategoryService.createCategory(categoryData);
+        await import('../../services/category/categoryService').then(m => m.CategoryService.createCategory(categoryData));
         
         // Navigate back to categories list
         navigate('/admin/categories', {

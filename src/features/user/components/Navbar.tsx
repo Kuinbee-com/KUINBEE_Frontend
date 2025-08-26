@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import * as React from 'react';
+import { useState, useEffect, useRef } from "react";
 import { MenuItem, HoveredLink, LogoItem, ProductItem } from "@/shared/components/ui/navbar-menu";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ShoppingBag, BarChart2, Users, Tag, Briefcase, LifeBuoy, Info, MoreVertical } from "lucide-react";
@@ -175,7 +176,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       title="Marketplace"
                       description="Browse and buy datasets"
                       href="/marketplace"
-                      src="/marketplace.png"
+                      src="/marketplace.webp"
                       className="transition-all duration-200 hover:bg-white/5 hover:scale-[1.01] rounded-xl px-2.5 py-2.5 cursor-pointer border border-transparent hover:border-white/10"
                     />
                  
@@ -183,7 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       title="Analytics"
                       description="Analyze your data (coming soon)"
                       href="/analytics"
-                      src="/analytics.png"
+                      src="/analytics.webp"
                       className="transition-all duration-200 hover:bg-white/5 hover:scale-[1.01] rounded-xl px-2.5 py-2.5 cursor-pointer border border-transparent hover:border-white/10"
                     />
                   </div>

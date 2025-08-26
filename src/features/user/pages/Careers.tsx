@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from "react";
+import * as React from 'react';
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"
 import { Link } from "react-router-dom"
 import { ArrowLeft, MapPin, Clock, Users, Briefcase, Heart, Zap, Globe, Mail, Menu, X } from "lucide-react"

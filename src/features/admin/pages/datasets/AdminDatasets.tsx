@@ -22,7 +22,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, ArrowBack as ArrowBackIcon, CloudUpload, CloudDownload } from '@mui/icons-material';
-import React from 'react';
+import * as React from 'react';
 import { DatasetService } from '../../services/datasets/datasetService';
 import type { Dataset } from '../../types';
 

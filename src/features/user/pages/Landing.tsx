@@ -1,5 +1,5 @@
-
-import React, { useEffect, useRef, useState } from "react";
+import * as React from 'react';
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Hero from "./landing/hero";
 import CategoriesSection from "./landing/categories_section";

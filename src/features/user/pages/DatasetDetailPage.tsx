@@ -1,5 +1,6 @@
 "use client"
-import React, { useState, useEffect } from "react";
+import * as React from 'react';
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Database, Users, Shield, CheckCircle, FileText, MapPin, Download, ShoppingCart, AlertCircle } from "lucide-react";
