@@ -1,4 +1,4 @@
-import Papa from 'papaparse';
+import * as Papa from 'papaparse';
 import { generateDatasetUniqueId } from '@/shared/utils/uuidGenerator';
 import { datasetSuperTypeOptions } from '../../types';
 

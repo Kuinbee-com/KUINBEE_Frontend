@@ -186,7 +186,7 @@ export default function PendingUploadsPage() {
                         handleFileSelect(dataset.id, file || null);
                       }}
                       inputProps={{
-                        accept: dataset.fileFormat === 'CSV' ? '.csv' : '.xlsx,.xls'
+                        accept: '.csv,.xlsx,.xls,.xml'
                       }}
                       sx={{ fontSize: '0.875rem' }}
                     />

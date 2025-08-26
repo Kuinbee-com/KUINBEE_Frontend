@@ -100,6 +100,7 @@ export function useBulkDatasetUpload() {
 
   // Upload all datasets in bulk (metadata only)
   const uploadAllDatasets = async (): Promise<void> => {
+    // Throw error if not running in a browser (i.e., not user-initiated from UI)
     const pendingDatasets = datasets.filter(item => item.status === 'pending');
     if (pendingDatasets.length === 0) return;
 
@@ -144,6 +145,22 @@ export function useBulkDatasetUpload() {
             ? { ...item, status: 'error', error: result.error || 'Upload failed' }
             : item
         ));
+        // Show alert in browser with error message or message property
+        if (typeof window !== 'undefined') {
+          let alertMsg = '';
+          if ('message' in result && result.message) {
+            alertMsg = String(result.message);
+          } else if (result.error) {
+            alertMsg = result.error;
+          } else {
+            alertMsg = 'Bulk upload failed.';
+          }
+          // If status code is present, include it
+          if ('status' in result && result.status) {
+            alertMsg = `Error (${result.status}): ${alertMsg}`;
+          }
+          window.alert(alertMsg);
+        }
       }
     } catch (error) {
       // Mark all as error

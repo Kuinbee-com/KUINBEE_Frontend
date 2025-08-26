@@ -304,7 +304,7 @@ const AddMultipleDatasets: React.FC = () => {
                         <TableCell>
                           <input
                             type="file"
-                            accept={dataset.dataFormat === 'csv' ? '.csv' : '.xlsx,.xls,.json,.txt'}
+                            accept=".csv,.xlsx,.xls,.xml"
                             onChange={(e) => {
                               const file = (e.target as HTMLInputElement).files?.[0];
                               handleFileSelect(dataset.id, file || null);
@@ -484,7 +484,7 @@ const AddMultipleDatasets: React.FC = () => {
 
                 <input
                   type="file"
-                  accept=".csv"
+                  accept=".csv,.xlsx,.xls,.xml"
                   ref={fileInputRef}
                   style={{ display: 'none' }}
                   onChange={handleFileChange}
