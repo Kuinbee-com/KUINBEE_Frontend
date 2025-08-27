@@ -81,6 +81,16 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
     }
   };
 
+  const handleSuperTypeToggle = (type: string) => {
+    // If same type is clicked, deselect it (set to empty string)
+    if (superType === type) {
+      setSuperType("");
+    } else {
+      // Replace with new selection
+      setSuperType(type);
+    }
+  };
+
   const clearAllFilters = () => {
     setSelectedCategories([]);
     setSelectedSource("");
@@ -148,10 +158,20 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               <h4 className="text-lg font-bold text-[#24305e] mb-3">Category</h4>
               <div className="flex flex-col gap-2">
                 {categories.map((category) => (
-                  <label key={category.id} className={`flex items-center gap-3 cursor-pointer rounded-lg px-2 py-1 transition-colors ${selectedCategories.includes(category.id) ? "bg-gradient-to-r from-[#e3e6f3] to-[#f7f8fa]" : "hover:bg-[#f7f8fa]"}`}>
-                    <input type="radio" name="category" value={category.id} checked={selectedCategories.includes(category.id)} onChange={(e) => handleCategoryToggle(category.id)} className="appearance-none w-6 h-6 rounded-full border-2 border-[#1a2240] checked:bg-[#1a2240] checked:border-[#1a2240] flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30" style={{ boxShadow: '0 0 0 2px #e3e6f3' }} />
+                  <div key={category.id} 
+                    className={`flex items-center gap-3 cursor-pointer rounded-lg px-2 py-1 transition-colors ${selectedCategories.includes(category.id) ? "bg-gradient-to-r from-[#e3e6f3] to-[#f7f8fa]" : "hover:bg-[#f7f8fa]"}`}
+                    onClick={() => handleCategoryToggle(category.id)}
+                  >
+                    <div
+                      className={`w-6 h-6 rounded-full border-2 transition-all focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 flex items-center justify-center ${selectedCategories.includes(category.id) ? 'bg-[#1a2240] border-[#1a2240]' : 'border-[#1a2240] bg-white hover:bg-[#f7f8fa]'}`}
+                      style={{ boxShadow: '0 0 0 2px #e3e6f3' }}
+                    >
+                      {selectedCategories.includes(category.id) && (
+                        <div className="w-2 h-2 bg-white rounded-full" />
+                      )}
+                    </div>
                     <span className={`text-base font-medium ${selectedCategories.includes(category.id) ? "text-[#24305e]" : "text-gray-700"}`}>{category.name}</span>
-                  </label>
+                  </div>
                 ))}
               </div>
             </section>
@@ -237,16 +257,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
             <section>
               <h4 className="text-lg font-bold text-[#24305e] mb-3">Dataset Type</h4>
               <div className="space-y-3">
-                <label className="flex items-start space-x-3 cursor-pointer group">
+                <div className="flex items-start space-x-3 cursor-pointer group" onClick={() => handleSuperTypeToggle("")}>
                   <div className="relative mt-0.5" style={{ flexShrink: 0 }}>
-                    <input
-                      type="radio"
-                      name="superType"
-                      value=""
-                      checked={superType === ''}
-                      onChange={(e) => setSuperType(e.target.value)}
-                      className="sr-only"
-                    />
                     <div 
                       className={`rounded-full border-2 transition-all duration-200 flex items-center justify-center ${
                         superType === '' 
@@ -268,18 +280,10 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                       ? 'text-[#24305e] font-medium' 
                       : 'text-gray-700 group-hover:text-[#1a2240]'
                   }`}>All Types</span>
-                </label>
+                </div>
                 {datasetSuperTypeOptions.map((option) => (
-                  <label key={option} className="flex items-start space-x-3 cursor-pointer group">
+                  <div key={option} className="flex items-start space-x-3 cursor-pointer group" onClick={() => handleSuperTypeToggle(option)}>
                     <div className="relative mt-0.5" style={{ flexShrink: 0 }}>
-                      <input
-                        type="radio"
-                        name="superType"
-                        value={option}
-                        checked={superType === option}
-                        onChange={(e) => setSuperType(e.target.value)}
-                        className="sr-only"
-                      />
                       <div 
                         className={`rounded-full border-2 transition-all duration-200 flex items-center justify-center ${
                           superType === option 
@@ -301,7 +305,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                         ? 'text-[#24305e] font-medium' 
                         : 'text-gray-700 group-hover:text-[#1a2240]'
                     }`}>{option}</span>
-                  </label>
+                  </div>
                 ))}
               </div>
             </section>
