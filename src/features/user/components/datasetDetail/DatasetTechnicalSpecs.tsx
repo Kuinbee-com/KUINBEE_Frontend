@@ -30,8 +30,8 @@ const DatasetTechnicalSpecs: React.FC<DatasetTechnicalSpecsProps> = ({ dataForma
         <span className="font-bold text-[#1a2240] text-sm">{dataFormatInfo?.cols}</span>
       </div>
       {dataFormatInfo?.fileFormat && (
-        <div>
-          <span className="text-gray-600 font-medium text-sm block mb-1">Format:</span>
+        <div className="flex justify-between items-center">
+          <span className="text-gray-600 font-medium text-sm">Format:</span>
           <Badge variant="outline" className="bg-white/70 text-[#1a2240] border-[#1a2240]/20 font-semibold text-xs">{dataFormatInfo.fileFormat}</Badge>
         </div>
       )}
