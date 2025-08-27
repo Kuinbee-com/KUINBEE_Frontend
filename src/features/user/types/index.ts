@@ -74,6 +74,7 @@ export interface Dataset {
   license?: string;
   aboutDatasetInfo?: {
     overview: string;
+    description: string;
     dataQuality: string;
     features: { content: string }[];
     dataFormatInfo: {

@@ -1,7 +1,6 @@
 "use client"
 import * as React from 'react';
 import{ useState } from "react";
-import { Link } from "react-router-dom";
 // import Navbar from "../../shared/components/Navbar";
 import ResponsiveHeader from "../components/ResponsiveHeader";
 import Footer from "@/features/user/pages/landing/footer";
@@ -9,16 +8,13 @@ import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem"
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/shared/components/ui/button";
 import {
-  Menu,
-  X,
   DollarSign,
   Mail,
   Phone,
   MessageSquare,
   Building2,
   Zap,
-  Crown,
-  ArrowLeft
+  
 } from "lucide-react";
 
 

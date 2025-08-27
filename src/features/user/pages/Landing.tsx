@@ -7,9 +7,6 @@ import ProblemsSection from "./landing/problems_section";
 import SecuritySection from "./landing/security_section";
 import FAQsSection from "./landing/faqs_section";
 import Footer from "./landing/footer";
-import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
-import { OverlayTriggers, useOverlay } from "../components/GlobalOverlaySystem";
 import ResponsiveHeader from "../components/ResponsiveHeader";
 
 const Landing: React.FC = () => {

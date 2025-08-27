@@ -4,13 +4,9 @@ import { motion } from "framer-motion"
 import { Button } from "@/shared/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/shared/components/ui/card";
 import TextField from '@mui/material/TextField';
-import Navbar from "@/features/user/components/Navbar";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
 import { Mail, Phone, Clock, ArrowRight } from "lucide-react"
-import { AnimatePresence } from 'framer-motion';
 import ResponsiveHeader from "../components/ResponsiveHeader";
 /*
 If you see "Cannot find module '@/shared/components/ui/label'" or similar errors for other UI components,

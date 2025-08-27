@@ -12,14 +12,7 @@ import {
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Badge } from '@/shared/components/ui/badge';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/shared/components/ui/table';
+import {Table,TableBody,TableCell,TableHead,TableHeader,TableRow} from '@/shared/components/ui/table';
 import { UserApiService } from '../services/userApiService';
 import { toast } from 'sonner';
 import type { UserProfile, Dataset, EditingProfile, DownloadedDataset } from '../types';
