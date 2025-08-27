@@ -79,8 +79,8 @@ const UserProfilePage: React.FC = () => {
             window.location.href = '/login';
           }, 1500);
         } else {
-          setError('Failed to load profile data');
-          toast.error('Failed to load profile data');
+          setError('Login again');
+          toast.error('Login again');
         }
       } finally {
         setLoading(false);
