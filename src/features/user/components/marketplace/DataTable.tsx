@@ -276,7 +276,7 @@ const DataTable: React.FC<DataTableProps> = ({
                   size="sm"
                   onClick={handlePreviousPage}
                   disabled={currentPage === 1}
-                  className="text-xs"
+                  className="px-4 py-2 border border-[#e3e6f3] !bg-white !text-[#1a2240] font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 hover:!bg-[#e3e6f3] hover:!text-[#1a2240] active:!bg-[#bfc6e0] active:!text-[#1a2240] shadow-none text-xs rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Previous
                 </Button>
@@ -285,7 +285,7 @@ const DataTable: React.FC<DataTableProps> = ({
                   size="sm"
                   onClick={handleNextPage}
                   disabled={currentPage === totalPages}
-                  className="text-xs"
+                  className="px-4 py-2 border border-[#e3e6f3] !bg-white !text-[#1a2240] font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 hover:!bg-[#e3e6f3] hover:!text-[#1a2240] active:!bg-[#bfc6e0] active:!text-[#1a2240] shadow-none text-xs rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Next
                 </Button>

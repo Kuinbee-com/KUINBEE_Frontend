@@ -19,6 +19,7 @@ export const HoverEffect = ({
     link: string
     icon: React.ElementType
     color: string
+    comingSoon?: boolean
   }[]
   className?: string
 }) => {
@@ -95,7 +96,7 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
-            <Card icon={item.icon} iconColor={item.color}>
+            <Card icon={item.icon} iconColor={item.color} comingSoon={item.comingSoon}>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
             </Card>
@@ -111,11 +112,13 @@ export const Card = ({
   children,
   icon: Icon,
   iconColor,
+  comingSoon = false,
 }: {
   className?: string
   children: React.ReactNode
   icon: React.ElementType
   iconColor: string
+  comingSoon?: boolean
 }) => {
   return (
     <div
@@ -128,6 +131,15 @@ export const Card = ({
         boxShadow: "0 10px 40px 0 rgba(26,34,64,0.12)", // Light mode shadow
       }}
     >
+      {/* Coming Soon Badge */}
+      {comingSoon && (
+        <div className="absolute top-3 right-3 z-30">
+          <div className="bg-gradient-to-r from-[#1a2240] to-[#24305e] text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+            Coming Soon
+          </div>
+        </div>
+      )}
+      
       <div
         className={cn(
           "w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-lg transition-colors duration-300",

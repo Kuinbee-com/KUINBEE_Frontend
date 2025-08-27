@@ -269,7 +269,8 @@ const PricingPage: React.FC = () => {
                 className="flex items-center gap-2 text-[#1a2240] hover:text-[#4e5a7e] transition-colors font-medium"
               >
                 <Phone className="w-4 h-4" />
-                +1 (555) 012-3456
+                +91 7796137098
+                +44 7825600683
               </a>
             </div>
           </motion.div>

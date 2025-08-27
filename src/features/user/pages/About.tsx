@@ -277,7 +277,7 @@ export default function AboutPageComponent() {
               className="text-center mb-12 md:mb-16"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a2240]/5 rounded-full border border-[#1a2240]/10 mb-4 md:mb-6">
-                <span className="text-sm font-medium text-[#1a2240]">01 / What we do</span>
+                <span className="text-sm font-medium text-[#1a2240]">01 : What we do</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1a2240] leading-tight mb-4 md:mb-6">
                 We make data accessible, accurate, and actionable on demand
