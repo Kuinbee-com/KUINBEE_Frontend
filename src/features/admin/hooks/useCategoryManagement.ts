@@ -32,8 +32,8 @@ const useCategoryManagement = () => {
         setCategories(JSON.parse(cached));
         setLoading(false);
         // Optionally, refresh in background
-        CategoryService.getAllCategories().then(apiCategories => {
-          const mappedCategories: Category[] = apiCategories.map(cat => ({
+        CategoryService.getAllCategories().then(result => {
+          const mappedCategories: Category[] = result.map(cat => ({
             id: cat.id,
             name: cat.name,
             datasetCount: cat.datasetCount || 0
@@ -43,8 +43,8 @@ const useCategoryManagement = () => {
         }).catch(() => {});
         return;
       }
-      const apiCategories = await CategoryService.getAllCategories();
-      const mappedCategories: Category[] = apiCategories.map(cat => ({
+      const result = await CategoryService.getAllCategories();
+      const mappedCategories: Category[] = result.map(cat => ({
         id: cat.id,
         name: cat.name,
         datasetCount: cat.datasetCount || 0

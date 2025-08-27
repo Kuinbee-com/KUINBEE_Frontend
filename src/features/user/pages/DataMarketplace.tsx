@@ -135,7 +135,7 @@ const DataMarketplace: React.FC = () => {
       </div>
 
       {/* Search and Sort Bar */}
-      <div className="relative z-10">
+      <div className="relative z-30">
         <SearchAndSortBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -147,7 +147,7 @@ const DataMarketplace: React.FC = () => {
       </div>
 
       {/* Category Pills Section with fixed height to prevent CLS */}
-      <div className="max-w-[1600px] mx-auto px-4 pb-32 relative z-10">
+      <div className="max-w-[1600px] mx-auto px-4 pb-32 relative z-20">
         <div className="min-h-[60px] mb-8">
           {categories.length > 0 ? (
             <CategoryPills

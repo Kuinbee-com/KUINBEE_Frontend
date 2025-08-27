@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, Save as SaveIcon } from '@mui/icons-material';
 import { useCategoryManagement } from '../../hooks/useCategoryManagement';
+import { CategoryService } from '../../services/category/categoryService';
 
 // Category interface matching the Prisma schema
 
@@ -80,7 +81,7 @@ const CreateCategoryPage: React.FC = () => {
       if (isEditMode) {
         // Update existing category
         console.log('Updating category:', { id, ...categoryData });
-        await import('../../services/category/categoryService').then(m => m.CategoryService.updateCategory(id!, categoryData));
+        await CategoryService.updateCategory(id!, categoryData);
         
         // Navigate back to categories list
         navigate('/admin/categories', {
@@ -91,7 +92,7 @@ const CreateCategoryPage: React.FC = () => {
         console.log('Creating category:', categoryData);
         console.log('CategoryData type:', typeof categoryData);
         console.log('CategoryData JSON:', JSON.stringify(categoryData));
-        await import('../../services/category/categoryService').then(m => m.CategoryService.createCategory(categoryData));
+        await CategoryService.createCategory(categoryData);
         
         // Navigate back to categories list
         navigate('/admin/categories', {

@@ -23,8 +23,8 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="max-w-[1600px] mx-auto pb-8 px-4">
-      <div className="mb-10 flex flex-col md:flex-row items-center justify-between gap-6">
+    <div className="max-w-[1600px] mx-auto pb-8 px-4 relative z-50">
+      <div className="mb-10 flex flex-col md:flex-row items-center justify-between gap-6 relative">
         <div className="flex-1 w-full">
           <div className="relative w-full max-w-lg">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#1a2240] opacity-80 w-6 h-6" />
@@ -39,7 +39,7 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
             />
           </div>
         </div>
-        <div className="w-full md:w-64 mt-4 md:mt-0 flex justify-end">
+        <div className="w-full md:w-64 mt-4 md:mt-0 flex justify-end relative z-[60]">
           <div className="w-full flex flex-col items-end">
             <div className="relative w-full" ref={dropdownRef}>
               <button
@@ -57,7 +57,7 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
                 </div>
               </button>
               {sortDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-[#e3e6f3] z-50 overflow-hidden"
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-[#e3e6f3] z-[9999] overflow-hidden"
                      style={{ boxShadow: '0 8px 32px 0 rgba(26,34,64,0.15)' }}>
                   <div className="py-2">
                     {SORT_OPTIONS.map((option) => (

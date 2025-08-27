@@ -14,6 +14,7 @@ import {
   IconButton,
 } from '@mui/material';
 import { Save as SaveIcon, ArrowBack as ArrowBackIcon } from '@mui/icons-material';
+import { SourceService } from '../../services/sources/sourceService';
 
 /**
  * Form data structure for source creation/editing
@@ -106,7 +107,7 @@ const CreateSourcePage: React.FC = () => {
       }
       if (!found) {
         // Fallback to API
-        const apiSources = await import('../../services/sources/sourceService').then(m => m.SourceService.getAllSources());
+        const apiSources = await SourceService.getAllSources();
         found = apiSources.find((s: any) => s.id === sourceId);
         // Update cache if found
         if (apiSources && apiSources.length) {
@@ -164,11 +165,11 @@ const CreateSourcePage: React.FC = () => {
     try {
       if (isEditMode) {
         // Update existing source with only name (as per backend contract)
-        const result = await import('../../services/sources/sourceService').then(m => m.SourceService.updateSource(id!, { name: formData.name }));
+        const result = await SourceService.updateSource(id!, { name: formData.name });
         console.log('Source updated:', result);
       } else {
         // Create new source
-        const result = await import('../../services/sources/sourceService').then(m => m.SourceService.createSource(formData.name));
+        const result = await SourceService.createSource(formData.name);
         console.log('Source created:', result);
       }
       navigate('/admin/sources', { 

@@ -26,7 +26,7 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
   };
 
   return (
-    <div className="mb-8">
+    <div className="mb-8 relative z-10">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         {/* Category Pills - Left Side with more width */}
         <div className="w-full lg:max-w-5xl lg:flex-1">

@@ -24,6 +24,7 @@ import {
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon, ArrowBack as ArrowBackIcon, CloudUpload, CloudDownload } from '@mui/icons-material';
 import * as React from 'react';
 import { DatasetService } from '../../services/datasets/datasetService';
+import { CategoryService } from '../../services/category/categoryService';
 import type { Dataset } from '../../types';
 
 const palette = {
@@ -67,7 +68,7 @@ const AdminDatasets: React.FC = () => {
   const datasetsData = await DatasetService.getAllDatasets();
   setDatasets(datasetsData);
   // Fetch categories and build lookup map
-  const categoryList = await import('../../services/category/categoryService').then(m => m.CategoryService.getAllCategories());
+  const categoryList = await CategoryService.getAllCategories();
   setCategories(categoryList);
   const map: Record<string, string> = {};
   categoryList.forEach(cat => { map[cat.id] = cat.name; });
@@ -366,6 +367,7 @@ const AdminDatasets: React.FC = () => {
           <Table stickyHeader sx={{ minWidth: 900, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
             <TableHead>
               <TableRow>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 18px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2, width: 24 }}>#</TableCell>
                 <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Title</TableCell>
                 <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Category</TableCell>
                 <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Price</TableCell>
@@ -395,6 +397,7 @@ const AdminDatasets: React.FC = () => {
                     },
                   }}
                 >
+                  <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 18px', fontFamily: 'Inter, Roboto, Arial, sans-serif', textAlign: 'center' }}>{idx + 1}</TableCell>
                   <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.title}</TableCell>
                   <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{categoryMap[ds.primaryCategoryId] || ds.primaryCategoryId}</TableCell>
                   <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>${ds.price.toLocaleString()}</TableCell>

@@ -137,15 +137,15 @@ export const useSourceManagement = () => {
         setSources(JSON.parse(cached));
         setLoading(false);
         // Optionally, refresh in background
-        SourceService.getAllSources().then(apiSources => {
-          setSources(apiSources);
-          localStorage.setItem('sources', JSON.stringify(apiSources));
+        SourceService.getAllSources().then(result => {
+          setSources(result);
+          localStorage.setItem('sources', JSON.stringify(result));
         }).catch(() => {});
         return;
       }
-      const apiSources = await SourceService.getAllSources();
-      setSources(apiSources);
-      localStorage.setItem('sources', JSON.stringify(apiSources));
+      const result = await SourceService.getAllSources();
+      setSources(result);
+      localStorage.setItem('sources', JSON.stringify(result));
     } catch (error) {
       console.error('Failed to load sources:', error);
       setSources(mockSources);

@@ -50,11 +50,9 @@ const UserProfilePage: React.FC = () => {
         const [profileResponse, datasetsResponse] = await Promise.all([
           UserApiService.getUserProfile(),
           UserApiService.getDownloadedDatasets()
-
         ]);
-          
-  setUserProfile(profileResponse);
-  setDownloadedDatasets(datasetsResponse.map((item) => item));
+        setUserProfile(profileResponse);
+        setDownloadedDatasets(datasetsResponse.map((item) => item));
 
         // Initialize editing profile with current values
         if (profileResponse?.UserProfileInfo) {
@@ -66,10 +64,24 @@ const UserProfilePage: React.FC = () => {
             bio: profileResponse.UserProfileInfo.bio || ''
           });
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error('Error fetching data:', error);
-        setError('Failed to load profile data');
-        toast.error('Failed to load profile data');
+        // Type guard for error with response.status
+        const isAxiosError = (err: unknown): err is { response: { status: number }, message?: string } =>
+          typeof err === 'object' && err !== null && 'response' in err && typeof (err as any).response?.status === 'number';
+        const isTokenError = (err: unknown): err is { message: string } =>
+          typeof err === 'object' && err !== null && 'message' in err && typeof (err as any).message === 'string' && (err as any).message.toLowerCase().includes('token');
+        if (isAxiosError(error) && (error.response.status === 401 || error.response.status === 403) || isTokenError(error)) {
+          setError('Session expired. Please log in again.');
+          toast.error('Session expired. Please log in again.');
+          localStorage.removeItem('token');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1500);
+        } else {
+          setError('Failed to load profile data');
+          toast.error('Failed to load profile data');
+        }
       } finally {
         setLoading(false);
       }
