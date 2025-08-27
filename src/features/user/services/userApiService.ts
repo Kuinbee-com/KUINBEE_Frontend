@@ -209,20 +209,26 @@ export class UserApiService {
         if (params.search) {
           queryParams.set('search', params.search);
         }
-        // Backend expects filter[isPaid] as boolean string
+        
+        // Build filter object as JSON string
+        const filterObj: any = {};
         if (params.isPaid !== undefined) {
-          queryParams.set('filter[isPaid]', params.isPaid.toString());
+          filterObj.isPaid = params.isPaid;
         }
         if (params.category) {
-          queryParams.set('filter[category]', params.category);
+          filterObj.category = params.category;
         }
         if (params.source) {
-          queryParams.set('filter[source]', params.source);
+          filterObj.source = params.source;
         }
         if (params.superType) {
-          queryParams.set('filter[superType]', params.superType);
+          filterObj.superType = params.superType;
         }
-        // Note: location filtering removed as backend doesn't support it yet
+        
+        // Add filter as JSON string if we have any filters
+        if (Object.keys(filterObj).length > 0) {
+          queryParams.set('filter', JSON.stringify(filterObj));
+        }
         
         url = `/api/v1/user/datasets/operations/getAllUploadedDatasets?${queryParams.toString()}`;
         response = await userApi.get(url);
@@ -238,18 +244,25 @@ export class UserApiService {
         if (params.search) {
           queryParams.set('search', params.search);
         }
-        // Backend expects filter[isPaid] as boolean string
+        
+        // Build filter object as JSON string
+        const filterObj: any = {};
         if (params.isPaid !== undefined) {
-          queryParams.set('filter[isPaid]', params.isPaid.toString());
+          filterObj.isPaid = params.isPaid;
         }
         if (params.category) {
-          queryParams.set('filter[category]', params.category);
+          filterObj.category = params.category;
         }
         if (params.source) {
-          queryParams.set('filter[source]', params.source);
+          filterObj.source = params.source;
         }
         if (params.superType) {
-          queryParams.set('filter[superType]', params.superType);
+          filterObj.superType = params.superType;
+        }
+        
+        // Add filter as JSON string if we have any filters
+        if (Object.keys(filterObj).length > 0) {
+          queryParams.set('filter', JSON.stringify(filterObj));
         }
         
         url = `/api/v1/user/datasets/getAllUploadedDatasets?${queryParams.toString()}`;

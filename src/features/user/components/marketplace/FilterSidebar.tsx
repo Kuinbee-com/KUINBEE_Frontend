@@ -72,10 +72,12 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
   }, [setSourceDropdownOpen]);
 
   const handleCategoryToggle = (categoryId: string) => {
+    // Single category selection - if same category is clicked, deselect it
     if (selectedCategories.includes(categoryId)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== categoryId));
+      setSelectedCategories([]);
     } else {
-      setSelectedCategories([...selectedCategories, categoryId]);
+      // Replace with new single category selection
+      setSelectedCategories([categoryId]);
     }
   };
 
@@ -147,7 +149,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
               <div className="flex flex-col gap-2">
                 {categories.map((category) => (
                   <label key={category.id} className={`flex items-center gap-3 cursor-pointer rounded-lg px-2 py-1 transition-colors ${selectedCategories.includes(category.id) ? "bg-gradient-to-r from-[#e3e6f3] to-[#f7f8fa]" : "hover:bg-[#f7f8fa]"}`}>
-                    <input type="checkbox" name="category" value={category.id} checked={selectedCategories.includes(category.id)} onChange={(e) => handleCategoryToggle(category.id)} className="appearance-none w-6 h-6 rounded-full border-2 border-[#1a2240] checked:bg-[#1a2240] checked:border-[#1a2240] flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30" style={{ boxShadow: '0 0 0 2px #e3e6f3' }} />
+                    <input type="radio" name="category" value={category.id} checked={selectedCategories.includes(category.id)} onChange={(e) => handleCategoryToggle(category.id)} className="appearance-none w-6 h-6 rounded-full border-2 border-[#1a2240] checked:bg-[#1a2240] checked:border-[#1a2240] flex items-center justify-center transition-all focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30" style={{ boxShadow: '0 0 0 2px #e3e6f3' }} />
                     <span className={`text-base font-medium ${selectedCategories.includes(category.id) ? "text-[#24305e]" : "text-gray-700"}`}>{category.name}</span>
                   </label>
                 ))}

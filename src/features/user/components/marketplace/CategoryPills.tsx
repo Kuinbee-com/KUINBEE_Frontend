@@ -18,10 +18,12 @@ const CategoryPills: React.FC<CategoryPillsProps> = ({
   setPaid,
 }) => {
   const handleCategoryToggle = (categoryId: string) => {
+    // Single category selection - if same category is clicked, deselect it
     if (selectedCategories.includes(categoryId)) {
-      setSelectedCategories(selectedCategories.filter((c) => c !== categoryId));
+      setSelectedCategories([]);
     } else {
-      setSelectedCategories([...selectedCategories, categoryId]);
+      // Replace with new single category selection
+      setSelectedCategories([categoryId]);
     }
   };
 
