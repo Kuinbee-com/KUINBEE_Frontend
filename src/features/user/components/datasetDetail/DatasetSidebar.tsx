@@ -52,7 +52,7 @@ const DatasetSidebar: React.FC<DatasetSidebarProps> = ({
               className="mt-1 h-5 w-5 accent-emerald-600 border-2 border-gray-300 rounded-md bg-white transition-all duration-150 focus:ring-0 focus:ring-offset-0"
             />
             <label htmlFor="terms-checkbox" className="text-sm text-gray-600 leading-relaxed select-none cursor-pointer">
-              I agree to the <a href="/terms" target="_blank" className="text-emerald-600 hover:text-emerald-700 underline">terms and conditions</a> and understand the data usage policies.
+              I agree to the <a href="/terms-and-conditions" target="_blank" className="text-emerald-600 hover:text-emerald-700 underline">terms and conditions</a> and understand the data usage policies.
             </label>
           </div>
         )}

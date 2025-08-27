@@ -39,6 +39,7 @@ import AdminDatasetDetailPage from './features/admin/pages/datasets/DatasetDetai
 import CategoryManagementPage from './features/admin/pages/category/CategoryManagementPage';
 import Community from './features/user/pages/Community';
 import About from './features/user/pages/About';
+import TermsAndConditions from './features/user/pages/TermsAndConditions';
 import Pricing from './features/user/pages/Pricing';
 import CreateCategoryPage from './features/admin/pages/category/CreateCategoryPage';
 import SourceManagementPage from './features/admin/pages/source/SourceManagementPage';
@@ -96,6 +97,11 @@ const AppContent: React.FC = () => {
           <Route path="/about" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <About />
+            </motion.div>
+          } />
+          <Route path="/terms-and-conditions" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <TermsAndConditions />
             </motion.div>
           } />
           <Route path="/pricing" element={

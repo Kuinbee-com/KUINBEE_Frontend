@@ -224,8 +224,8 @@ export default function Footer() {
               © 2025 Kuinbee information services pvt ltd. All rights reserved. Built with security, clarity, and community at the core.
             </p>
             <div className="flex gap-6 text-sm">
-              <Link to="/terms" className="text-blue-200 hover:text-white transition-colors duration-200">
-                Terms of Service
+              <Link to="/terms-and-conditions" className="text-blue-200 hover:text-white transition-colors duration-200">
+                Terms & Conditions
               </Link>
             </div>
           </div>
