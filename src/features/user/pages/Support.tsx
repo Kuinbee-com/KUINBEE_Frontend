@@ -85,12 +85,18 @@ export default function SupportPage() {
                     <Clock className="w-3 h-3 mr-1.5 text-green-600" />
                     Response within 2 hours
                   </div>
-                  <Button
-                    variant="outline"
-                    className="w-full border-2 border-[#1a2240] text-[#1a2240] hover:bg-[#1a2240] hover:text-white bg-transparent transition-all duration-300 py-4 text-base font-semibold hover:shadow-lg hover:shadow-blue-900/30"
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=info@kuinbee.com" target="_blank" rel="noopener noreferrer"
+                    className="block w-full"
                   >
-                    Send Email
-                  </Button>
+                    <Button
+                      variant="outline"
+                      className="w-full border-2 border-[#1a2240] text-[#1a2240] hover:bg-[#1a2240] hover:text-white bg-transparent transition-all duration-300 py-4 text-base font-semibold hover:shadow-lg hover:shadow-blue-900/30"
+                      type="button"
+                    >
+                      Send Email
+                    </Button>
+                  </a>
                 </CardContent>
               </Card>
             </motion.div>
@@ -120,7 +126,7 @@ export default function SupportPage() {
                     variant="outline"
                     className="w-full border-2 border-[#1a2240] text-[#1a2240] hover:bg-[#1a2240] hover:text-white bg-transparent transition-all duration-300 py-4 text-base font-semibold hover:shadow-lg hover:shadow-blue-900/30"
                   >
-                    Schedule a call
+                    call on the given number
                   </Button>
                 </CardContent>
               </Card>

@@ -1,14 +1,10 @@
 "use client"
 
-import * as React from 'react';
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"
-import { Link } from "react-router-dom"
-import { ArrowLeft, MapPin, Clock, Users, Briefcase, Heart, Zap, Globe, Mail, Menu, X } from "lucide-react"
+import {  MapPin, Clock, Users, Briefcase, Heart, Zap, Globe, Mail, Menu, X } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
-import Navbar from "@/features/user/components/Navbar";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import type { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from "react"
 import ResponsiveHeader from "../components/ResponsiveHeader";
 
@@ -175,10 +171,17 @@ export default function CareersPage() {
                     Send us your resume and a brief note about what excites you about our mission. We'll keep your
                     information on file and reach out when the right opportunity comes up.
                   </p>
-                  <Button className="bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:from-[#24305e] hover:to-[#1a2240] text-white font-semibold px-6 lg:px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
-                    <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
-                    Email Your Resume
-                  </Button>
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=info@kuinbee.com" target="_blank" rel="noopener noreferrer"
+                    className="inline-block w-full"
+                    role="button"
+                    aria-label="Send resume to Kuinbee careers"
+                  >
+                    <Button className="bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:from-[#24305e] hover:to-[#1a2240] text-white font-semibold px-6 lg:px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2" type="button">
+                      <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
+                      Email Your Resume
+                    </Button>
+                  </a>
                 </div>
               </motion.div>
             ) : (
@@ -251,10 +254,17 @@ export default function CareersPage() {
                 We're always looking for talented individuals to join our team. Send us your resume and tell us how
                 you'd like to contribute.
               </p>
-              <Button className="bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:from-[#24305e] hover:to-[#1a2240] text-white font-semibold px-6 lg:px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2">
-                <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
-                Contact Us
-              </Button>
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=info@kuinbee.com" target="_blank" rel="noopener noreferrer"
+                className="inline-block w-full"
+                role="button"
+                aria-label="Contact Kuinbee team via email"
+              >
+                <Button className="bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:from-[#24305e] hover:to-[#1a2240] text-white font-semibold px-6 lg:px-8 py-3 rounded-xl transition-all duration-300 hover:scale-105 inline-flex items-center gap-2" type="button">
+                  <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
+                  Contact Us
+                </Button>
+              </a>
             </div>
           </motion.div>
         </main>

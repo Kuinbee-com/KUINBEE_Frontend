@@ -81,14 +81,33 @@ const DatasetDetailPage = () => {
             (download: any) => download.datasetId === datasetId || download.dataset?.id === datasetId
           );
           setHasDownloaded(hasDownloadedDataset);
-        } catch (downloadError) {
+        } catch (downloadError: any) {
           console.warn('Could not check download history:', downloadError);
-          // Don't show error to user, just couldn't check download status
+          // Check if it's a token expiration issue
+          if (downloadError?.response?.status === 401 || 
+              downloadError?.message?.toLowerCase().includes('token') || 
+              downloadError?.message?.toLowerCase().includes('unauthorized')) {
+            console.warn('Token expired while checking download history');
+            // Don't remove token or show login here, just couldn't check download status
+          }
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to load dataset:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load dataset';
+      
+      let errorMessage = 'Failed to load dataset';
+      
+      // Handle token expiration or authentication errors
+      if (error?.response?.status === 401 || 
+          error?.message?.toLowerCase().includes('token') || 
+          error?.message?.toLowerCase().includes('unauthorized')) {
+        errorMessage = 'Your session has expired. Please log in again to access this dataset.';
+        localStorage.removeItem('token');
+        // Don't automatically show login modal here as this is for dataset loading, not user action
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {
@@ -236,11 +255,36 @@ const DatasetDetailPage = () => {
           errorMessage = 'Conflict: This dataset may have already been downloaded or there\'s a permission issue. Please try again later.';
         }
       } else if (error?.response?.status === 401) {
-        errorMessage = 'Authentication required. Please log in again.';
+        // Token expired or authentication issue
+        errorMessage = 'Your session has expired. Please log in again to download this dataset.';
+        toast.error(errorMessage);
+        // Clear the user session and show login modal
+        localStorage.removeItem('token');
+        overlay.showLogin();
+        setIsDownloading(false);
+        return;
       } else if (error?.response?.status === 403) {
+        // Check if it's a token-related issue
+        const responseData = error.response?.data;
+        if (responseData?.message?.toLowerCase().includes('token') || responseData?.error?.toLowerCase().includes('token')) {
+          errorMessage = 'Your session has expired. Please log in again to download this dataset.';
+          toast.error(errorMessage);
+          localStorage.removeItem('token');
+          overlay.showLogin();
+          setIsDownloading(false);
+          return;
+        }
         errorMessage = 'Access forbidden. You may not have permission to download this dataset.';
       } else if (error?.response?.status === 404) {
         errorMessage = 'Dataset not found or no longer available for download.';
+      } else if (error?.message?.toLowerCase().includes('token') || error?.message?.toLowerCase().includes('unauthorized')) {
+        // Handle token-related errors in the message
+        errorMessage = 'Your session has expired. Please log in again to download this dataset.';
+        toast.error(errorMessage);
+        localStorage.removeItem('token');
+        overlay.showLogin();
+        setIsDownloading(false);
+        return;
       } else if (error?.message) {
         errorMessage = error.message;
       }

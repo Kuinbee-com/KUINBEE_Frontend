@@ -36,6 +36,20 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({
     return () => observer.disconnect();
   }, []);
 
+  // Close mobile menu on escape key
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+      }
+    };
+    
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen]);
+
   return (
     <div
       className={
@@ -81,14 +95,13 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({
               className="lg:hidden fixed inset-0 bg-black/20 z-40"
               onClick={() => setMobileMenuOpen(false)}
             />
-            {/* Menu Content */}
+            {/* Menu Content - Positioned absolutely relative to the sticky header */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: -10 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="lg:hidden absolute top-full right-4 w-fit bg-transparent z-50"
-              style={{ position: "fixed", top: "72px" }}
             >
               <div className="py-2 flex flex-col items-center gap-4">
                 <OverlayTriggers

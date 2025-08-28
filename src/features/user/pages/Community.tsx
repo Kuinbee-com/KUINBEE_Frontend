@@ -4,9 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowLeft, Menu, X } from "lucide-react";
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub, FaRss } from "react-icons/fa";
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
-import Navbar from "@/features/user/components/Navbar";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import { useState } from "react";
 import ResponsiveHeader from "../components/ResponsiveHeader";
 
@@ -21,6 +19,7 @@ const socialPlatforms = [
     link: "https://discord.gg/NhqGDsmzrM",
     description: "Join Kuinbee’s dynamic data community on Discord for real-time collaboration, insightful discussions, freelance gig opportunities, exciting competitions, and direct interaction with our team and fellow data professionals.",
     color: "from-[#5865F2]/10 to-[#5865F2]/5",
+    comingSoon: true
   },
   {
     title: "LinkedIn",
@@ -54,7 +53,7 @@ const socialPlatforms = [
   {
     title: "YouTube",
     icon: (props: any) => <FaYoutube color="#FF0000" {...props} />,
-    link: "https://www.youtube.com/@kuinbee",
+    link: "https://www.youtube.com",
     description: "Watch our latest videos, tutorials, and product demos. Subscribe to stay updated!",
     color: "from-[#FF0000]/10 to-[#FF0000]/5",
   },
