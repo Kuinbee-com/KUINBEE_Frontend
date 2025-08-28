@@ -30,7 +30,7 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-[#1a2240] opacity-80 w-6 h-6" />
             <input
               type="text"
-              placeholder="Search datasets, tags, or categories..."
+              placeholder="Search datasets by title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-14 pr-5 h-14 w-full text-lg font-medium bg-white rounded-full shadow-md focus:shadow-lg focus:shadow-[#1a2240]/30 focus:ring-2 focus:ring-[#1a2240]/20 outline-none transition-all duration-200 placeholder:text-gray-400"
