@@ -35,7 +35,7 @@ const DataMarketplace: React.FC = () => {
   
   // UI states
   const [sortDropdownOpen, setSortDropdownOpen] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("featured");
+  const [selectedSort, setSelectedSort] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
   
   // Pagination states
