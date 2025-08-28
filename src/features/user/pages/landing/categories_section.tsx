@@ -83,7 +83,7 @@ export default function CategoriesSection() {
   ]
 
   return (
-  <section className="py-4 bg-white min-h-[70vh]">
+    <section className="py-4 bg-white min-h-[70vh]">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

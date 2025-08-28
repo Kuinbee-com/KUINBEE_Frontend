@@ -21,7 +21,6 @@ const socialPlatforms = [
     link: "https://discord.gg/NhqGDsmzrM",
     description: "Join Kuinbee’s dynamic data community on Discord for real-time collaboration, insightful discussions, freelance gig opportunities, exciting competitions, and direct interaction with our team and fellow data professionals.",
     color: "from-[#5865F2]/10 to-[#5865F2]/5",
-    comingSoon: true,
   },
   {
     title: "LinkedIn",

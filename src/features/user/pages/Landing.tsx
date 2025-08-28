@@ -28,7 +28,7 @@ const Landing: React.FC = () => {
   }, [location.state]);
 
   return (
-    <div ref={heroRef} className="min-h-[80vh] relative  bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454]">
+    <div ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454]">
       <ResponsiveHeader theme="hero" />
       <div>
         <Hero />

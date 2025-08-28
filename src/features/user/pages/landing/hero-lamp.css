@@ -1,11 +1,47 @@
 .lamp-zoom-default {
   display: block;
 }
+.lamp-zoom-80 {
+  display: none;
+}
+.lamp-zoom-90 {
+  display: none;
+}
 .lamp-zoom-110 {
   display: none;
 }
 .lamp-zoom-125 {
   display: none;
+}
+
+/* Hide horizontal scrollbar on mobile without clipping content */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  html {
+    overflow-x: hidden;
+  }
+}
+
+/* Show 80% lamp and hide default at 80% zoom */
+@media (max-resolution: 0.89dppx) {
+  .lamp-zoom-default {
+    display: none !important;
+  }
+  .lamp-zoom-80 {
+    display: block !important;
+  }
+}
+
+/* Show 90% lamp and hide default at 90% zoom */
+@media (min-resolution: 0.9dppx) and (max-resolution: 0.99dppx) {
+  .lamp-zoom-default {
+    display: none !important;
+  }
+  .lamp-zoom-90 {
+    display: block !important;
+  }
 }
 
 /* Show 110% lamp and hide default at 110% zoom (approximate with min-resolution) */

@@ -52,7 +52,7 @@ const problems = [
 export default function ProblemsSection() {
   const navigate = useNavigate();
   return (
-    <section className="bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
+        <section className="bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
           {/* Left Side - Header and Content */}

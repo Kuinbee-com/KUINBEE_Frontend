@@ -48,16 +48,8 @@ export const registerUser = createAsyncThunk(
       const result = await AuthService.registerUser(userData);
       return result;
     } catch (error: any) {
-      // Handle specific status codes with user-friendly messages
-      if (error.response?.status === 409) {
-        return rejectWithValue('User already registered');
-      }
-      
       return rejectWithValue(
-        error.response?.data?.message || 
-        error.response?.data?.error || 
-        error.message || 
-        'Registration failed'
+        error.response?.data?.error || error.message || 'Registration failed'
       );
     }
   }

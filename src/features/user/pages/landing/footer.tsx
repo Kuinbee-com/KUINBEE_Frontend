@@ -10,7 +10,7 @@ import { Input } from "@/shared/components/ui/input"
 export default function Footer() {
   const navigate = useNavigate();
   return (
-    <footer className="bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] text-white min-h-[60vh]">
+        <footer className="bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] text-white min-h-[60vh]">
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

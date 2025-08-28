@@ -24,10 +24,10 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw] overflow-x-clip">
+    <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw]">
 
   {/* Decorative background elements - fixed to viewport, always centered */}
-  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10 overflow-x-clip">
+  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10">
   {/* Primary soft glow */}
   <div className="lamp-zoom-default">
           {/* Default lamp effects */}
@@ -47,6 +47,50 @@ export default function LandingPage() {
             animate={{ opacity: 0.6, scale: 1, y: 0 }}
             transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
             className="hidden lg:block absolute top-0 left-[30%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            style={{
+              background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
+            }}
+          />
+        </div>
+        <div className="lamp-zoom-80 hidden">
+          {/* Copy the lamp effects here for 80% zoom, style in CSS and toggle with media query */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -100 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[27%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            style={{
+              background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
+              filter: "blur(0.5px)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -70 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[33%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            style={{
+              background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
+            }}
+          />
+        </div>
+        <div className="lamp-zoom-90 hidden">
+          {/* Copy the lamp effects here for 90% zoom, style in CSS and toggle with media query */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -100 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[26%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            style={{
+              background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
+              filter: "blur(0.5px)",
+            }}
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: -70 }}
+            animate={{ opacity: 0.6, scale: 1, y: 0 }}
+            transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
+            className="hidden lg:block absolute top-0 left-[31%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
             style={{
               background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
             }}
@@ -128,7 +172,7 @@ export default function LandingPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 0.3, 0.2, 0.3], scale: [1, 1.05, 1, 1.02] }}
           transition={{ duration: 4, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut", delay: 2.5 }}
-          className="hidden md: absolute top-0 left-[32%] transform -translate-x-1/2 w-[600px] h-[300px]"
+          className="hidden md:block absolute top-0 left-[32%] transform -translate-x-1/2 w-full max-w-[600px] h-[300px]"
           style={{
             background: `radial-gradient(ellipse 300px 150px at 50% 0%, rgba(147, 197, 253, 0.15) 0%, rgba(191, 219, 254, 0.08) 60%, transparent 80%)`,
             filter: "blur(1px)",
@@ -163,7 +207,7 @@ export default function LandingPage() {
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-7xl font-semibold text-white leading-tight">
                 <div className="mb-2 sm:mb-8 font-opensans tracking-tight">The World's Data </div>
                 <div className="flex items-center justify-center gap-6 sm:gap-2 flex-wrap">
-                  <div className="inline-block relative min-w-[280px] sm:min-w-[320px] md:min-w-[400px]">
+                  <div className="inline-block relative min-w-[240px] sm:min-w-[280px] md:min-w-[400px]">
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={currentWordIndex}
