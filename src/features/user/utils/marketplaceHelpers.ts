@@ -34,10 +34,11 @@ export const getPageNumbers = (currentPage: number, totalPages: number, maxVisib
   return pages;
 };
 
-// Sort options for marketplace
+// Sort options for marketplace (only Most Downloaded enabled)
 export const SORT_OPTIONS = [
-  { value: "featured", label: "Featured" },
   { value: "downloads", label: "Most Downloaded" },
-  { value: "price-low", label: "Price: Low to High" },
-  { value: "price-high", label: "Price: High to Low" }
+  // Other options disabled as per requirements
+  // { value: "featured", label: "Featured" },
+  // { value: "price-low", label: "Price: Low to High" },
+  // { value: "price-high", label: "Price: High to Low" }
 ];

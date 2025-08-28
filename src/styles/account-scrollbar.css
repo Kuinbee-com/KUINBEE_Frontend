@@ -1,13 +1,27 @@
 .account-container {
-  scrollbar-width: thin;
-  /* Use a solid color for Firefox, as gradients are not supported */
-  scrollbar-color: #4e5a7e #f1f5f9;
+  /* Hide scrollbar for all browsers */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  /* fallback for other browsers */
+  overscroll-behavior: contain;
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
 .account-container::-webkit-scrollbar {
-  width: 8px;
-  background: #f1f5f9;
-  border-radius: 8px;
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  display: none;
+}
+
+/* Hide scrollbar track and thumb for Chrome, Safari and Opera */
+.account-container::-webkit-scrollbar-thumb {
+  background: transparent;
+  display: none;
+}
+.account-container::-webkit-scrollbar-track {
+  background: transparent;
+  display: none;
 }
 
 .account-container::-webkit-scrollbar-thumb {

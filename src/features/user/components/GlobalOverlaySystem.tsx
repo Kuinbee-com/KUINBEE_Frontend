@@ -236,7 +236,7 @@ export const OverlayProvider: React.FC<OverlayProviderProps> = ({ children, them
                 transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
                 className="overflow-hidden sm:overflow-visible"
               >
-                <div className="overflow-y-auto overscroll-contain max-h-[98vh] sm:max-h-[90vh]">
+                <div className="overflow-y-auto overscroll-contain max-h-[98vh] sm:max-h-[90vh] account-container">
                   <UserProfilePage />
                 </div>
                 <button

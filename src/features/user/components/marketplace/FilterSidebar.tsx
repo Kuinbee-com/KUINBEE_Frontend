@@ -104,7 +104,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
   return (
     <aside 
-      className="w-full lg:w-80 lg:flex-shrink-0 bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-y-auto scrollbar-white lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)]"
+      className="w-full lg:w-80 lg:flex-shrink-0 bg-white rounded-3xl border border-[#e3e6f3] shadow-xl p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-y-auto account-container lg:sticky lg:top-8 lg:max-h-[calc(100vh-4rem)]"
       style={{ boxShadow: '0 4px 24px 0 rgba(26,34,64,0.10)', background: '#fff' }}
     >
           <div className="flex items-center gap-2 mb-2 lg:mb-4">

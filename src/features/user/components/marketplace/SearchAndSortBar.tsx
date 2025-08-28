@@ -44,14 +44,18 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
             <div className="relative w-full" ref={dropdownRef}>
               <button
                 onClick={() => setSortDropdownOpen(!sortDropdownOpen)}
-                className="h-10 sm:h-11 w-full rounded-full bg-white text-[#1a2240] text-sm sm:text-base font-semibold shadow-md px-2 sm:px-3 pr-4 sm:pr-6 focus:shadow-lg focus:shadow-[#1a2240]/30 focus:ring-2 focus:ring-[#1a2240]/20 outline-none transition-all duration-200 hover:shadow-lg hover:shadow-[#1a2240]/20 cursor-pointer border-none text-left flex items-center justify-between"
+                className="h-12 sm:h-14 w-full rounded-2xl bg-gradient-to-r from-white via-gray-50/50 to-white text-[#1a2240] text-sm sm:text-base font-bold shadow-lg px-4 sm:px-6 focus:shadow-xl focus:shadow-[#1a2240]/25 focus:ring-2 focus:ring-[#1a2240]/30 outline-none transition-all duration-300 hover:shadow-xl hover:shadow-[#1a2240]/20 hover:scale-[1.02] cursor-pointer border border-white/60 backdrop-blur-sm flex items-center justify-between"
                 style={{
-                  boxShadow: '0 0.125rem 0.75rem 0 rgba(26,34,64,0.10), inset 0 0.0625rem 0.25rem 0 rgba(26,34,64,0.04)'
+                  boxShadow: '0 4px 20px 0 rgba(26,34,64,0.12), inset 0 1px 3px 0 rgba(255,255,255,0.8)'
                 }}
               >
-                <span className="text-[#1a2240] font-semibold">Sort By</span>
-                <div className="flex items-center justify-center bg-white rounded-full shadow-sm w-5 h-5 border border-[#e3e6f3] ml-2">
-                  <svg className={`w-3.8 h-3.8 fill-current transition-transform duration-200 ${sortDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
+                <div className="flex-1 flex items-center justify-center">
+                  <span className="text-[#1a2240] font-bold bg-gradient-to-r from-[#050a24] to-[#1a2240] bg-clip-text text-transparent">
+                    {selectedSort ? SORT_OPTIONS.find(option => option.value === selectedSort)?.label : 'Sort By'}
+                  </span>
+                </div>
+                <div className="flex items-center justify-center bg-gradient-to-br from-[#1a2240]/10 to-[#1a2240]/20 rounded-xl shadow-sm w-7 h-7 border border-[#1a2240]/10 ml-3">
+                  <svg className={`w-4 h-4 fill-current text-[#1a2240] transition-transform duration-300 ${sortDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20">
                     <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
                   </svg>
                 </div>
@@ -60,6 +64,18 @@ const SearchAndSortBar: React.FC<SearchAndSortBarProps> = ({
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-[#e3e6f3] z-[9999] overflow-hidden"
                      style={{ boxShadow: '0 8px 32px 0 rgba(26,34,64,0.15)' }}>
                   <div className="py-2">
+                    {/* Option to clear selection */}
+                    {selectedSort && (
+                      <button
+                        onClick={() => {
+                          setSelectedSort('');
+                          setSortDropdownOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-base font-semibold transition-all duration-200 hover:bg-gradient-to-r hover:from-gray-100 hover:to-gray-50 text-gray-500 hover:text-gray-700 border-b border-gray-100"
+                      >
+                        Clear Selection
+                      </button>
+                    )}
                     {SORT_OPTIONS.map((option) => (
                       <button
                         key={option.value}
