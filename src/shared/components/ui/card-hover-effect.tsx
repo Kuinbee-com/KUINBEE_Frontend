@@ -16,9 +16,10 @@ export const HoverEffect = ({
   items: {
     title: string
     description: string
-    link: string
+    link?: string
     icon: React.ElementType
     color: string
+    comingSoon?: boolean
   }[]
   className?: string
 }) => {
@@ -95,11 +96,17 @@ export const HoverEffect = ({
                 />
               )}
             </AnimatePresence>
+              {item.comingSoon && (
+                <span className="absolute top-4 right-4 z-30 bg-[#1a2240] text-xs font-bold text-gray-100 px-3 py-1 rounded-full shadow-md animate-pulse select-none pointer-events-none">
+                  Coming Soon
+                </span>
+              )}
             <Card icon={item.icon} iconColor={item.color}>
               <CardTitle>{item.title}</CardTitle>
               <CardDescription>{item.description}</CardDescription>
             </Card>
           </a>
+
         );
       })}
     </div>

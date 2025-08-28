@@ -56,6 +56,7 @@ const socialPlatforms = [
     link: "https://www.youtube.com",
     description: "Watch our latest videos, tutorials, and product demos. Subscribe to stay updated!",
     color: "from-[#FF0000]/10 to-[#FF0000]/5",
+    comingSoon: true
   },
  
 ];

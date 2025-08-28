@@ -210,7 +210,7 @@ export default function Footer() {
             <a href="https://www.reddit.com/user/Kuinbee00" target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors duration-200" aria-label="Reddit">
               <FaRedditAlien className="w-5 h-5" />
             </a>
-            <a href="https://www.youtube.com/@kuinbee" target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors duration-200" aria-label="YouTube">
+            <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors duration-200" aria-label="YouTube">
               <FaYoutube className="w-5 h-5" />
             </a>
             <a href="https://github.com/kuinbee" target="_blank" rel="noopener noreferrer" className="text-blue-200 hover:text-white transition-colors duration-200" aria-label="Github">
