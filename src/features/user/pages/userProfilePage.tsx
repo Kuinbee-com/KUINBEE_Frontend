@@ -7,7 +7,8 @@ import {
   Edit3, 
   Save, 
   Calendar,
-  Loader2
+  Loader2,
+  ExternalLink
 } from 'lucide-react';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -162,6 +163,16 @@ const UserProfilePage: React.FC = () => {
     } catch (error) {
       console.error('Error downloading dataset:', error);
       toast.error('Failed to download dataset');
+    }
+  };
+
+  const handleDatasetClick = (dataset: DownloadedDataset) => {
+    // Use dataset.id first (for frontend routing), fall back to datasetUniqueId only if needed
+    const datasetId = dataset.id || dataset.datasetUniqueId;
+    if (datasetId) {
+      window.location.href = `/user/dataset/${datasetId}`;
+    } else {
+      toast.error('Dataset ID not available');
     }
   };
 
@@ -608,8 +619,6 @@ const UserProfilePage: React.FC = () => {
                 </TableHeader>
                 <TableBody>
                   {downloadedDatasets.map((dataset,index) => {
-                    // Use type assertions to access API-only fields
-                    console.log(dataset);
                     const purchaseDate = dataset?.purchaseDate;
                     const primaryCategoryName = dataset?.primaryCategoryName || 'N/A';
                     return (
@@ -619,7 +628,15 @@ const UserProfilePage: React.FC = () => {
                       >
                         <TableCell>
                           <div className="space-y-1">
-                            <h4 className="font-semibold text-[#1a2240] text-xs sm:text-sm">{dataset?.title}</h4>
+                            <div 
+                              className="flex items-center gap-2 cursor-pointer group/title hover:bg-gray-50/50 p-1 rounded-md transition-all duration-200"
+                              onClick={() => handleDatasetClick(dataset)}
+                            >
+                              <h4 className="font-semibold text-[#1a2240] text-xs sm:text-sm group-hover/title:text-[#4e5a7e] transition-colors duration-200">
+                                {dataset?.title}
+                              </h4>
+                              <ExternalLink className="w-3 h-3 text-gray-400 group-hover/title:text-[#4e5a7e] transition-colors duration-200 opacity-0 group-hover/title:opacity-100" />
+                            </div>
                             <Badge
                               variant="outline"
                               className="text-xs bg-emerald-50 text-emerald-700 border-emerald-200"
