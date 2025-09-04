@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, BarChart3, Mail, Zap, Sparkles, TrendingUp, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { BarChart3, Mail, Zap, Sparkles, TrendingUp } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
 import ResponsiveHeader from "../components/ResponsiveHeader";
 
 

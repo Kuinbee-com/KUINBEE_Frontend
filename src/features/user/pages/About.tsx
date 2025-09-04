@@ -2,11 +2,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
-  Menu,
-  X,
   Target,
   Globe,
   Database,
@@ -277,7 +274,7 @@ export default function AboutPageComponent() {
               className="text-center mb-12 md:mb-16"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#1a2240]/5 rounded-full border border-[#1a2240]/10 mb-4 md:mb-6">
-                <span className="text-sm font-medium text-[#1a2240]">01 : What we do</span>
+                <span className="text-sm font-medium text-[#1a2240]">What we do</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-[#1a2240] leading-tight mb-4 md:mb-6">
                 We make data accessible, accurate, and actionable on demand
@@ -345,10 +342,10 @@ export default function AboutPageComponent() {
               className="text-center mb-12 md:mb-16"
             >
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-4 md:mb-6">
-                <span className="text-sm font-medium text-white">02 / Where we're going</span>
+                <span className="text-sm font-medium text-white">Where we're going</span>
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight mb-4 md:mb-6">
-                Organizations around the world are already using Kuinbee
+                people around the world are already using Kuinbee
               </h2>
             </motion.div>
 

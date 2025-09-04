@@ -4,8 +4,7 @@ import{ useState } from "react";
 // import Navbar from "../../shared/components/Navbar";
 import ResponsiveHeader from "../components/ResponsiveHeader";
 import Footer from "@/features/user/pages/landing/footer";
-import { OverlayTriggers } from "@/features/user/components/GlobalOverlaySystem";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/shared/components/ui/button";
 import {
   DollarSign,

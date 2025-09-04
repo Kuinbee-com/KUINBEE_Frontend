@@ -1,51 +1,76 @@
 "use client"
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion"
-import {  MapPin, Clock, Users, Briefcase, Heart, Zap, Globe, Mail, Menu, X } from "lucide-react"
+import { motion } from "framer-motion"
+import {  MapPin, Clock, Users, Briefcase, Zap, Globe, Mail } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import Footer from "@/features/user/pages/landing/footer";
 import type { ReactElement, JSXElementConstructor, ReactNode, ReactPortal, Key } from "react"
 import ResponsiveHeader from "../components/ResponsiveHeader";
 
-const jobOpenings: any[] = [
-//   {
-//     id: 1,
-//     title: "Senior Frontend Developer",
-//     department: "Engineering",
-//     location: "Remote",
-//     type: "Full-time",
-//     description: "Build beautiful, responsive user interfaces using React, Next.js, and modern web technologies.",
-//     requirements: ["5+ years React experience", "TypeScript proficiency", "UI/UX design sense"],
-//   },
-//   {
-//     id: 2,
-//     title: "Data Scientist",
-//     department: "Data",
-//     location: "San Francisco, CA",
-//     type: "Full-time",
-//     description: "Analyze complex datasets and build machine learning models to drive business insights.",
-//     requirements: ["PhD in relevant field", "Python/R expertise", "ML/AI experience"],
-//   },
-//   {
-//     id: 3,
-//     title: "Product Manager",
-//     department: "Product",
-//     location: "New York, NY",
-//     type: "Full-time",
-//     description: "Lead product strategy and work cross-functionally to deliver exceptional user experiences.",
-//     requirements: ["3+ years PM experience", "Technical background", "Strong communication skills"],
-//   },
-//   {
-//     id: 4,
-//     title: "DevOps Engineer",
-//     department: "Engineering",
-//     location: "Remote",
-//     type: "Full-time",
-//     description: "Build and maintain scalable infrastructure, CI/CD pipelines, and monitoring systems.",
-//     requirements: ["AWS/GCP experience", "Kubernetes knowledge", "Infrastructure as code"],
-//  },
-]
+interface JobOpening {
+  id: number;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  description: string;
+  requirements: string[];
+  jdLink?: string;
+}
+
+const jobOpenings: JobOpening[] = [
+  {
+    id: 1,
+    title: "Full Stack Developer",
+    department: "Engineering",
+    location: "Pune / Remote",
+    type: "Full-time / Contract",
+    description: "Build and maintain Kuinbee’s platform, including marketplace, community, and analytics features with scalable front-end and back-end systems.",
+    requirements: ["2–5 yrs full-stack exp", "JS/TS, React, Node.js, Python", "SQL/NoSQL databases", "Cloud (AWS/GCP)"],
+    jdLink: "https://drive.google.com/drive/folders/1G3cnOK5S2NS67slNsD7Wq75UD0-R9LYW?usp=drive_link"
+  },
+  {
+    id: 2,
+    title: "Data Engineer",
+    department: "Engineering",
+    location: "Pune / Remote",
+    type: "Full-time / Contract",
+    description: "Design and manage ETL pipelines, databases, and data warehouses to ensure scalable and reliable data systems.",
+    requirements: ["2–4 yrs data engineering exp", "SQL, Python, Spark/Hadoop", "AWS/GCP/Azure", "APIs & streaming (Kafka/Flink)"],
+    jdLink: "https://drive.google.com/drive/folders/1EIy6H52kzf-t_8L_N20sSrYvwHjgLHsq?usp=drive_link"
+  },
+  {
+    id: 3,
+    title: "Data Visualization Specialist",
+    department: "Data Operations",
+    location: "Pune / Remote",
+    type: "Full-time / Contract",
+    description: "Create intuitive dashboards and reports using Tableau, Power BI, or D3.js to turn complex datasets into clear insights.",
+    requirements: ["1–3 yrs data viz/BI exp", "Tableau/Power BI", "Design & storytelling sense", "SQL & Python (bonus)"],
+    jdLink: "https://drive.google.com/drive/folders/1kEADz9oQG_XAzRDYfCEsxXDyXztBo5xW?usp=drive_link"
+  },
+  {
+    id: 4,
+    title: "Data Collection Specialist",
+    department: "Data Operations",
+    location: "Pune / Remote",
+    type: "Full-time / Contract",
+    description: "Source, verify, and structure datasets across industries while ensuring accuracy, privacy compliance, and readiness for analysis.",
+    requirements: ["Research & analytical skills", "Excel/Sheets & SQL basics", "Web scraping tools (BeautifulSoup, Scrapy, Selenium)", "Attention to data accuracy"],
+    jdLink: "https://drive.google.com/drive/folders/1V9KPgH9lwPNtOh4CJuF1FVSa01hjKMdi?usp=drive_link"
+  },
+  {
+    id: 5,
+    title: "AI Developer",
+    department: "Engineering / AI",
+    location: "Pune / Remote",
+    type: "Full-time",
+    description: "Develop and deploy ML/AI models for analytics, forecasting, and automation across structured and unstructured datasets.",
+    requirements: ["2–5 yrs ML/AI exp", "Python, TensorFlow/PyTorch, scikit-learn", "NLP & predictive modeling", "Cloud ML (AWS Sagemaker, GCP Vertex AI)"],
+    jdLink: "https://drive.google.com/drive/folders/1C2Ge50dKvsupTBZNE6QrExIh5YnYEFSz?usp=drive_link"
+  }
+];
 
 const benefits = [
   {
@@ -192,11 +217,11 @@ export default function CareersPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.1 * index }}
-                    className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+                    className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                   >
-                    <div className="p-6 lg:p-8">
+                    <div className="p-6 lg:p-8 flex flex-col h-full">
                       <div className="flex items-start justify-between mb-4">
-                        <div>
+                        <div className="flex-grow">
                           <h3 className="text-xl lg:text-2xl font-bold text-[#1a2240] mb-2">{job.title}</h3>
                           <div className="flex flex-wrap items-center gap-3 lg:gap-4 text-xs lg:text-sm text-gray-600">
                             <span className="flex items-center gap-1">
@@ -229,9 +254,37 @@ export default function CareersPage() {
                         </ul>
                       </div>
 
-                      <Button className="w-full bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:from-[#24305e] hover:to-[#1a2240] text-white font-semibold py-2.5 lg:py-3 text-sm lg:text-base rounded-xl transition-all duration-300 hover:scale-105">
-                        Apply Now
-                      </Button>
+                      <div className="mt-auto">
+                        {job.jdLink ? (
+                          <a
+                            href={job.jdLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block w-full mb-3"
+                          >
+                            <Button className="w-full bg-gradient-to-r from-[#e2e8f0] to-[#cbd5e1] hover:bg-[#f8fafc] hover:shadow-md hover:scale-105 text-[#1a2240] font-semibold py-2.5 lg:py-3 text-sm lg:text-base rounded-xl transition-all duration-200">
+                              Job Description
+                            </Button>
+                          </a>
+                        ) : (
+                          <Button className="w-full bg-gradient-to-r from-[#e2e8f0] to-[#cbd5e1] hover:bg-[#f8fafc] hover:shadow-md hover:scale-105 text-[#1a2240] font-semibold py-2.5 lg:py-3 text-sm lg:text-base rounded-xl transition-all duration-200 mb-3" disabled>
+                            Job Description
+                          </Button>
+                        )}
+
+                        <a
+                          href="https://mail.google.com/mail/?view=cm&fs=1&to=info@kuinbee.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block w-full"
+                          role="button"
+                          aria-label="Apply for this job via email"
+                        >
+                          <Button className="w-full bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] hover:bg-[#2a365a] hover:shadow-md hover:scale-105 text-white font-semibold py-2.5 lg:py-3 text-sm lg:text-base rounded-xl transition-all duration-200">
+                            Apply Now
+                          </Button>
+                        </a>
+                      </div>
                     </div>
                   </motion.div>
                 ))}

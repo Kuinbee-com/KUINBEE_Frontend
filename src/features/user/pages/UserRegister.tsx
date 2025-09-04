@@ -120,7 +120,16 @@ const UserRegister: React.FC<UserRegisterProps> = ({ onClose, onSwitchToLogin })
       }, 2000);
       
     } catch (err: any) {
-      setError(err || 'Registration failed. Please try again.');
+      // Handle specific error cases for better UX
+      if (typeof err === 'string' && (err.includes('409') || err.toLowerCase().includes('already exists') || err.toLowerCase().includes('user already') || err.toLowerCase().includes('duplicate'))) {
+        setError('An account with this email already exists. Please try signing in instead.');
+      } else if (typeof err === 'string' && err.includes('400')) {
+        setError('Please check your information and try again.');
+      } else if (typeof err === 'string' && err.includes('500')) {
+        setError('Server error. Please try again later.');
+      } else {
+        setError(err || 'Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
