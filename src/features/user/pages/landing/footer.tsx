@@ -227,6 +227,9 @@ export default function Footer() {
               <Link to="/terms-and-conditions" className="text-blue-200 hover:text-white transition-colors duration-200">
                 Terms & Conditions
               </Link>
+              <Link to="/legal-compliance" className="text-blue-200 hover:text-white transition-colors duration-200">
+                Legal & Compliance
+              </Link>
             </div>
           </div>
         </motion.div>

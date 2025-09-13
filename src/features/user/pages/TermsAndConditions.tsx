@@ -323,8 +323,7 @@ export default function TermsAndConditionsPage() {
         <Footer />
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <OverlayTriggers />
+    
     </div>
   );
 }

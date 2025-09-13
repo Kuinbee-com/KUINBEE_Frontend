@@ -42,6 +42,7 @@ import CategoryManagementPage from './features/admin/pages/category/CategoryMana
 import Community from './features/user/pages/Community';
 import About from './features/user/pages/About';
 import TermsAndConditions from './features/user/pages/TermsAndConditions';
+import LegalCompliance from './features/user/pages/LegalCompliance';
 import Pricing from './features/user/pages/Pricing';
 import CreateCategoryPage from './features/admin/pages/category/CreateCategoryPage';
 import SourceManagementPage from './features/admin/pages/source/SourceManagementPage';
@@ -104,6 +105,11 @@ const AppContent: React.FC = () => {
           <Route path="/terms-and-conditions" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <TermsAndConditions />
+            </motion.div>
+          } />
+          <Route path="/legal-compliance" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <LegalCompliance />
             </motion.div>
           } />
           <Route path="/pricing" element={

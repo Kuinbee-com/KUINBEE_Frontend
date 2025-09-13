@@ -58,7 +58,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8, y: -100 }}
             animate={{ opacity: 0.6, scale: 1, y: 0 }}
             transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
-            className="hidden lg:block absolute top-0 left-[27%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            className="hidden lg:block absolute top-0 left-[33%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
             style={{
               background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
               filter: "blur(0.5px)",
@@ -68,7 +68,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8, y: -70 }}
             animate={{ opacity: 0.6, scale: 1, y: 0 }}
             transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
-            className="hidden lg:block absolute top-0 left-[33%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
+            className="hidden lg:block absolute top-0 left-[37%] transform -translate-x-[25%] w-[60vw] max-w-[750px] h-[30vw] max-h-[375px]"
             style={{
               background: `radial-gradient(ellipse 375px 190px at 50% 0%, rgba(147, 197, 253, 0.25) 0%, rgba(191, 219, 254, 0.0005) 70%, transparent 70%)`,
             }}
@@ -80,7 +80,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.8, y: -100 }}
             animate={{ opacity: 0.6, scale: 1, y: 0 }}
             transition={{ duration: 2.0, ease: "easeOut", delay: 0.8 }}
-            className="hidden lg:block absolute top-0 left-[26%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
+            className="hidden lg:block absolute top-0 left-[27%] transform -translate-x-1/2 w-[70vw] max-w-[1000px] h-[46vw] max-h-[700px]"
             style={{
               background: `radial-gradient(ellipse 500px 250px at 50% 0%, rgba(147, 197, 253, 0.40) 0%, rgba(191, 219, 254, 0.18) 30%, rgba(219, 234, 254, 0.000005) 70%, transparent 70%)`,
               filter: "blur(0.5px)",
