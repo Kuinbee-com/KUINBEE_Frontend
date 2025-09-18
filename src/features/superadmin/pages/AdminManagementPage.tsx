@@ -7,6 +7,7 @@ import { Add as AddIcon, ContentCopy as CopyIcon } from '@mui/icons-material';
 
 // Custom hooks and components
 import { useAdminManagement, type Admin } from '../hooks/useAdminManagement.ts';
+import { SuperAdminService } from '../services/superAdminService';
 import SimpleSearchBox from '../../../shared/components/SearchBox';
 import AdminTable from '../components/AdminTable';
 import ConfirmDeleteDialog from '../../../shared/components/ConfirmDeleteDialog';
@@ -38,8 +39,7 @@ const AdminManagementPage: React.FC = () => {
   
   // Local state for UI interactions
   const [search, setSearch] = useState(''); // Current search term
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // First delete confirmation
-  const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false); // Final delete confirmation
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false); // Delete confirmation dialog
   const [selectedAdmin, setSelectedAdmin] = useState<Admin | null>(null); // Admin being deleted
   
   // Success message state
@@ -53,12 +53,14 @@ const AdminManagementPage: React.FC = () => {
 
   // Custom hook that handles all admin business logic
   const { 
-    loading, // Is a delete operation in progress?
-    handleDelete, // Function to delete an admin
+    loading: hookLoading, // Is a hook operation in progress?
     filteredAdmins, // Admins filtered by search term
     handleSearchChange, // Function to update search query
     refreshAdmins, // Function to refresh admin list
   } = useAdminManagement();
+
+  // Local loading state for delete operations
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // Handle success message from navigation state
   useEffect(() => {
@@ -106,21 +108,41 @@ const AdminManagementPage: React.FC = () => {
   };
 
   /**
-   * Handle first delete confirmation - proceeds to final confirmation
+   * Handle delete confirmation - actually deletes the admin
    */
-  const handleConfirmDelete = () => {
-    setDeleteDialogOpen(false);
-    setConfirmDeleteDialogOpen(true);
-  };
+  const handleConfirmDelete = async () => {
+    if (!selectedAdmin) return;
 
-  /**
-   * Handle final delete confirmation - actually deletes the admin
-   */
-  const handleFinalConfirmDelete = async () => {
-    if (selectedAdmin) {
-      await handleDelete(selectedAdmin);
-      setConfirmDeleteDialogOpen(false);
+    setDeleteLoading(true);
+    try {
+      // Call the API to delete the admin
+      await SuperAdminService.deleteAdmin(selectedAdmin.id);
+      
+      // Show success message
+      const adminName = `${selectedAdmin.firstName} ${selectedAdmin.lastName}`;
+      setSuccessData({
+        message: `Admin "${adminName}" has been deleted successfully.`,
+        adminId: selectedAdmin.id,
+        defaultPassword: '',
+        adminName: adminName,
+        officialEmail: selectedAdmin.officialEmailId
+      });
+      
+      // Refresh the admin list to reflect changes
+      await refreshAdmins();
+      
+      // Close dialog and clear selected admin
+      setDeleteDialogOpen(false);
       setSelectedAdmin(null);
+      
+      // Auto-hide success message after 5 seconds
+      setTimeout(() => setSuccessData(null), 5000);
+      
+    } catch (error) {
+      console.error('Failed to delete admin:', error);
+      // You might want to show an error toast here
+    } finally {
+      setDeleteLoading(false);
     }
   };
 
@@ -129,7 +151,6 @@ const AdminManagementPage: React.FC = () => {
    */
   const handleCancelDelete = () => {
     setDeleteDialogOpen(false);
-    setConfirmDeleteDialogOpen(false);
     setSelectedAdmin(null);
   };
 
@@ -252,7 +273,7 @@ const AdminManagementPage: React.FC = () => {
         onEdit={handleEditAdmin}
         onDelete={handleDeleteAdmin}
         onView={handleViewAdmin}
-        loading={loading}
+        loading={deleteLoading || hookLoading}
       />
 
       {/* Delete Confirmation Dialog */}
@@ -261,24 +282,13 @@ const AdminManagementPage: React.FC = () => {
         title="Delete Admin"
         message={
           selectedAdmin
-            ? `Are you sure you want to delete admin "${selectedAdmin.firstName} ${selectedAdmin.lastName}"? This action cannot be undone.`
+            ? `Are you sure you want to delete admin "${selectedAdmin.firstName} ${selectedAdmin.lastName}"? This action cannot be undone and will permanently remove all associated data.`
             : ''
         }
         onConfirm={handleConfirmDelete}
         onClose={handleCancelDelete}
-      />
-
-      {/* Final Confirmation Dialog */}
-      <ConfirmDeleteDialog
-        open={confirmDeleteDialogOpen}
-        title="Final Confirmation"
-        message={
-          selectedAdmin
-            ? `This will permanently delete admin "${selectedAdmin.firstName} ${selectedAdmin.lastName}" and all associated data. Are you absolutely sure?`
-            : ''
-        }
-        onConfirm={handleFinalConfirmDelete}
-        onClose={handleCancelDelete}
+        loading={deleteLoading}
+        showWarning={true}
       />
     </Box>
   );
