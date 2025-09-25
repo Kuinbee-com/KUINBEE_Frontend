@@ -205,13 +205,16 @@ const CreateDatasetPage: React.FC = () => {
     }
 
     // Validate rows and columns are greater than 0
-    if (formData.aboutDatasetInfo.dataFormatInfo.rows <= 0) {
-      setError('Number of rows must be greater than 0');
+    const rows = Number(formData.aboutDatasetInfo.dataFormatInfo.rows);
+    const cols = Number(formData.aboutDatasetInfo.dataFormatInfo.cols);
+    
+    if (!rows || rows <= 0 || !Number.isInteger(rows)) {
+      setError('Number of rows must be a valid integer greater than 0');
       return;
     }
 
-    if (formData.aboutDatasetInfo.dataFormatInfo.cols <= 0) {
-      setError('Number of columns must be greater than 0');
+    if (!cols || cols <= 0 || !Number.isInteger(cols)) {
+      setError('Number of columns must be a valid integer greater than 0');
       return;
     }
 
@@ -524,20 +527,48 @@ const CreateDatasetPage: React.FC = () => {
                     label="Number of Rows"
                     type="number"
                     value={formData.aboutDatasetInfo.dataFormatInfo.rows}
-                    onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.rows', Math.max(1, parseInt(e.target.value) || 1))}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Allow empty string during typing, or valid numbers
+                      if (value === '' || (!isNaN(Number(value)) && Number(value) >= 0)) {
+                        handleInputChange('aboutDatasetInfo.dataFormatInfo.rows', value === '' ? '' : Number(value));
+                      }
+                    }}
+                    onBlur={(e) => {
+                      // Ensure minimum value of 1 when user finishes typing
+                      const value = e.target.value;
+                      if (value === '' || Number(value) < 1) {
+                        handleInputChange('aboutDatasetInfo.dataFormatInfo.rows', 1);
+                      }
+                    }}
                     inputProps={{ min: 1 }}
                     fullWidth
                     sx={{ mb: 3 }}
+                    helperText="Enter the total number of rows in your dataset"
                   />
 
                   <TextField
                     label="Number of Columns"
                     type="number"
                     value={formData.aboutDatasetInfo.dataFormatInfo.cols}
-                    onChange={(e) => handleInputChange('aboutDatasetInfo.dataFormatInfo.cols', Math.max(1, parseInt(e.target.value) || 1))}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Allow empty string during typing, or valid numbers
+                      if (value === '' || (!isNaN(Number(value)) && Number(value) >= 0)) {
+                        handleInputChange('aboutDatasetInfo.dataFormatInfo.cols', value === '' ? '' : Number(value));
+                      }
+                    }}
+                    onBlur={(e) => {
+                      // Ensure minimum value of 1 when user finishes typing
+                      const value = e.target.value;
+                      if (value === '' || Number(value) < 1) {
+                        handleInputChange('aboutDatasetInfo.dataFormatInfo.cols', 1);
+                      }
+                    }}
                     inputProps={{ min: 1 }}
                     fullWidth
                     sx={{ mb: 3 }}
+                    helperText="Enter the total number of columns in your dataset"
                   />
 
                   <Box sx={{ mb: 3 }}>
