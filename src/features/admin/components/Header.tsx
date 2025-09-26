@@ -31,6 +31,8 @@ export default function Header({ collapsed, onToggle }: { collapsed: boolean; on
         boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
         borderBottom: '1px solid #e5e7eb',
         transition: 'left 0.2s, width 0.2s',
+        zIndex: 1200, // Ensure header is above content but below drawer
+        height: 64,
       }}
     >
       <Toolbar>

@@ -42,9 +42,8 @@ const palette = {
 
 const AdminDatasets: React.FC = () => {
   const [search, setSearch] = useState('');
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState('');
-  const [priceFilter, setPriceFilter] = useState('');
+  // Removed filtersOpen state
+  // Removed categoryFilter and priceFilter state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [confirmDeleteDialogOpen, setConfirmDeleteDialogOpen] = useState(false);
   const [selectedDataset, setSelectedDataset] = useState<any>(null);
@@ -140,17 +139,13 @@ const AdminDatasets: React.FC = () => {
 
     const filteredDatasets = datasets.filter(ds => {
     const matchesSearch = ds.title.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = !categoryFilter || ds.primaryCategoryId === categoryFilter;
-    const matchesPrice = !priceFilter || 
-      (priceFilter === 'free' && ds.price === 0) ||
-      (priceFilter === 'paid' && ds.price > 0);
-    
-    return matchesSearch && matchesCategory && matchesPrice;
+    // Only filter by search now
+    return matchesSearch;
   });
 
   return (
-    <Box sx={{ background: palette.bg, minHeight: '100vh', px: 0, py: 0, position: 'relative', transition: 'opacity 0.25s', opacity: fade ? 1 : 0, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
-      <Box sx={{ maxWidth: 1900, mx: 'auto', py: 0, width: '100%', px: 2 }}>
+    <Box sx={{ background: palette.bg, px: 0, py: 0, position: 'relative', transition: 'opacity 0.25s', opacity: fade ? 1 : 0, fontFamily: 'Inter, Roboto, Arial, sans-serif', overflowX: 'hidden' }}>
+      <Box sx={{ maxWidth: '100%', mx: 'auto', py: 0, width: '100%', px: 2 }}>
         {/* Back Arrow */}
         <Button
           startIcon={<ArrowBackIcon />}
@@ -171,11 +166,11 @@ const AdminDatasets: React.FC = () => {
           Back to Dashboard
         </Button>
         
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0, pt: 2, pb: 2, width: '100%' }}>
-          <Typography variant="h4" fontWeight={600} sx={{ color: palette.accent, letterSpacing: 1, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: { xs: 'flex-start', md: 'center' }, flexDirection: { xs: 'column', md: 'row' }, gap: { xs: 2, md: 0 }, px: 0, pt: 2, pb: 2, width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
+          <Typography variant="h4" fontWeight={600} sx={{ color: palette.accent, letterSpacing: 1, fontFamily: 'Inter, Roboto, Arial, sans-serif', flexShrink: 0 }}>
             Datasets
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: 'flex', gap: { xs: 0.5, sm: 1 }, flexWrap: 'wrap', justifyContent: { xs: 'flex-start', md: 'flex-end' }, maxWidth: '100%', overflow: 'hidden' }}>
             <Button
               variant="contained"
               startIcon={<AddIcon />}
@@ -183,14 +178,15 @@ const AdminDatasets: React.FC = () => {
                 background: palette.buttonBg,
                 color: palette.buttonText,
                 borderRadius: 2,
-                boxShadow: 3,
+                boxShadow: 2,
                 textTransform: 'none',
                 fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                fontSize: '1rem',
+                px: { xs: 1, sm: 2 },
+                py: { xs: 1, sm: 1.2 },
+                fontSize: { xs: '0.75rem', sm: '0.85rem' },
                 fontFamily: 'Inter, Roboto, Arial, sans-serif',
                 transition: 'background 0.2s',
+                minWidth: { xs: 60, sm: 'auto' },
                 '&:hover': {
                   background: palette.accent,
                   opacity: 0.9,
@@ -198,7 +194,8 @@ const AdminDatasets: React.FC = () => {
               }}
               onClick={() => handleNavigate('/admin/datasets/create')}
             >
-              Add Dataset
+              <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>Add Dataset</Box>
+              <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>Add</Box>
             </Button>
             <Button
               variant="contained"
@@ -207,14 +204,15 @@ const AdminDatasets: React.FC = () => {
                 background: palette.accent,
                 color: palette.buttonText,
                 borderRadius: 2,
-                boxShadow: 3,
+                boxShadow: 2,
                 textTransform: 'none',
                 fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                fontSize: '1rem',
+                px: { xs: 1, sm: 2 },
+                py: { xs: 1, sm: 1.2 },
+                fontSize: { xs: '0.75rem', sm: '0.85rem' },
                 fontFamily: 'Inter, Roboto, Arial, sans-serif',
                 transition: 'background 0.2s',
+                minWidth: { xs: 70, sm: 'auto' },
                 '&:hover': {
                   background: palette.buttonBg,
                   opacity: 0.9,
@@ -222,7 +220,8 @@ const AdminDatasets: React.FC = () => {
               }}
               onClick={() => handleNavigate('/admin/datasets/add-multiple')}
             >
-              Add Multiple Datasets
+              <Box component="span" sx={{ display: { xs: 'none', md: 'inline' } }}>Add Multiple</Box>
+              <Box component="span" sx={{ display: { xs: 'inline', md: 'none' } }}>Multi</Box>
             </Button>
             <Button
               variant="outlined"
@@ -233,11 +232,12 @@ const AdminDatasets: React.FC = () => {
                 borderRadius: 2,
                 textTransform: 'none',
                 fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                fontSize: '1rem',
+                px: { xs: 1, sm: 2 },
+                py: { xs: 1, sm: 1.2 },
+                fontSize: { xs: '0.75rem', sm: '0.85rem' },
                 fontFamily: 'Inter, Roboto, Arial, sans-serif',
                 transition: 'all 0.2s',
+                minWidth: { xs: 70, sm: 'auto' },
                 '&:hover': {
                   background: '#f59e0b',
                   color: 'white',
@@ -246,7 +246,8 @@ const AdminDatasets: React.FC = () => {
               }}
               onClick={() => handleNavigate('/admin/datasets/pending-uploads')}
             >
-              Pending Uploads
+              <Box component="span" sx={{ display: { xs: 'none', lg: 'inline' } }}>Pending</Box>
+              <Box component="span" sx={{ display: { xs: 'inline', lg: 'none' } }}>Pend</Box>
             </Button>
             <Button
               variant="outlined"
@@ -257,11 +258,12 @@ const AdminDatasets: React.FC = () => {
                 borderRadius: 2,
                 textTransform: 'none',
                 fontWeight: 600,
-                px: 3,
-                py: 1.5,
-                fontSize: '1rem',
+                px: { xs: 1, sm: 2 },
+                py: { xs: 1, sm: 1.2 },
+                fontSize: { xs: '0.75rem', sm: '0.85rem' },
                 fontFamily: 'Inter, Roboto, Arial, sans-serif',
                 transition: 'all 0.2s',
+                minWidth: { xs: 70, sm: 'auto' },
                 '&:hover': {
                   background: '#10b981',
                   color: 'white',
@@ -270,17 +272,18 @@ const AdminDatasets: React.FC = () => {
               }}
               onClick={() => handleNavigate('/admin/datasets/uploaded')}
             >
-              Uploaded Datasets
+              <Box component="span" sx={{ display: { xs: 'none', lg: 'inline' } }}>Uploaded</Box>
+              <Box component="span" sx={{ display: { xs: 'inline', lg: 'none' } }}>Up</Box>
             </Button>
           </Box>
         </Box>
         <Divider sx={{ mb: 0 }} />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0, py: 2, width: '100%' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', px: 0, py: 2, width: '100%', flexDirection: { xs: 'column', sm: 'row' }, gap: { xs: 2, sm: 0 } }}>
           <TextField
             placeholder="Search datasets..."
             size="small"
             sx={{
-              width: 300,
+              width: { xs: '100%', sm: 250, md: 300 },
               background: palette.card,
               borderRadius: 2,
               '& .MuiOutlinedInput-root': {
@@ -291,54 +294,8 @@ const AdminDatasets: React.FC = () => {
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
-          <Box sx={{ display: 'flex', gap: 2 }}>
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: palette.buttonBorder,
-                color: palette.accent,
-                borderRadius: 2,
-                textTransform: 'none',
-                fontWeight: 600,
-                px: 2,
-                py: 1.2,
-                background: palette.card,
-                boxShadow: 'none',
-                '&:hover': {
-                  background: palette.bg,
-                },
-              }}
-              onClick={() => setFiltersOpen(!filtersOpen)}
-            >
-              {filtersOpen ? 'Hide Filters' : 'Show Filters'}
-            </Button>
-          </Box>
         </Box>
-        {/* Filters Section */}
-        {filtersOpen && (
-          <Box sx={{ display: 'flex', gap: 3, mb: 2, px: 0, background: palette.card, p: 2, borderRadius: 2, border: `1px solid ${palette.border}`, width: '100%' }}>
-            <TextField
-              select
-              label="Category"
-              value={categoryFilter}
-              onChange={e => setCategoryFilter(e.target.value)}
-              SelectProps={{ native: true }}
-              sx={{ minWidth: 160 }}
-            >
-              <option value="">All</option>
-              {[...new Set(datasets.map(ds => ds.primaryCategoryId))].map(cat => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
-            </TextField>
-            <TextField
-              label="Min Price"
-              type="number"
-              value={priceFilter}
-              onChange={e => setPriceFilter(e.target.value)}
-              sx={{ minWidth: 120 }}
-            />
-          </Box>
-        )}
+        {/* Filters Section removed */}
         <Divider sx={{ mb: 0 }} />
         
         {/* Error Alert */}
@@ -363,17 +320,17 @@ const AdminDatasets: React.FC = () => {
             </Typography>
           </Box>
         ) : (
-        <TableContainer sx={{ width: '100%', background: palette.bg, boxShadow: 'none', borderRadius: 0, border: 'none' }}>
-          <Table stickyHeader sx={{ minWidth: 900, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
+        <TableContainer sx={{ width: '100%', background: palette.bg, boxShadow: 'none', borderRadius: 0, border: 'none', overflowX: 'hidden' }}>
+          <Table stickyHeader sx={{ width: '100%', tableLayout: 'fixed', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 18px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2, width: 24 }}>#</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Title</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Category</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Price</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Records</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2 }}>Format</TableCell>
-                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.08rem', background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: '18px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.2, textAlign: 'center' }}>Actions</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 4px', md: '12px 8px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, width: { xs: '8%', md: '6%' } }}>#</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, width: { xs: '35%', sm: '30%', md: '25%' } }}>Title</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, display: { xs: 'none', sm: 'table-cell' }, width: { sm: '20%', md: '18%' } }}>Category</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, width: { xs: '20%', sm: '15%', md: '12%' } }}>Price</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, display: { xs: 'none', md: 'table-cell' }, width: { md: '15%' } }}>Records</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, display: { xs: 'none', lg: 'table-cell' }, width: { lg: '12%' } }}>Format</TableCell>
+                <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.85rem', md: '1rem' }, background: palette.bg, borderBottom: `2px solid ${palette.border}`, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', letterSpacing: 0.1, textAlign: 'center', width: { xs: '37%', sm: '20%', md: '18%', lg: '12%' } }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -397,30 +354,30 @@ const AdminDatasets: React.FC = () => {
                     },
                   }}
                 >
-                  <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 18px', fontFamily: 'Inter, Roboto, Arial, sans-serif', textAlign: 'center' }}>{idx + 1}</TableCell>
-                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.title}</TableCell>
-                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{categoryMap[ds.primaryCategoryId] || ds.primaryCategoryId}</TableCell>
-                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>${ds.price.toLocaleString()}</TableCell>
-                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: '1.02rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.aboutDatasetInfo?.dataFormatInfo?.rows?.toLocaleString() || 'N/A'}</TableCell>
-                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: '1rem', border: 'none', borderRadius: 2, padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>{ds.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'N/A'}</TableCell>
-                  <TableCell sx={{ padding: '16px 28px', fontFamily: 'Inter, Roboto, Arial, sans-serif', textAlign: 'center' }}>
-                    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
+                  <TableCell sx={{ color: palette.muted, fontWeight: 600, fontSize: { xs: '0.8rem', md: '0.95rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 4px', md: '12px 8px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', textAlign: 'center' }}>{idx + 1}</TableCell>
+                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: { xs: '0.8rem', md: '0.95rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ds.title}</TableCell>
+                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: { xs: '0.75rem', md: '0.9rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', display: { xs: 'none', sm: 'table-cell' }, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{categoryMap[ds.primaryCategoryId] || ds.primaryCategoryId}</TableCell>
+                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: { xs: '0.8rem', md: '0.95rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif' }}>${ds.price.toLocaleString()}</TableCell>
+                  <TableCell sx={{ color: palette.text, fontWeight: 600, fontSize: { xs: '0.8rem', md: '0.95rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', display: { xs: 'none', md: 'table-cell' } }}>{ds.aboutDatasetInfo?.dataFormatInfo?.rows?.toLocaleString() || 'N/A'}</TableCell>
+                  <TableCell sx={{ color: palette.muted, fontWeight: 500, fontSize: { xs: '0.75rem', md: '0.9rem' }, border: 'none', borderRadius: 2, padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', display: { xs: 'none', lg: 'table-cell' } }}>{ds.aboutDatasetInfo?.dataFormatInfo?.fileFormat || 'N/A'}</TableCell>
+                  <TableCell sx={{ padding: { xs: '8px 8px', md: '12px 16px' }, fontFamily: 'Inter, Roboto, Arial, sans-serif', textAlign: 'center' }}>
+                    <Box sx={{ display: 'flex', gap: { xs: 0.5, md: 1 }, alignItems: 'center', justifyContent: 'center', flexDirection: { xs: 'row', sm: 'row' } }}>
                       <Box 
-                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.8 } }}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.8 }, p: 0.5 }}
                         onClick={(e) => handleEditClick(ds, idx, e)}
                       >
-                        <EditIcon fontSize="small" sx={{ color: palette.accent }} />
-                        <Typography variant="body2" sx={{ color: palette.accent, fontWeight: 600, fontFamily: 'Inter, Roboto, Arial, sans-serif', fontSize: '0.95rem' }}>Edit</Typography>
+                        <EditIcon sx={{ fontSize: { xs: '16px', md: '18px' }, color: palette.accent }} />
+                        <Typography variant="body2" sx={{ color: palette.accent, fontWeight: 600, fontFamily: 'Inter, Roboto, Arial, sans-serif', fontSize: { xs: '0.7rem', md: '0.8rem' }, display: { xs: 'none', md: 'block' } }}>Edit</Typography>
                       </Box>
                       <Box 
-                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.8 } }}
+                        sx={{ display: 'flex', alignItems: 'center', gap: 0.5, cursor: 'pointer', '&:hover': { opacity: 0.8 }, p: 0.5 }}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteClick(ds);
                         }}
                       >
-                        <DeleteIcon fontSize="small" sx={{ color: palette.error }} />
-                        <Typography variant="body2" sx={{ color: palette.error, fontWeight: 600, fontFamily: 'Inter, Roboto, Arial, sans-serif', fontSize: '0.95rem' }}>Delete</Typography>
+                        <DeleteIcon sx={{ fontSize: { xs: '16px', md: '18px' }, color: palette.error }} />
+                        <Typography variant="body2" sx={{ color: palette.error, fontWeight: 600, fontFamily: 'Inter, Roboto, Arial, sans-serif', fontSize: { xs: '0.7rem', md: '0.8rem' }, display: { xs: 'none', md: 'block' } }}>Del</Typography>
                       </Box>
                     </Box>
                   </TableCell>

@@ -33,6 +33,9 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
           color: 'white',
           transition: 'width 0.2s',
           overflowX: 'hidden',
+          position: 'fixed',
+          height: '100vh',
+          overflowY: 'auto',
         },
       }}
     >
