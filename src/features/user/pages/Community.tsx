@@ -1,7 +1,5 @@
 // import Link from "next/link"
 "use client"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowLeft, Menu, X } from "lucide-react";
 import { FaDiscord, FaLinkedin, FaTwitter, FaInstagram, FaRedditAlien, FaYoutube, FaGithub, FaRss } from "react-icons/fa";
 import { HoverEffect } from "@/shared/components/ui/card-hover-effect"
 import Footer from "@/features/user/pages/landing/footer";

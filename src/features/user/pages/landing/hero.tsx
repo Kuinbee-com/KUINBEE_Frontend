@@ -141,31 +141,7 @@ export default function LandingPage() {
           />
         </div>
 
-        {/* Core light beam - final cascade */}
-        {/* <motion.div
-          initial={{ 
-            opacity: 0, 
-            scale: 1.2,
-            y: -100,
-          }}
-          animate={{ 
-            opacity: 0.8, 
-            scale: 1,
-            y: 0,
-          }}
-          transition={{ 
-            duration: 1.5, 
-            ease: "easeOut",
-            delay: 1.2 // Final cascade effect
-          }}
-          className="absolute top-0 left-[37%] transform -translate-x-1/2 w-[500px] h-[250px]"
-          style={{
-            background: `radial-gradient(ellipse 250px 125px at 50% 0%, 
-              rgba(147, 197, 253, 0.20) 0%, 
-              rgba(191, 219, 254, 0.10) 50%, 
-              transparent 70%)`,
-          }}
-        /> */}
+        
 
         {/* Subtle pulsing ambient light - continuous after initial animation */}
         <motion.div

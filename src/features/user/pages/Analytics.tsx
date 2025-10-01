@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { BarChart3, Mail, Zap, Sparkles, TrendingUp } from "lucide-react";
+import { useForm, ValidationError } from '@formspree/react';
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import Footer from "@/features/user/pages/landing/footer";
@@ -12,13 +13,18 @@ import ResponsiveHeader from "../components/ResponsiveHeader";
 
 const AnalyticsPage: React.FC = () => {
   const [email, setEmail] = useState("")
-  const [isSubmitted, setIsSubmitted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [state, handleSubmit] = useForm("xdkwzkgj");
 
   const handleWaitlistSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
-      setIsSubmitted(true)
+    if (email.trim()) {
+      // Create form data and submit via Formspree
+      const formData = new FormData()
+      formData.append('email', email)
+      formData.append('source', 'Analytics Waitlist')
+      
+      handleSubmit(formData)
       setEmail("")
     }
   }
@@ -141,7 +147,7 @@ const AnalyticsPage: React.FC = () => {
                 visualization.
               </motion.p>
 
-              {!isSubmitted ? (
+              {!state.succeeded ? (
                 <motion.form
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -153,20 +159,33 @@ const AnalyticsPage: React.FC = () => {
                     <div className="flex-1">
                       <Input
                         type="email"
+                        name="email"
                         placeholder="Enter your email address"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="h-12 sm:h-14 lg:h-16 px-4 sm:px-6 lg:px-8 text-base sm:text-lg lg:text-xl rounded-xl sm:rounded-2xl border-blue-200/60 focus:border-[#1a2240] focus:ring-[#1a2240]/20 bg-white/90 backdrop-blur-sm shadow-lg font-light placeholder:text-slate-400"
+                        disabled={state.submitting}
+                        className="h-12 sm:h-14 lg:h-16 px-4 sm:px-6 lg:px-8 text-base sm:text-lg lg:text-xl rounded-xl sm:rounded-2xl border-blue-200/60 focus:border-[#1a2240] focus:ring-[#1a2240]/20 bg-white/90 backdrop-blur-sm shadow-lg font-light placeholder:text-slate-400 disabled:opacity-50"
+                      />
+                      <ValidationError 
+                        prefix="Email" 
+                        field="email"
+                        errors={state.errors}
+                        className="text-red-500 text-sm mt-2"
                       />
                     </div>
                     <Button
                       type="submit"
-                      className="h-12 sm:h-14 lg:h-16 px-6 sm:px-8 lg:px-10 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] hover:from-[#4e5a7e] hover:via-[#1a2240] hover:to-[#4e5a7e] text-white font-semibold rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base sm:text-lg lg:text-xl hover:scale-105"
+                      disabled={state.submitting || !email.trim()}
+                      className="h-12 sm:h-14 lg:h-16 px-6 sm:px-8 lg:px-10 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] hover:from-[#4e5a7e] hover:via-[#1a2240] hover:to-[#4e5a7e] text-white font-semibold rounded-xl sm:rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-base sm:text-lg lg:text-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
                       <Mail className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 mr-2 sm:mr-3" />
-                      <span className="hidden sm:inline">Join Waitlist</span>
-                      <span className="sm:hidden">Join</span>
+                      <span className="hidden sm:inline">
+                        {state.submitting ? 'Joining...' : 'Join Waitlist'}
+                      </span>
+                      <span className="sm:hidden">
+                        {state.submitting ? 'Joining...' : 'Join'}
+                      </span>
                     </Button>
                   </div>
                 </motion.form>
@@ -182,7 +201,19 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-emerald-800 mb-3 sm:mb-4">You're on the list!</h3>
                   <p className="text-base sm:text-lg text-emerald-700">
-                    We'll notify you as soon as the analytics dashboard is ready.
+                    Thanks for joining! We'll notify you as soon as the analytics dashboard is ready.
+                  </p>
+                </motion.div>
+              )}
+
+              {state.errors && Object.keys(state.errors).length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 bg-red-50 border border-red-200 rounded-xl p-4 max-w-2xl mx-auto"
+                >
+                  <p className="text-red-600 text-sm text-center">
+                    Something went wrong. Please try again or contact support.
                   </p>
                 </motion.div>
               )}
@@ -193,7 +224,7 @@ const AnalyticsPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 2 }}
                 className="mt-12 sm:mt-16 text-sm sm:text-base text-slate-400 space-y-2 px-4"
               >
-                <p>Expected launch: Q2 2024</p>
+                <p>Expected launch: Q1 2026</p>
                 <p>Priority access for early subscribers • No spam, unsubscribe anytime</p>
               </motion.div>
             </div>
