@@ -76,6 +76,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/project-siddhi" className="text-blue-200 hover:text-white transition-colors duration-200">
+                  Project Siddhi
+                </Link>
+              </li>
+              <li>
                 <Link to="/support" className="text-blue-200 hover:text-white transition-colors duration-200">
                   Contact
                 </Link>

@@ -60,7 +60,7 @@ const AnalyticsPage: React.FC = () => {
               className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight pt-8 text-center break-words sm:break-normal"
               style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif', wordBreak: 'break-word' }}
             >
-              Analytics Dashboard
+              AI Analytics Engine
             </motion.h1>
 
             <motion.p
@@ -69,8 +69,8 @@ const AnalyticsPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="text-base sm:text-lg lg:text-xl text-center text-[#24305e] mb-8 sm:mb-10 lg:mb-12 max-w-4xl mx-auto px-4"
             >
-              Create beautiful, interactive dashboards in seconds. Transform your data into stunning visualizations with
-              our AI-powered analytics platform.
+              Transform chaos into clarity. Kuinbee's AI-powered engine handles every stage of the data lifecycle, 
+              from connecting and cleaning to modeling, analyzing, and visualizing, all in one unified workspace.
             </motion.p>
 
             <motion.div
@@ -81,17 +81,169 @@ const AnalyticsPage: React.FC = () => {
             >
               <div className="flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-blue-100/50 shadow-lg">
                 <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-[#4e5a7e]" />
-                <span className="font-medium">AI-Powered Insights</span>
+                <span className="font-medium">Automated Data Ingestion</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-blue-100/50 shadow-lg">
                 <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-[#4e5a7e]" />
-                <span className="font-medium">Real-time Dashboards</span>
+                <span className="font-medium">AI Modeling & Insights</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3 bg-white/80 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full border border-blue-100/50 shadow-lg">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#4e5a7e]" />
-                <span className="font-medium">One-Click Deployment</span>
+                <span className="font-medium">Real-Time Analytics</span>
               </div>
             </motion.div>
+          </motion.div>
+
+          {/* Features Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mb-12 lg:mb-16"
+          >
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-light text-center mb-12 lg:mb-16 text-[#1a2240]"
+            >
+              Features
+            </motion.h2>
+            
+            {/* Highlighted Feature - Seamless Integration */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+              className="mb-12 lg:mb-16"
+            >
+              <div className="bg-gradient-to-br from-[#1a2240] to-[#4e5a7e] rounded-3xl p-8 lg:p-12 text-white shadow-2xl relative overflow-hidden">
+                {/* Background decoration */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-32 translate-x-32"></div>
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-24 -translate-x-24"></div>
+                
+                <div className="relative z-10 text-center max-w-4xl mx-auto">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.9 }}
+                    className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6"
+                  >
+                    <TrendingUp className="w-8 h-8 text-white" />
+                  </motion.div>
+                  <h3 className="text-2xl lg:text-3xl font-medium mb-4">Seamless Integration</h3>
+                  <p className="text-xl text-white/90 leading-relaxed">
+                    Deploy insights via APIs, dashboards, or data warehouse connections all in one click. 
+                    Built for enterprise scalability with developer-friendly implementation.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Other Features Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <Zap className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">Automated Data Ingestion</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Connect APIs, files, or databases; our AI ingests and organizes data instantly.
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.9 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <Sparkles className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">Smart Cleaning & Validation</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Detects errors, fills gaps, and ensures data integrity with intelligent rule-based checks.
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <TrendingUp className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">AI Modeling & Insights</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Builds predictive and descriptive models automatically to uncover trends and anomalies.
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.1 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <BarChart3 className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">Instant Visualizations</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Converts processed data into dynamic dashboards and visual stories in seconds.
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <Zap className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">Real-Time Analytics</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Continuously updates insights as new data flows in.
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.3 }}
+                className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-[#1a2240]/10 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <div className="mb-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-[#1a2240]/10 rounded-xl mb-4">
+                    <Sparkles className="w-6 h-6 text-[#1a2240]" />
+                  </div>
+                  <h3 className="text-xl font-medium text-[#1a2240] mb-3">Governance & Credibility</h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    Every dataset passes through validation pipelines to ensure transparency and trust.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
 
           {/* Enhanced Waitlist Section */}
@@ -124,27 +276,16 @@ const AnalyticsPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 1 }}
                 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 sm:mb-4 text-[#1a2240]"
               >
-                Coming Soon
+                Be part of the revolution in autonomous analytics
               </motion.h2>
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
-                className="text-sm sm:text-base lg:text-lg text-[#24305e] mb-3 sm:mb-4 max-w-4xl mx-auto leading-relaxed px-4"
-              >
-                Our analytics platform is being crafted to deliver enterprise-grade insights with consumer-friendly
-                simplicity.
-              </motion.p>
-
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.4 }}
                 className="text-sm sm:text-base lg:text-lg text-[#24305e] mb-12 sm:mb-16 max-w-3xl mx-auto leading-relaxed px-4"
               >
-                Join our exclusive waitlist to get early access and be among the first to experience the future of data
-                visualization.
+                Join the Kuinbee waitlist today and unlock the future of data intelligence.
               </motion.p>
 
               {!state.succeeded ? (

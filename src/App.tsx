@@ -30,6 +30,7 @@ import Analytics from './features/user/pages/Analytics';
 import Landing from './features/user/pages/Landing';
 import SignupPage from './features/user/pages/SignupPage';
 import LoginPage from './features/user/pages/LoginPage';
+import ProjectSiddhi from './features/user/pages/project-siddhi/ProjectSiddhi';
 
 // Admin feature imports
 import AdminLayout from './features/admin/components/AdminLayout';
@@ -134,6 +135,11 @@ const AppContent: React.FC = () => {
           <Route path="/login" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <LoginPage />
+            </motion.div>
+          } />
+          <Route path="/project-siddhi" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <ProjectSiddhi />
             </motion.div>
           } />
           
