@@ -346,9 +346,7 @@ export default function ProjectSiddhi() {
               className="space-y-8"
             >
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light">
-                <span className="inline-flex items-center gap-3">
-                  🇮🇳 Need Immediate Support?
-                </span>
+                Need Immediate Support?
               </h2>
               <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
                 If you or someone you know is struggling with mental health, remember that help is available. 
@@ -358,7 +356,7 @@ export default function ProjectSiddhi() {
               {/* Government Mental Health Helplines */}
               <div className="pt-8">
                 <h3 className="text-2xl font-medium mb-6 text-center">
-                  🏛️ Government Mental Health Helplines
+                  Government Mental Health Helplines
                 </h3>
                 <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                   <motion.div
@@ -395,9 +393,9 @@ export default function ProjectSiddhi() {
                       </div>
                       <div className="pt-4 border-t border-white/20">
                         <p className="text-white/80 text-sm leading-relaxed">
-                          ⏰ 24×7 mental health counselling & support<br/>
-                          🗣️ Available in multiple Indian languages<br/>
-                          🏥 Ministry of Health & Family Welfare
+                          24×7 mental health counselling & support<br/>
+                          Available in multiple Indian languages<br/>
+                          Ministry of Health & Family Welfare
                         </p>
                       </div>
                     </div>
@@ -430,10 +428,10 @@ export default function ProjectSiddhi() {
                       </div>
                       <div className="pt-4 border-t border-white/20">
                         <p className="text-white/80 text-sm leading-relaxed">
-                          🌍 Nationwide coverage, 24×7 support<br/>
-                          🩺 Mental health rehabilitation services<br/>
-                          🔍 Early screening & psychological support<br/>
-                          🚨 Crisis management & intervention
+                          Nationwide coverage, 24×7 support<br/>
+                          Mental health rehabilitation services<br/>
+                          Early screening & psychological support<br/>
+                          Crisis management & intervention
                         </p>
                       </div>
                     </div>
@@ -444,7 +442,7 @@ export default function ProjectSiddhi() {
               {/* Additional Resources */}
               <div className="pt-12">
                 <h3 className="text-2xl font-medium mb-8 text-center">
-                  🤝 Additional Mental Health Resources
+                  Additional Mental Health Resources
                 </h3>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
                   <motion.a
@@ -535,7 +533,7 @@ export default function ProjectSiddhi() {
                   className="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/20 max-w-3xl mx-auto"
                 >
                   <p className="text-lg text-white/90 italic text-center leading-relaxed">
-                    💙 "Mental health is not a destination, but a process. It's about how you drive, not where you're going."
+                    "Mental health is not a destination, but a process. It's about how you drive, not where you're going."
                   </p>
                   <p className="text-sm text-white/60 text-center mt-3">Remember: It's okay to not be okay. Seeking help is brave.</p>
                 </motion.div>

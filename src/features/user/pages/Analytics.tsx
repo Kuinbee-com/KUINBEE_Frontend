@@ -57,8 +57,8 @@ const AnalyticsPage: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight pt-8 text-center break-words sm:break-normal"
-              style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif', wordBreak: 'break-word' }}
+              className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight pt-8 pb-4 text-center break-words sm:break-normal"
+              style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif', wordBreak: 'break-word', lineHeight: '1.2' }}
             >
               AI Analytics Engine
             </motion.h1>
