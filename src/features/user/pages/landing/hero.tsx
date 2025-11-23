@@ -4,9 +4,8 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/shared/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, Database, Menu, ShoppingCart, UserIcon, Users, X } from "lucide-react"
-import Navbar from "@/features/user/components/Navbar";
-import { OverlayTriggers, useOverlay } from "@/features/user/components/GlobalOverlaySystem";
+import { ArrowRight, Database, Users } from "lucide-react"
+import { useOverlay } from "@/features/user/components/GlobalOverlaySystem";
 
 const rotatingWords = ["AGGREGATED", "COLLECTED", "ANALYZED", "VISUALIZED", "SIMPLIFIED"]
 
@@ -24,7 +23,7 @@ export default function LandingPage() {
   }, [])
 
   return (
-    <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw]">
+   <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw]">
 
   {/* Decorative background elements - fixed to viewport, always centered */}
   <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10">

@@ -60,7 +60,8 @@ const AnalyticsPage: React.FC = () => {
               className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-6 bg-gradient-to-r from-[#1a2240] via-[#4e5a7e] to-[#1a2240] bg-clip-text text-transparent leading-tight pt-8 pb-4 text-center break-words sm:break-normal"
               style={{ fontFamily: 'Inter, Roboto, Arial, sans-serif', wordBreak: 'break-word', lineHeight: '1.2' }}
             >
-              AI Analytics Engine
+              AI End to End Data pipeline
+              
             </motion.h1>
 
             <motion.p
@@ -69,8 +70,7 @@ const AnalyticsPage: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
               className="text-base sm:text-lg lg:text-xl text-center text-[#24305e] mb-8 sm:mb-10 lg:mb-12 max-w-4xl mx-auto px-4"
             >
-              Transform chaos into clarity. Kuinbee's AI-powered engine handles every stage of the data lifecycle, 
-              from connecting and cleaning to modeling, analyzing, and visualizing, all in one unified workspace.
+              Transform chaos into clarity. Kuinbee automates ingestion, cleaning, modelling and visualization so teams ship reliable analytics without manual glue.
             </motion.p>
 
             <motion.div
@@ -131,10 +131,9 @@ const AnalyticsPage: React.FC = () => {
                   >
                     <TrendingUp className="w-8 h-8 text-white" />
                   </motion.div>
-                  <h3 className="text-2xl lg:text-3xl font-medium mb-4">Seamless Integration</h3>
+                  <h3 className="text-2xl lg:text-3xl font-medium mb-4">Deploy anywhere: APIs, dashboards, or a warehouse, one click</h3>
                   <p className="text-xl text-white/90 leading-relaxed">
-                    Deploy insights via APIs, dashboards, or data warehouse connections all in one click. 
-                    Built for enterprise scalability with developer-friendly implementation.
+                    Deploy insights via APIs, dashboards or warehouse connectors. Enterprise-grade scale, developer-grade ergonomics, and governance built-in.
                   </p>
                 </div>
               </div>
@@ -154,7 +153,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">Automated Data Ingestion</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Connect APIs, files, or databases; our AI ingests and organizes data instantly.
+                    Connect databases, files, and APIs. Auto-discover schemas, map keys and land canonical datasets instantly.
                   </p>
                 </div>
               </motion.div>
@@ -171,7 +170,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">Smart Cleaning & Validation</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Detects errors, fills gaps, and ensures data integrity with intelligent rule-based checks.
+                    Detect errors, fill gaps and enforce schema rules with hybrid rule + ML validations and full audit trails.
                   </p>
                 </div>
               </motion.div>
@@ -188,7 +187,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">AI Modeling & Insights</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Builds predictive and descriptive models automatically to uncover trends and anomalies.
+                    Auto-generate descriptive and predictive models. Get ready-to-use metrics, forecasts and anomaly alerts.
                   </p>
                 </div>
               </motion.div>
@@ -205,7 +204,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">Instant Visualizations</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Converts processed data into dynamic dashboards and visual stories in seconds.
+                    Turn processed data into dynamic dashboards and narrative summaries in seconds.
                   </p>
                 </div>
               </motion.div>
@@ -222,7 +221,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">Real-Time Analytics</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Continuously updates insights as new data flows in.
+                    Continuous updates, streaming metrics and alerts so decisions are based on current data, not stale reports.
                   </p>
                 </div>
               </motion.div>
@@ -239,7 +238,7 @@ const AnalyticsPage: React.FC = () => {
                   </div>
                   <h3 className="text-xl font-medium text-[#1a2240] mb-3">Governance & Credibility</h3>
                   <p className="text-slate-600 leading-relaxed">
-                    Every dataset passes through validation pipelines to ensure transparency and trust.
+                    Lineage, versioning and validations at every step so analytics are auditable and regulatory-ready.
                   </p>
                 </div>
               </motion.div>
@@ -276,7 +275,7 @@ const AnalyticsPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 1 }}
                 className="text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 sm:mb-4 text-[#1a2240]"
               >
-                Be part of the revolution in autonomous analytics
+                Join the Kuinbee waitlist
               </motion.h2>
 
               <motion.p
@@ -285,7 +284,7 @@ const AnalyticsPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 1.2 }}
                 className="text-sm sm:text-base lg:text-lg text-[#24305e] mb-12 sm:mb-16 max-w-3xl mx-auto leading-relaxed px-4"
               >
-                Join the Kuinbee waitlist today and unlock the future of data intelligence.
+                Join the waitlist to unlock the future of trusted, automated analytics.
               </motion.p>
 
               {!state.succeeded ? (
