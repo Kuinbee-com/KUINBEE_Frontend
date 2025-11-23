@@ -364,7 +364,7 @@ const AnalyticsPage: React.FC = () => {
                 transition={{ duration: 0.6, delay: 2 }}
                 className="mt-12 sm:mt-16 text-sm sm:text-base text-slate-400 space-y-2 px-4"
               >
-                <p>Expected launch: Q1 2026</p>
+                <p>Expected launch: Q2 2026</p>
                 <p>Priority access for early subscribers • No spam, unsubscribe anytime</p>
               </motion.div>
             </div>
