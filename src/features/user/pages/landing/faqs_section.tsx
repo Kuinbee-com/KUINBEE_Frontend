@@ -8,44 +8,44 @@ import { Input } from "@/shared/components/ui/input"
 const faqData = [
   {
     id: 1,
-    question: "What is Kuinbee's mission?",
+    question: "What is Kuinbee’s mission?",
     answer:
-      "Kuinbee's mission is to make data universally accessible, structured, and secure. We exist to remove barriers around information and empower individuals, businesses, and institutions to make decisions backed by integrity, accuracy, and trust.",
-    category: "About",
+      "Kuinbee’s mission is to make data accessible, structured, intelligent, and trustworthy for everyone. We exist to remove friction around data access and help individuals, businesses, and institutions make decisions powered by integrity, accuracy, and automation.",
+    category: "Services",
   },
   {
     id: 2,
     question: "What does Kuinbee offer?",
     answer:
-      "Kuinbee is a unified data platform that brings everything under one roof. Our services include a Data Marketplace for buying and selling datasets, global Data Aggregation, a collaborative Community, AI-powered Analytics & Dashboards, Data Structuring & Cleaning, and built-in Security.",
+      "Kuinbee is a unified Data OS that integrates everything under one roof. Our platform includes: A verified Data Marketplace, End-to-end AI Pipeline for ingestion → cleaning → transformation → modeling, Data aggregation & structuring, Built-in analytics & dashboards, A global Data Community, Supplier tools for seamless distribution and monetization.",
     category: "Services",
   },
   {
     id: 3,
     question: "Can Kuinbee provide custom datasets?",
     answer:
-      "Yes. Beyond ready-to-use datasets, Kuinbee offers on-demand data collection and analytics. Our team can collect, verify, structure, and secure data tailored to your exact requirements, ensuring it's both reliable and decision-ready.",
+      "Yes. Along with ready-to-use datasets, Kuinbee provides custom data collection and structuring tailored to your exact specifications. Our team verifies, formats, and delivers data that meets enterprise-grade quality standards; accurate, reliable, and decision-ready.",
     category: "Services",
   },
   {
     id: 4,
     question: "How is Kuinbee different from other platforms?",
     answer:
-      "Most platforms solve only one part of the data puzzle. Kuinbee combines collection, aggregation, structuring, security, analytics, and collaboration into a single ecosystem eliminating tool sprawl, cutting costs, and accelerating the journey from raw data to real decisions.",
-    category: "About",
+      "Most platforms solve only one part of the data workflow. Kuinbee solves the entire chain end-to-end: Verified data access, Automated AI-powered processing, Structuring, modeling, and insights, A trusted marketplace, A collaborative global community. This eliminates fragmented tools, manual work, and long data cycles, turning raw data into intelligence in one place.",
+    category: "Services",
   },
   {
     id: 5,
     question: "Who is Kuinbee for?",
     answer:
-      "Kuinbee is designed for enterprises, governments, researchers, startups, NGOs, students, and data professionals. Whether you're shaping policy, running analytics, driving innovation, or learning data skills, Kuinbee provides the structured and secure data foundation you need.",
+      "Kuinbee is built for enterprises, governments, researchers, startups, NGOs, analysts, suppliers, and students. Whether you're shaping policy, scaling analytics, teaching AI, generating insights, or distributing data, Kuinbee provides the structured foundation and intelligent automation you need.",
     category: "Users",
   },
   {
     id: 6,
     question: "What is the Kuinbee Community?",
     answer:
-      "The Kuinbee Community is where researchers, analysts, freelancers, students, and enterprises connect, collaborate, and share insights. It's more than updates. It's a hub for discussions, learning resources, and content built around real-world data problems and solutions.",
+      "The Kuinbee Community is a global hub where analysts, researchers, freelancers, students, and enterprises connect and collaborate. It’s a space to share insights, solve real-world data problems, exchange knowledge, participate in challenges, and learn new skills within a trusted data ecosystem.",
     category: "Community",
   },
 ]
@@ -58,7 +58,7 @@ export default function FAQSection() {
   const [selectedCategory, setSelectedCategory] = useState("All")
   const navigate = useNavigate();
 
-  const categories = ["All", "About", "Services", "Users", "Community"]
+  const categories = ["All", "Services", "Users", "Community"]
 
   const filteredFAQs = faqData.filter((faq) => {
     const matchesSearch =
@@ -109,7 +109,7 @@ export default function FAQSection() {
           </h2>
 
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Find answers to common questions about Kuinbee's platform, services, and community.
+            Find clear explanations about Kuinbee’s platform, products, users, and community.
           </p>
         </motion.div>
 

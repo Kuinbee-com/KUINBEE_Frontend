@@ -7,45 +7,57 @@ import { AlertTriangle, Target, Database, Users, Zap, ArrowRight, Globe, Buildin
 const problems = [
   {
     icon: Database,
-    problem: "Data is scattered across multiple sources, making it hard to find.",
+    problem: "Data is scattered, unstructured, and hard to access.",
     solution: "Unified Data Marketplace",
-    description: "Access structured data & analytics from a single trusted platform.",
+    description: "Discover and access verified, structured datasets from a single trusted source.",
   },
   {
     icon: AlertTriangle,
-    problem: "Public data is outdated, poorly formatted, or incomplete.",
-    solution: "Real-time Data Collection & Structuring",
-    description: "Clean, standardized, and continuously updated data.",
-  },
-  {
-    icon: Target,
-    problem: "Businesses struggle with turning raw data into actionable insights.",
-    solution: "Analytics & Dashboards",
-    description: "Built-in visualization and analytics tools for instant insights.",
-  },
-  {
-    icon: Users,
-    problem: "Buying and selling data lacks trust and transparency.",
-    solution: "Secure & Regulated Marketplace",
-    description: "Transparent ownership rights and trusted transactions.",
+    problem: "Data is outdated, poorly formatted, or incomplete.",
+    solution: "Real-time Structuring & Standardization",
+    description: "Kuinbee cleans, formats, validates, and continuously updates data automatically.",
   },
   {
     icon: Zap,
-    problem: "Scaling data operations is costly and inefficient.",
-    solution: "Custom Data-on-Demand",
-    description: "Request tailored data & analytics without building costly infrastructure.",
+    problem: "Teams waste time cleaning and preparing data manually.",
+    solution: "AI-Powered Data Pipeline",
+    description: "A multi-agent system that automates ingestion → cleaning → transformation → feature engineering → modeling.",
   },
   {
-    icon: Globe,
-    problem: "Researchers and professionals lack a collaborative space.",
-    solution: "Global Data Community",
-    description: "Connect, compete, learn, and collaborate with data analysts.",
+    icon: Target,
+    problem: "Analysis tools are fragmented and non-intelligent.",
+    solution: "Integrated Dashboards & Insights",
+    description: "Auto-generated dashboards and intelligent analytics reduce repetitive work.",
+  },
+  {
+    icon: Users,
+    problem: "Buying/selling datasets lacks trust, transparency, and reliability.",
+    solution: "Secure & Regulated Marketplace",
+    description: "Transparent supplier verification, provenance, rights management, and compliant delivery.",
   },
   {
     icon: Building,
-    problem: "Governments struggle with accurate, timely, and actionable data.",
-    solution: "Policy-Grade Intelligence",
-    description: "Reliable data and dashboards that support governance and public planning.",
+    problem: "Enterprises need custom datasets but lack infra to collect and process them.",
+    solution: "Custom Data-on-Demand",
+    description: "End-to-end custom data collection, curation, and delivery without engineering overhead.",
+  },
+  {
+    icon: CheckCircle,
+    problem: "Suppliers struggle to curate, format, and distribute data effectively.",
+    solution: "Supplier Tooling & Multi-Channel Delivery",
+    description: "Kuinbee handles formatting, structuring, metadata creation, compliance, and distribution.",
+  },
+  {
+    icon: Globe,
+    problem: "Researchers & Analysts lack a collaborative environment.",
+    solution: "Global Data Community",
+    description: "Collaborate, compete, and share insights with data professionals worldwide.",
+  },
+  {
+    icon: Target,
+    problem: "Governments need accurate, timely, policy-ready intelligence.",
+    solution: "Policy-Grade Dashboards & Intelligence",
+    description: "Reliable, structured, and actionable public-sector data insights.",
   },
 ]
 
@@ -66,7 +78,7 @@ export default function ProblemsSection() {
             >
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-white text-slate-600 text-sm font-medium mb-6 shadow-sm">
                 <AlertTriangle className="w-4 h-4 mr-2" />
-                Problems We Solve
+                Transforming Data Challenges
               </div>
               <h2 className="text-4xl md:text-5xl font-light text-[#1a2240] mb-6 leading-tight" style={{lineHeight: '1.15'}}>
                 <span className="block mb-2">Transforming Data</span>
@@ -75,15 +87,14 @@ export default function ProblemsSection() {
                 </span>
               </h2>
               <p className="text-xl text-slate-600 leading-relaxed mb-8">
-                Every data challenge presents an opportunity. Here's how Kuinbee addresses the most critical pain points
-                in today's data landscape.
+                Every data challenge presents an opportunity.<br />
+                Here’s how Kuinbee solves the most critical bottlenecks in today’s data ecosystem, for consumers, enterprises, governments, and data suppliers.
               </p>
 
               <div className="bg-white rounded-xl p-6 border border-slate-200 mb-8">
                 <h4 className="text-lg font-semibold text-[#1a2240] mb-3">From Chaos to Clarity</h4>
                 <p className="text-slate-600 leading-relaxed">
-                  "The data world is noisy, messy, and scattered. Kuinbee transforms that chaos into clarity, giving you
-                  structure, trust, and actionable insights in one place."
+                  “The data world is fragmented, slow, and repetitive. Kuinbee turns that chaos into clarity by giving you verified data, automation, and intelligence in one unified system.”
                 </p>
               </div>
 
@@ -91,15 +102,15 @@ export default function ProblemsSection() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-slate-600">7 Core Problems Solved</span>
+                  <span className="text-slate-600">8 Core Problems Solved</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-slate-600">Unified Platform Approach</span>
+                  <span className="text-slate-600">Unified Data OS Approach</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-slate-600">Enterprise-Ready Solutions</span>
+                  <span className="text-slate-600">Enterprise-Ready + Supplier-Friendly</span>
                 </div>
               </div>
             </motion.div>
@@ -119,14 +130,12 @@ export default function ProblemsSection() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                   <div className="text-center md:text-left">
                     <h3 className="text-base font-semibold text-white">The Problem</h3>
-                    <p className="text-blue-100 text-xs mt-1">Current challenges</p>
                   </div>
                   <div className="hidden md:flex justify-center">
                     <ArrowRight className="w-6 h-6 text-white/60" />
                   </div>
                   <div className="text-center md:text-right">
-                    <h3 className="text-base font-semibold text-white">Kuinbee</h3>
-                    <p className="text-blue-100 text-xs mt-1">How we address it</p>
+                    <h3 className="text-base font-semibold text-white">How Kuinbee Addresses It</h3>
                   </div>
                 </div>
               </div>
