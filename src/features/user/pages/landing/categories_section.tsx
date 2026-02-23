@@ -73,7 +73,7 @@ export default function CategoriesSection() {
     {
       title: "AI & Machine Learning",
       description: "Machine learning datasets, AI models, training data, benchmarks, and synthetic data for advanced analytics and automation.",
-  icon: Database, // Changed to Database for AI & ML
+      icon: Database, // Changed to Database for AI & ML
       count: "1,100+",
       color: "#a78bfa",
       bgColor: "#1a2240",
@@ -222,13 +222,12 @@ export default function CategoriesSection() {
         >
           <Link to="/marketplace">
             <Button
-              asChild
               size="lg"
               variant="outline"
               className="bg-white border-2 border-[#1a2240]/20 text-[#1a2240] hover:bg-[#1a2240] hover:text-white hover:border-[#1a2240] px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105"
             >
               <span className="flex items-center">
-                View Marketplace
+                Explore Beta Marketplace
                 <ArrowRight className="w-5 h-5 ml-2" />
               </span>
             </Button>

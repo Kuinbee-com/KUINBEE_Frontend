@@ -23,12 +23,12 @@ export default function LandingPage() {
   }, [])
 
   return (
-   <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw]">
+    <div id="hero-section" ref={heroRef} className="min-h-[80vh] relative bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] w-full max-w-[100vw]">
 
-  {/* Decorative background elements - fixed to viewport, always centered */}
-  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10">
-  {/* Primary soft glow */}
-  <div className="lamp-zoom-default">
+      {/* Decorative background elements - fixed to viewport, always centered */}
+      <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-full max-w-[100vw] h-[600px] pointer-events-none z-10">
+        {/* Primary soft glow */}
+        <div className="lamp-zoom-default">
           {/* Default lamp effects */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: -100 }}
@@ -140,7 +140,7 @@ export default function LandingPage() {
           />
         </div>
 
-        
+
 
         {/* Subtle pulsing ambient light - continuous after initial animation */}
         <motion.div
@@ -223,27 +223,25 @@ export default function LandingPage() {
             >
               <Link to="/marketplace" className="w-full sm:w-auto">
                 <Button
-                  asChild
                   size="lg"
                   className="group bg-white text-[#1a2240] hover:bg-white/90 px-14 py-6 text-lg font-semibold rounded-2xl shadow-2xl hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto tracking-wide"
                 >
                   <span className="flex items-center">
                     <Database className="w-5 h-5 mr-2" />
-                    Browse Marketplace
+                    Explore Beta Marketplace
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
               </Link>
-              <Link to="/support" className="w-full sm:w-auto">
+              <Link to="/supplier-resources" className="w-full sm:w-auto">
                 <Button
-                  asChild
                   variant="outline"
                   size="lg"
                   className="bg-transparent border-2 border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-14 py-6 text-lg font-semibold rounded-2xl backdrop-blur-sm transition-all duration-300 w-full sm:w-auto tracking-wide"
                 >
                   <span className="flex items-center">
                     <Users className="w-5 h-5 mr-2" />
-                    Contact Us
+                    Be a Supplier
                   </span>
                 </Button>
               </Link>

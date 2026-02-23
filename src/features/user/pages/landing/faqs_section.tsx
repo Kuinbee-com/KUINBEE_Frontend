@@ -73,7 +73,7 @@ export default function FAQSection() {
   }
 
   return (
-        <section id="faq" className="py-20 px-4 sm:px-8 bg-slate-50 min-h-[80vh]">
+    <section id="faq" className="py-20 px-4 sm:px-8 bg-slate-50 min-h-[80vh]">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <motion.div
@@ -148,11 +148,10 @@ export default function FAQSection() {
                   damping: 25,
                   layout: { duration: 0.3 },
                 }}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-500 ${
-                  selectedCategory === category
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-500 ${selectedCategory === category
                     ? "bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] text-white shadow-lg transform"
                     : "bg-white/60 text-slate-600 hover:bg-white/80 hover:text-[#1a2240]"
-                }`}
+                  }`}
               >
                 {category}
               </motion.button>
@@ -295,17 +294,25 @@ export default function FAQSection() {
               textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
             }}
           >
-            Still have questions?
+            Ready to explore?
           </h3>
           <p className="text-blue-100 mb-6 max-w-md mx-auto">
-            Our team is here to help. Get in touch and we'll respond as soon as possible.
+            Join Kuinbee today to discover datasets or become a verified supplier.
           </p>
-          <button
-            className="bg-white text-[#1a2240] px-6 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg"
-            onClick={() => navigate('/support')}
-          >
-            Contact Support
-          </button>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              className="bg-white text-[#1a2240] px-6 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 hover:scale-105 shadow-lg"
+              onClick={() => navigate('/marketplace')}
+            >
+              Explore Beta Marketplace
+            </button>
+            <button
+              className="px-6 py-3 border border-white/20 text-white rounded-xl font-semibold hover:bg-white/10 transition-colors duration-300 hover:scale-105"
+              onClick={() => navigate('/supplier-resources')}
+            >
+              Be a Supplier
+            </button>
+          </div>
         </motion.div>
       </div>
     </section>

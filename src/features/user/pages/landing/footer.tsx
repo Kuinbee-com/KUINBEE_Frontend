@@ -7,10 +7,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 
-export default function Footer() {
+export default function Footer({ className }: { className?: string }) {
   const navigate = useNavigate();
   return (
-        <footer className="bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] text-white min-h-[60vh]">
+    <footer className={className || "bg-gradient-to-br from-[#1a2240] via-[#1a2240] to-[#2a3454] text-white min-h-[60vh]"}>
       <div className="max-w-6xl mx-auto px-4 sm:px-8 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -71,8 +71,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/careers" className="text-blue-200 hover:text-white transition-colors duration-200">
-                  Careers
+                <Link to="/supplier-resources" className="text-blue-200 hover:text-white transition-colors duration-200">
+                  Supplier Resources
                 </Link>
               </li>
               <li>
@@ -152,7 +152,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white/5 rounded-lg p-4 border border-white/10">
               <div className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-blue-300 mt-1 flex-shrink-0" />

@@ -64,7 +64,7 @@ const problems = [
 export default function ProblemsSection() {
   const navigate = useNavigate();
   return (
-        <section className="bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
+    <section className="bg-slate-50 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
           {/* Left Side - Header and Content */}
@@ -80,9 +80,9 @@ export default function ProblemsSection() {
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 Transforming Data Challenges
               </div>
-              <h2 className="text-4xl md:text-5xl font-light text-[#1a2240] mb-6 leading-tight" style={{lineHeight: '1.15'}}>
+              <h2 className="text-4xl md:text-5xl font-light text-[#1a2240] mb-6 leading-tight" style={{ lineHeight: '1.15' }}>
                 <span className="block mb-2">Transforming Data</span>
-                <span className="block font-semibold bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] bg-clip-text text-transparent" style={{display: 'inline-block', lineHeight: '1.15', paddingBottom: '0.1em'}}>
+                <span className="block font-semibold bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] bg-clip-text text-transparent" style={{ display: 'inline-block', lineHeight: '1.15', paddingBottom: '0.1em' }}>
                   Challenges
                 </span>
               </h2>
@@ -203,15 +203,15 @@ export default function ProblemsSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 className="px-8 py-3 bg-white text-[#1a2240] rounded-xl font-semibold hover:bg-slate-50 transition-colors duration-300 shadow-lg"
-                onClick={() => navigate('/pricing')}
+                onClick={() => navigate('/marketplace')}
               >
-                Work with us
+                Explore Beta Marketplace
               </button>
               <button
                 className="px-8 py-3 border border-white/20 text-white rounded-xl font-semibold hover:bg-white/10 transition-colors duration-300"
-                onClick={() => navigate('/support')}
+                onClick={() => navigate('/supplier-resources')}
               >
-                Schedule a call
+                Be a Supplier
               </button>
             </div>
           </div>

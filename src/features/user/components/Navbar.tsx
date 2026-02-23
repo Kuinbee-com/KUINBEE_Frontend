@@ -71,7 +71,7 @@ const navbarThemes: Record<NavbarTheme, NavbarThemeConfig> = {
 };
 
 interface NavbarProps {
-  showCareers?: boolean;
+  showSupplier?: boolean;
   showSupport?: boolean;
   showAbout?: boolean;
   showProducts?: boolean;
@@ -82,7 +82,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({
-  showCareers = true,
+  showSupplier = true,
   showSupport = true,
   showAbout = true,
   showProducts = true,
@@ -119,7 +119,7 @@ const Navbar: React.FC<NavbarProps> = ({
   useEffect(() => {
     const isMobile = window.innerWidth < 768;
     const hasSeenHint = localStorage.getItem('kuinbee-mobile-hint-seen');
-    
+
     if (isMobile && !hasSeenHint) {
       setShowMobileHint(true);
       // Hide the hint after 3 seconds
@@ -127,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({
         setShowMobileHint(false);
         localStorage.setItem('kuinbee-mobile-hint-seen', 'true');
       }, 3000);
-      
+
       return () => clearTimeout(timer);
     }
   }, []);
@@ -151,7 +151,7 @@ const Navbar: React.FC<NavbarProps> = ({
 
   // Get current theme configuration
   const themeConfig = navbarThemes[theme];
-  
+
   // Build dynamic classes for navbar
   const navbarClasses = `relative rounded-full border ${themeConfig.border} ${themeConfig.background} ${themeConfig.shadow} backdrop-blur-md flex items-center justify-center px-10 py-4 w-full max-w-3xl text-base font-semibold tracking-wide`;
   const mobileNavbarClasses = `relative rounded-full border ${themeConfig.border} ${themeConfig.background} ${themeConfig.shadow} backdrop-blur-md flex items-center justify-center px-4 py-1.5 text-base font-semibold tracking-wide min-w-[120px] max-w-[190px]`;
@@ -160,11 +160,11 @@ const Navbar: React.FC<NavbarProps> = ({
     <>
       {/* Desktop Navbar - Hidden on mobile, shown on md and above */}
       <div className={`hidden md:flex justify-center space pt-4 ${className}`}>
-        <div 
+        <div
           className={navbarClasses}
           onMouseLeave={() => setActive("")}
         >
-          
+
           {/* Left side navigation - products dropdown, community, pricing */}
           <div className="flex items-center space-x-4 flex-1 justify-start relative z-10">
             {showProducts && (
@@ -179,7 +179,7 @@ const Navbar: React.FC<NavbarProps> = ({
                       src="/marketplace.webp"
                       className="transition-all duration-200 hover:bg-white/5 hover:scale-[1.01] rounded-xl px-2.5 py-2.5 cursor-pointer border border-transparent hover:border-white/10"
                     />
-                 
+
                     <ProductItem
                       title="Analytics"
                       description="Analyze your data (coming soon)"
@@ -192,7 +192,7 @@ const Navbar: React.FC<NavbarProps> = ({
               </div>
             )}
             {showCommunity && (
-              <div 
+              <div
                 className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative"
                 onMouseEnter={() => setActive("")}
               >
@@ -201,7 +201,7 @@ const Navbar: React.FC<NavbarProps> = ({
               </div>
             )}
             {showPricing && (
-              <div 
+              <div
                 className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative"
                 onMouseEnter={() => setActive("")}
               >
@@ -212,11 +212,11 @@ const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Center logo - absolutely centered */}
-          <div 
+          <div
             className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-20"
             onMouseEnter={() => setActive("")}
           >
-            <LogoItem 
+            <LogoItem
               src="./Kuinbee White Logo (For dark mode) Without BG (svg).svg"
               alt="Kuinbee White Logo"
               href="/"
@@ -224,19 +224,19 @@ const Navbar: React.FC<NavbarProps> = ({
             />
           </div>
 
-          {/* Right side navigation - careers, support, about */}
+          {/* Right side navigation - supplier, support, about */}
           <div className="flex items-center space-x-4 flex-1 justify-end relative z-10">
-            {showCareers && (
-              <div 
+            {showSupplier && (
+              <div
                 className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative"
                 onMouseEnter={() => setActive("")}
               >
                 <div className="absolute inset-0 bg-emerald-400/20 rounded-lg blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-200 pointer-events-none"></div>
-                <HoveredLink href="/careers" className="relative">Careers</HoveredLink>
+                <HoveredLink href="/supplier-resources" className="relative">Supplier</HoveredLink>
               </div>
             )}
             {showSupport && (
-              <div 
+              <div
                 className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative"
                 onMouseEnter={() => setActive("")}
               >
@@ -245,7 +245,7 @@ const Navbar: React.FC<NavbarProps> = ({
               </div>
             )}
             {showAbout && (
-              <div 
+              <div
                 className="group transform hover:scale-105 hover:-translate-y-1 transition-all duration-200 ease-out relative"
                 onMouseEnter={() => setActive("")}
               >
@@ -260,7 +260,7 @@ const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Navbar - Only visible on small screens */}
       <div className={`md:hidden flex items-center pt-2 px-4 w-full ${className}`}>
         {/* Mobile Menu Icon Button (extreme left) */}
-          <button
+        <button
           ref={menuButtonRef}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="flex items-center justify-center w-9 h-9 focus:outline-none z-20"
@@ -269,7 +269,7 @@ const Navbar: React.FC<NavbarProps> = ({
         >
           <MoreVertical className={`w-6 h-6 ${isInHero ? 'text-white' : 'text-[#1a2240]'}`} />
         </button>
-        
+
         {/* Centered Mobile Logo Button */}
         <div className="flex-1 flex justify-center">
           <a
@@ -284,10 +284,10 @@ const Navbar: React.FC<NavbarProps> = ({
             />
           </a>
         </div>
-        
+
         {/* Right spacer to balance the layout */}
         <div className="w-9 h-9"></div>
-        
+
 
         {/* Mobile Dropdown Menu */}
         <AnimatePresence>
@@ -353,15 +353,15 @@ const Navbar: React.FC<NavbarProps> = ({
                     </a>
                   )}
 
-                  {/* Careers */}
-                  {showCareers && (
+                  {/* Supplier */}
+                  {showSupplier && (
                     <a
-                      href="/careers"
+                      href="/supplier-resources"
                       onClick={() => setMobileMenuOpen(false)}
                       className="flex items-center gap-3 px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-xl transition-all duration-200 font-medium w-full"
                     >
                       <Briefcase className="w-5 h-5" />
-                      Careers
+                      Supplier
                     </a>
                   )}
 

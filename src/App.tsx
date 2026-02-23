@@ -25,12 +25,13 @@ import UserDatasetDetailPage from './features/user/pages/DatasetDetailPage';
 import { OverlayProvider } from './features/user/components/GlobalOverlaySystem';
 import Careers from './features/user/pages/Careers';
 import Support from './features/user/pages/Support';
-        
+
 import Analytics from './features/user/pages/Analytics';
 import Landing from './features/user/pages/Landing';
 import SignupPage from './features/user/pages/SignupPage';
 import LoginPage from './features/user/pages/LoginPage';
 import ProjectSiddhi from './features/user/pages/project-siddhi/ProjectSiddhi';
+import SupplierResources from './features/user/pages/SupplierResources';
 
 // Admin feature imports
 import AdminLayout from './features/admin/components/AdminLayout';
@@ -122,7 +123,7 @@ const AppContent: React.FC = () => {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <Analytics />
             </motion.div>} />
-            <Route path="/support" element={
+          <Route path="/support" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <Support />
             </motion.div>
@@ -142,8 +143,12 @@ const AppContent: React.FC = () => {
               <ProjectSiddhi />
             </motion.div>
           } />
-          
-         
+          <Route path="/supplier-resources" element={
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+              <SupplierResources />
+            </motion.div>
+          } />
+
           {/* Admin Routes */}
           <Route path="/admin/login" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
@@ -324,51 +329,51 @@ const AppContent: React.FC = () => {
           } />
 
           {/* Default redirects */}
-        {/* Superadmin routes */}
-        <Route path="/superadmin/admins" element={
-          <ProtectedRoute allowedRoles={['SUPERADMIN']}>
-            <SuperAdminLayout>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <AdminManagementPage />
-              </motion.div>
-            </SuperAdminLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/superadmin/admins/create" element={
-          <ProtectedRoute allowedRoles={['SUPERADMIN']}>
-            <SuperAdminLayout>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <CreateAdminPage />
-              </motion.div>
-            </SuperAdminLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/superadmin/admins/edit/:id" element={
-          <ProtectedRoute allowedRoles={['SUPERADMIN']}>
-            <SuperAdminLayout>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <CreateAdminPage />
-              </motion.div>
-            </SuperAdminLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/superadmin/admins/:id" element={
-          <ProtectedRoute allowedRoles={['SUPERADMIN']}>
-            <SuperAdminLayout>
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
-                <AdminDetailPage />
-              </motion.div>
-            </SuperAdminLayout>
-          </ProtectedRoute>
-        } />
-        <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
-        <Route path="/" element={
+          {/* Superadmin routes */}
+          <Route path="/superadmin/admins" element={
+            <ProtectedRoute allowedRoles={['SUPERADMIN']}>
+              <SuperAdminLayout>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <AdminManagementPage />
+                </motion.div>
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/superadmin/admins/create" element={
+            <ProtectedRoute allowedRoles={['SUPERADMIN']}>
+              <SuperAdminLayout>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <CreateAdminPage />
+                </motion.div>
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/superadmin/admins/edit/:id" element={
+            <ProtectedRoute allowedRoles={['SUPERADMIN']}>
+              <SuperAdminLayout>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <CreateAdminPage />
+                </motion.div>
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/superadmin/admins/:id" element={
+            <ProtectedRoute allowedRoles={['SUPERADMIN']}>
+              <SuperAdminLayout>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
+                  <AdminDetailPage />
+                </motion.div>
+              </SuperAdminLayout>
+            </ProtectedRoute>
+          } />
+          <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
+          <Route path="/" element={
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.3 }}>
               <Landing />
             </motion.div>
           } />
-        {/* Catch all - redirect to marketplace for development */}
-        <Route path="*" element={<Navigate to="/marketplace" replace />} />
+          {/* Catch all - redirect to marketplace for development */}
+          <Route path="*" element={<Navigate to="/marketplace" replace />} />
         </Routes>
       </AnimatePresence>
       <Toaster />
