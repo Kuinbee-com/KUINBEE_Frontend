@@ -79,7 +79,7 @@ export default function AboutPageComponent() {
                   className="group bg-[#1a2240] text-white px-6 md:px-8 py-3 md:py-4 rounded-xl font-medium hover:bg-[#4e5a7e] transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 w-full sm:w-auto text-center"
                 >
                   Get Started
-                  <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
+                  <span className="ml-2 group-hover:translate-x-1 transition-transform inline-block">,</span>
                 </Link>
                 <Link
                   to="/community"

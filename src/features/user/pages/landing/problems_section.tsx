@@ -21,7 +21,7 @@ const problems = [
     icon: Zap,
     problem: "Teams waste time cleaning and preparing data manually.",
     solution: "AI-Powered Data Pipeline",
-    description: "A multi-agent system that automates ingestion → cleaning → transformation → feature engineering → modeling.",
+    description: "A multi-agent system that automates ingestion, cleaning, transformation, feature engineering, and modeling.",
   },
   {
     icon: Target,

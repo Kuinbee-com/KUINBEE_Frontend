@@ -25,7 +25,7 @@ import {
  * - onClose?: () => void - Callback when user wants to close the overlay
  */
 
-// Cart item shape — replace with real data source (redux / API) when available
+// Cart item shape - replace with real data source (redux / API) when available
 interface CartItem {
   id: number;
   title: string;

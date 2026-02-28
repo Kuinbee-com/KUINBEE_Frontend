@@ -123,7 +123,7 @@ const DataTable: React.FC<DataTableProps> = ({
                       disabled={currentPage === totalPages}
                       className="h-8 w-8 p-0 rounded-full border border-[#e3e6f3] bg-white text-[#1a2240] font-bold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#1a2240]/30 hover:bg-[#e3e6f3] active:bg-[#bfc6e0] shadow-none"
                     >
-                      →
+                      ,
                     </Button>
                   </div>
                 )}

@@ -27,7 +27,7 @@ const jobOpenings: JobOpening[] = [
     location: "Pune / Remote",
     type: "Full-time / Contract",
     description: "Build and maintain Kuinbee’s platform, including marketplace, community, and analytics features with scalable front-end and back-end systems.",
-    requirements: ["2–5 yrs full-stack exp", "JS/TS, React, Node.js, Python", "SQL/NoSQL databases", "Cloud (AWS/GCP)"],
+    requirements: ["2-5 yrs full-stack exp", "JS/TS, React, Node.js, Python", "SQL/NoSQL databases", "Cloud (AWS/GCP)"],
     jdLink: "https://drive.google.com/drive/folders/1G3cnOK5S2NS67slNsD7Wq75UD0-R9LYW?usp=drive_link"
   },
   {
@@ -37,7 +37,7 @@ const jobOpenings: JobOpening[] = [
     location: "Pune / Remote",
     type: "Full-time / Contract",
     description: "Design and manage ETL pipelines, databases, and data warehouses to ensure scalable and reliable data systems.",
-    requirements: ["2–4 yrs data engineering exp", "SQL, Python, Spark/Hadoop", "AWS/GCP/Azure", "APIs & streaming (Kafka/Flink)"],
+    requirements: ["2-4 yrs data engineering exp", "SQL, Python, Spark/Hadoop", "AWS/GCP/Azure", "APIs & streaming (Kafka/Flink)"],
     jdLink: "https://drive.google.com/drive/folders/1EIy6H52kzf-t_8L_N20sSrYvwHjgLHsq?usp=drive_link"
   },
   {
@@ -47,7 +47,7 @@ const jobOpenings: JobOpening[] = [
     location: "Pune / Remote",
     type: "Full-time / Contract",
     description: "Create intuitive dashboards and reports using Tableau, Power BI, or D3.js to turn complex datasets into clear insights.",
-    requirements: ["1–3 yrs data viz/BI exp", "Tableau/Power BI", "Design & storytelling sense", "SQL & Python (bonus)"],
+    requirements: ["1-3 yrs data viz/BI exp", "Tableau/Power BI", "Design & storytelling sense", "SQL & Python (bonus)"],
     jdLink: "https://drive.google.com/drive/folders/1kEADz9oQG_XAzRDYfCEsxXDyXztBo5xW?usp=drive_link"
   },
   {
@@ -67,7 +67,7 @@ const jobOpenings: JobOpening[] = [
     location: "Pune / Remote",
     type: "Full-time",
     description: "Develop and deploy ML/AI models for analytics, forecasting, and automation across structured and unstructured datasets.",
-    requirements: ["2–5 yrs ML/AI exp", "Python, TensorFlow/PyTorch, scikit-learn", "NLP & predictive modeling", "Cloud ML (AWS Sagemaker, GCP Vertex AI)"],
+    requirements: ["2-5 yrs ML/AI exp", "Python, TensorFlow/PyTorch, scikit-learn", "NLP & predictive modeling", "Cloud ML (AWS Sagemaker, GCP Vertex AI)"],
     jdLink: "https://drive.google.com/drive/folders/1C2Ge50dKvsupTBZNE6QrExIh5YnYEFSz?usp=drive_link"
   }
 ];

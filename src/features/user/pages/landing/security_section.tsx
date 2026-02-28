@@ -32,7 +32,7 @@ const securityFeatures = [
   {
     icon: Code,
     title: "DevSecOps at the Core",
-    description: "Security is part of every build, deployment, and update — not an afterthought.",
+    description: "Security is part of every build, deployment, and update, not an afterthought.",
     angle: 150, // Fixed angle for bottom-left position
   },
   {

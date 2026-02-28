@@ -57,7 +57,7 @@ export function SuppliersGuide() {
     const steps = [
         { number: "01", icon: BadgeCheck, title: "Account Verification & KYC", description: "All suppliers verify identity via secure KYC. PAN for individuals, business registration for companies.", details: ["Self-service identity verification", "PAN or business registration required", "Profile becomes read-only after onboarding", "Changes require support ticket"], timeline: "1-2 hours" },
         { number: "02", icon: FileText, title: "Building Dataset Proposals", description: "Document your dataset comprehensively. Schema definitions, methodology, sample data, and licensing declarations required.", details: ["Detailed overview and methodology", "Column-level schema documentation", "Sample data upload (CSV, JSON, Parquet)", "Governance & licensing declaration"], timeline: "As fast as you" },
-        { number: "03", icon: CheckCircle2, title: "The Quality Review", description: "Human review, not algorithms. Every proposal reviewed for structural, quality, and compliance standards.", details: ["12-24 hours typical turnaround", "Approval or change request feedback", "Locked during review for integrity", "Terminal rejection for policy violations"], timeline: "12-24 hours" },
+        { number: "03", icon: CheckCircle2, title: "The Quality Review", description: "Human review, not algorithms. Every proposal reviewed for structural, quality, and compliance standards.", details: ["12 to 24 hours typical turnaround", "Approval or change request feedback", "Locked during review for integrity", "Terminal rejection for policy violations"], timeline: "12 to 24 hours" },
         { number: "04", icon: DollarSign, title: "Pricing, Currencies & Revenue", description: "You set the price. Fixed pricing with no negotiation. Multiple currency support with transparent revenue.", details: ["INR, USD, EUR, GBP supported", "Fixed price or free access models", "Mini-approval on price changes", "No platform-determined pricing"], timeline: "Instant" },
         { number: "05", icon: Settings, title: "Managing Published Data", description: "Your operational hub. Control visibility, track sales, respond to feedback, and manage your portfolio.", details: ["Public, Unlisted, or Private visibility", "Supplier dashboard for tracking", "Archive (not delete) datasets", "Preserve transaction history"], timeline: "Ongoing" },
     ];
@@ -312,7 +312,7 @@ export function SuppliersGuide() {
                     <div className="rounded-2xl border border-blue-200 bg-gradient-to-r from-[#1a2240] to-[#4e5a7e] p-6 shadow-lg">
                         <p className="text-sm text-white">
                             <span className="font-semibold">Important:</span>{" "}
-                            <span className="text-blue-100">Published datasets cannot be deleted—only archived. This preserves transaction history for any buyer who previously purchased access.</span>
+                            <span className="text-blue-100">Published datasets cannot be deleted, only archived. This preserves transaction history for any buyer who previously purchased access.</span>
                         </p>
                     </div>
                 </div>

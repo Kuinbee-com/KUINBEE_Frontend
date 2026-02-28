@@ -15,8 +15,8 @@ export function SuppliersBestPractices() {
     }, []);
 
     const practices = [
-        { icon: Database, title: "The Perfect Sample File", description: "Don't just upload the first 100 rows. Upload a statistically representative sample—obfuscate sensitive fields while maintaining real data variance.", tip: "Buyers rely on samples to test ingestion pipelines before purchase" },
-        { icon: Lightbulb, title: "Mastering the Schema", description: 'Never leave descriptions blank. Transform "age: int" into "user_age_band: int—Age bucketed into 5-year intervals to preserve entity anonymity."', tip: "Clear field documentation dramatically increases enterprise purchasing confidence" },
+        { icon: Database, title: "The Perfect Sample File", description: "Don't just upload the first 100 rows. Upload a statistically representative sample, obfuscate sensitive fields while maintaining real data variance.", tip: "Buyers rely on samples to test ingestion pipelines before purchase" },
+        { icon: Lightbulb, title: "Mastering the Schema", description: 'Never leave descriptions blank. Transform "age: int" into "user_age_band: int - Age bucketed into 5-year intervals to preserve entity anonymity."', tip: "Clear field documentation dramatically increases enterprise purchasing confidence" },
         { icon: TrendingUp, title: "Clear Methodologies", description: "Tell buyers HOW data was collected. Was it scraped, surveyed, or from IoT sensors? Include collection intervals like 'polled every 15 mins, batched daily at midnight UTC.'", tip: "Collection methodology details prove to enterprise buyers that your data is reliable" },
         { icon: Zap, title: "Freemium Marketing", description: "Use free pricing strategically. Offer a highly aggregated 1-month historical extract for free, linking to your premium real-time, granular dataset.", tip: "Many top suppliers use freemium to drive trial-to-paid conversions" },
     ];

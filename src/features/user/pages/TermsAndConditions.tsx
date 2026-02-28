@@ -141,9 +141,9 @@ export default function TermsAndConditionsPage() {
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-[#1a2240] mb-4">1. Definitions</h2>
                 <div className="text-gray-700 leading-relaxed space-y-4">
-                  <p><strong>1.1 Dataset</strong> – Any virtual collection of structured data curated by Kuinbee, including ready-made or custom datasets, validated, encrypted, and delivered as per this Agreement.</p>
-                  <p><strong>1.2 Service</strong> – The provision of curated datasets and associated services by Kuinbee.</p>
-                  <p><strong>1.3 Official Sources</strong> – Publicly accessible data repositories maintained by statutory or regulatory authorities (e.g., data.gov.in), or websites of government/statutory origin.</p>
+                  <p><strong>1.1 Dataset</strong> - Any virtual collection of structured data curated by Kuinbee, including ready-made or custom datasets, validated, encrypted, and delivered as per this Agreement.</p>
+                  <p><strong>1.2 Service</strong> - The provision of curated datasets and associated services by Kuinbee.</p>
+                  <p><strong>1.3 Official Sources</strong> - Publicly accessible data repositories maintained by statutory or regulatory authorities (e.g., data.gov.in), or websites of government/statutory origin.</p>
                 </div>
               </div>
 

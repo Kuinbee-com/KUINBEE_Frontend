@@ -17,7 +17,7 @@ const faqData = [
     id: 2,
     question: "What does Kuinbee offer?",
     answer:
-      "Kuinbee is a unified Data OS that integrates everything under one roof. Our platform includes: A verified Data Marketplace, End-to-end AI Pipeline for ingestion → cleaning → transformation → modeling, Data aggregation & structuring, Built-in analytics & dashboards, A global Data Community, Supplier tools for seamless distribution and monetization.",
+      "Kuinbee is a unified Data OS that integrates everything under one roof. Our platform includes: A verified Data Marketplace, End-to-end AI Pipeline for ingestion, cleaning, transformation, modeling, Data aggregation & structuring, Built-in analytics & dashboards, A global Data Community, Supplier tools for seamless distribution and monetization.",
     category: "Services",
   },
   {
